@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/01 17:47:27 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/02 15:16:14 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,27 @@
 # include <term.h>
 # include <termios.h>
 
+/****** DEFINE ******/
+
+# define EXIT_FAILURE -1
+# define EXIT_SUCCESS 0
+
+/****** STRUCTURES ******/
+
+typedef struct s_shell
+{
+	char	**path;
+	char	**cmd;
+}				t_shell;
+
+/****** GLOBAL ******/
+
+extern int	signal_status;
+
 /****** FUNCTIONS ******/
 
-int	ft_boncourage(void);
+/* init minishell */
+
+//int	ft_boncourage(void);
 
 #endif
