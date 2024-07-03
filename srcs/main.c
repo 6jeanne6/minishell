@@ -6,20 +6,23 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/02 15:23:02 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/03 14:57:23 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	g_signal_status = 0;
+
 static int	init_minishell(t_shell *gear_5, char **env)
 {
 	while (true)
 	{
-		//blabla
-		//blabla
+		(void)env;
+		gear_5->input = readline(RED"Super Gear 5 $> "RESET);
+		printf("Your input: %s\n", gear_5->input);
 	}
-	return (signal_status);
+	return (g_signal_status);
 }
 //Function to initialize minishell
 // • parsing:
@@ -33,6 +36,7 @@ int	main(int argc, char **argv, char **env)
 	t_shell	gear_5;
 	int		exit_status;
 
+	(void)argv;
 	ft_bzero(&gear_5, 1);
 	exit_status = 0;
 	if (argc > 1)
@@ -48,4 +52,3 @@ int	main(int argc, char **argv, char **env)
 // • init gear_5 structure
 //		→ which variables ? a reflechir et voir au fur et a mesure
 // faire une fonction error au lieu de mettre ft_putstr_fd a chaque fois ?
-

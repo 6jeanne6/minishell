@@ -57,7 +57,7 @@ CYAN 	= \033[0;36m
 all: ${LIBFT_FILE} ${NAME}
 
 ${NAME} : ${OBJ} 
-	@${CC} ${CFLAG} ${INCLUDES} ${OBJ} ${LFLAG} -o ${NAME}
+	@${CC} ${CFLAG} ${INCLUDES} ${OBJ} ${LFLAG} -o ${NAME} -lreadline
 	@echo "${YELLOW}✰✰✰ Alright, you can use ${NAME} ✰✰✰ :D"
 
 ${OBJDIR}/%.o: ${SRCDIR}/%.c ${INC}
