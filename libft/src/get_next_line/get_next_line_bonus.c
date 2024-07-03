@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 16:13:10 by jewu              #+#    #+#             */
-/*   Updated: 2024/04/11 14:53:23 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/03 15:12:56 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,6 @@ char	*get_next_line(int fd)
 	char		*buf;
 	char		*line;
 
-	/*if (fd == -42)
-	{
-		free(stash);
-		return (NULL);
-	}*/
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
 	buf = ft_calloc_gnl(BUFFER_SIZE + 1, sizeof(char));

@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/03 14:57:23 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/03 15:07:09 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,16 @@ int	g_signal_status = 0;
 
 static int	init_minishell(t_shell *gear_5, char **env)
 {
+	int	status;
+
+	status = 0;
 	while (true)
 	{
 		(void)env;
 		gear_5->input = readline(RED"Super Gear 5 $> "RESET);
 		printf("Your input: %s\n", gear_5->input);
 	}
-	return (g_signal_status);
+	return (status);
 }
 //Function to initialize minishell
 // • parsing:
