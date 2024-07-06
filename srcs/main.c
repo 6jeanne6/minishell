@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/03 15:07:09 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/06 19:19:49 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int	g_signal_status = 0;
 
-static int	init_minishell(t_shell *gear_5, char **env)
+static int	init_minishell(t_shell *gear_5, t_env *envp)
 {
 	int	status;
 
 	status = 0;
+	envp->path = copy_path(envp);
 	while (true)
 	{
-		(void)env;
 		gear_5->input = readline(RED"Super Gear 5 $> "RESET);
 		printf("Your input: %s\n", gear_5->input);
 	}
@@ -34,13 +34,21 @@ static int	init_minishell(t_shell *gear_5, char **env)
 //		→ ...
 // • execution
 
+static void	init_structures(t_shell	*gear_5, t_env *envp)
+{
+	ft_bzero(&gear_5, 1);
+	ft_bzero(&envp, 1);
+}
+//initialize all variables of structures to 0
+
 int	main(int argc, char **argv, char **env)
 {
 	t_shell	gear_5;
+	t_env	envp;
 	int		exit_status;
 
 	(void)argv;
-	ft_bzero(&gear_5, 1);
+	init_structures(&gear_5, &envp);
 	exit_status = 0;
 	if (argc > 1)
 	{
@@ -48,7 +56,10 @@ int	main(int argc, char **argv, char **env)
 		return (EXIT_FAILURE);
 	}
 	else
-		exit_status = init_minishell(&gear_5, env);
+	{
+		envp.env = env;
+		exit_status = init_minishell(&gear_5, &envp);
+	}
 	return (exit_status);
 }
 //minishell only takes one argument

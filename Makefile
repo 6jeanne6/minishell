@@ -29,6 +29,9 @@ LFLAG 		= -L./${LIBFT_PATH} -lft
 SRCDIR 		= srcs
 
 SRC			=	${SRCDIR}/main.c \
+				${SRCDIR}/env/env.c \
+				${SRCDIR}/env/env_utils.c \
+				${SRCDIR}/error/error_utils.c \
 
 ################################################################################
 #                                   Objects                                    #

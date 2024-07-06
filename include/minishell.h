@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/03 14:56:50 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/06 19:44:39 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,12 @@
 
 /****** STRUCTURES ******/
 
+typedef struct s_env
+{
+	char	**env;
+	char	**path;
+}				t_env;
+
 typedef struct s_shell
 {
 	char	**path;
@@ -64,6 +70,14 @@ extern int	g_signal_status;
 
 /* init minishell */
 
-//int	ft_boncourage(void);
+/* init environment */
+
+char	**copy_path(t_env *envp);
+void	find_path(t_env *envp);
+char	**split_path(t_env *envp, char *str);
+
+/* error & free */
+
+void	clean_env(t_env *envp);
 
 #endif
