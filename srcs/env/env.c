@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:40:22 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/06 19:33:09 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/08 16:19:30 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 char	**copy_path(t_env *envp)
 {
+	char	**search_path;
+
+	search_path = NULL;
 	if (!envp->env[0])
 	{
-		//search PATH in /etc/environment
-		;
+		fetch_path(envp);
+		search_path = split_path(envp, envp->env[0]);
 	}
 	else
-	{
-		find_path(envp);
-	}
+		search_path = find_path(envp, search_path);
+	return (search_path);
 }
 //init minishell to copy PATH

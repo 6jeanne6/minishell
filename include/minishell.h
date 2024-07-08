@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/06 19:44:39 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/08 16:17:12 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,10 @@ extern int	g_signal_status;
 /* init environment */
 
 char	**copy_path(t_env *envp);
-void	find_path(t_env *envp);
 char	**split_path(t_env *envp, char *str);
+char	**find_path(t_env *envp, char **str);
+
+void	fetch_path(t_env *envp);
 
 /* error & free */
 
