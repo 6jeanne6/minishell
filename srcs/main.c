@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/06 19:19:49 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/08 17:06:05 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 	return (status);
 }
 //Function to initialize minishell
+// • env
+// • lexer
 // • parsing:
 //		→ ...
 //		→ ...
