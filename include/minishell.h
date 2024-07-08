@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/08 16:17:12 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/08 18:28:33 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_env
 {
 	char	**env;
 	char	**path;
+	char	*user;
 }				t_env;
 
 typedef struct s_shell

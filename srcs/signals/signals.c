@@ -1,29 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/06 18:40:22 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/08 18:31:42 by jewu             ###   ########.fr       */
+/*   Created: 2024/07/08 19:16:45 by jewu              #+#    #+#             */
+/*   Updated: 2024/07/08 19:16:52 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**copy_path(t_env *envp)
-{
-	char	**search_path;
-
-	search_path = NULL;
-	if (!envp->env[0])
-	{
-		fetch_path(envp);
-		search_path = split_path(envp, envp->env[0]);
-	}
-	else
-		search_path = find_path(envp, search_path);
-	return (search_path);
-}
-//init minishell to copy PATH

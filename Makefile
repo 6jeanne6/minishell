@@ -31,6 +31,7 @@ SRCDIR 		= srcs
 SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/env/env.c \
 				${SRCDIR}/env/env_utils.c \
+				${SRCDIR}/signals/signals.c \
 				${SRCDIR}/error/error_utils.c \
 
 ################################################################################
