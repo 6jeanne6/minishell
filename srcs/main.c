@@ -22,7 +22,7 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 	{
 		gear_5->input = readline(RED"Super Gear 5 $> "RESET);
 		printf("Your input: %s\n", gear_5->input);
-		add_history(gear_5->input);
+		add_history(gear_5->input); 
 		if (gear_5->input == NULL)
 			break ;
 	}
