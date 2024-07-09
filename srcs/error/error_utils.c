@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:43:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/08 16:00:00 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/09 16:27:53 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,21 @@ void	clean_env(t_env *envp)
 {
 	int	i;
 
-	i = -1;
-	if (envp->env)
+	i = 0;
+	if (!envp->env[0])
 	{
-		while (envp->env[++i])
-			free(envp->env[i]);
-		free(envp->env);
+		free(envp->env_tmp[i]);
+		free(envp->env_tmp);
+	}
+	i = 0;
+	if (envp->path)
+	{
+		while (envp->path[i])
+		{
+			free(envp->path[i]);
+			i++;
+		}
+		free(envp->path);
 	}
 }
 //free envp structure

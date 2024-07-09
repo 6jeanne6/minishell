@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:24:03 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/08 17:02:33 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/09 16:04:20 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,23 @@
 
 static void	alloc_fetch(t_env *envp, char *line)
 {
+	char	**tmp;
+
+	tmp = NULL;
 	if (!line || !envp)
 		return ;
-	envp->env = (char **)malloc(sizeof(char *));
-	if (!envp->env)
+	envp->env_tmp = (char **)malloc(sizeof(char *));
+	if (!envp->env_tmp)
 	{
 		free(line);
 		return ;
 	}
-	envp->env[0] = ft_strdup(line);
-	if (!envp->env[0])
+	envp->env_tmp[0] = ft_strdup(line);
+	if (!envp->env_tmp[0])
 	{
 		free(line);
-		free(envp->env);
-		envp->env = NULL;
+		free(envp->env_tmp);
+		envp->env_tmp = NULL;
 	}
 	free(line);
 }
@@ -53,6 +56,7 @@ void	fetch_path(t_env *envp)
 	}
 	close(fd);
 	alloc_fetch(envp, line);
+	get_next_line(-42);
 }
 //fetch path for empty env in etc/environment
 

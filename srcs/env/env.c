@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:40:22 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/08 18:31:42 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/09 16:27:43 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**copy_path(t_env *envp)
 	if (!envp->env[0])
 	{
 		fetch_path(envp);
-		search_path = split_path(envp, envp->env[0]);
+		search_path = split_path(envp, envp->env_tmp[0]);
 	}
 	else
 		search_path = find_path(envp, search_path);

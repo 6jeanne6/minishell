@@ -6,12 +6,11 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 13:53:51 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/03 15:13:04 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/09 16:03:57 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/get_next_line.h"
-
 static char	*clean_stash(char *stash)
 {
 	char	*new_stash;
@@ -106,6 +105,11 @@ char	*get_next_line(int fd)
 	char		*buf;
 	char		*line;
 
+	if (fd == -42)
+	{
+		free(stash);
+		return (NULL);
+	}
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
 	buf = ft_calloc_gnl(BUFFER_SIZE + 1, sizeof(char));

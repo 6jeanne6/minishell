@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 16:13:10 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/03 15:12:56 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/09 16:03:50 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static char	*read_and_join(int fd, char *buffer, char *stash)
  * and stash is joined with buffer in the while loop.
  * */
 
-char	*get_next_line(int fd)
+char	*get_next_line_bonus(int fd)
 {
 	static char	*stash[1024];
 	char		*buf;
