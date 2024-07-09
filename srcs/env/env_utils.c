@@ -14,9 +14,6 @@
 
 static void	alloc_fetch(t_env *envp, char *line)
 {
-	char	**tmp;
-
-	tmp = NULL;
 	if (!line || !envp)
 		return ;
 	envp->env_tmp = (char **)malloc(sizeof(char *));

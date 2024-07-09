@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-int	g_signal_status = 0;
-
 static int	init_minishell(t_shell *gear_5, t_env *envp)
 {
 	int	status;

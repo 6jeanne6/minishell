@@ -32,7 +32,7 @@ count_characters to count the number of characters in a number
 
 static void	ft_putnbr(unsigned int nb)
 {
-	if (nb >= 0 && nb < 10)
+	if (nb > 0 && nb < 10)
 		ft_putchar(nb + '0');
 	else if (nb >= 10)
 	{
