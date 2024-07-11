@@ -60,7 +60,6 @@ typedef struct s_shell
 {
 	char	**path;
 	char	**cmd;
-
 	char	*input;
 }				t_shell;
 
@@ -70,6 +69,8 @@ extern int	g_signal_status;
 
 /****** FUNCTIONS ******/
 
+/* parser */
+int		check_quotes(t_shell *minishell);
 /* init minishell */
 
 /* init environment */
