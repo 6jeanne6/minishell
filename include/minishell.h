@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/09 15:43:28 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/14 13:27:17 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_shell
 {
 	char	**path;
 	char	**cmd;
+	t_quotes *nb;
 	char	*input;
 }				t_shell;
 
