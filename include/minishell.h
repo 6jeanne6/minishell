@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/14 19:17:30 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/14 22:06:51 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@ void	fetch_path(t_env *envp);
 
 int		lexing_gear_5(t_shell *gear_5, t_env *envp);
 int		is_redirection(char *input);
+
+bool	backslash_null(char c);
+bool	i_am_blank(char c);
 
 /* error & free */
 
