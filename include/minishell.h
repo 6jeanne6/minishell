@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/09 15:43:28 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/12 16:47:05 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,16 @@
 # define RESET 		"\033[0m"
 
 /****** STRUCTURES ******/
+
+typedef enum s_token
+{
+	TOKEN_PIPE,
+	TOKEN_REDIRECTION,
+	TOKEN_BUILTIN,
+	TOKEN_CMD,
+	TOKEN_CMD_SUFFIX,
+	TOKEN_WORD,
+}				t_token;
 
 typedef struct s_env
 {
