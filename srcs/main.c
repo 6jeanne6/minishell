@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/09 16:40:11 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/14 14:21:21 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,13 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 	{
 		gear_5->input = readline(RED"Super Gear 5 $> "RESET);
 		printf("Your input: %s\n", gear_5->input);
-		add_history(gear_5->input); 
+		add_history(gear_5->input);
 		if (gear_5->input == NULL)
 			break ;
+		if (lexing_gear_5(gear_5, envp) == SUCCESS)
+			printf("Congrats lexing works!\n");
+		else
+			printf("Redirection: it's not working!\n");
 	}
 	clean_env(envp);
 	return (status);

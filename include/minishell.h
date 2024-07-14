@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/12 16:47:05 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/14 19:17:30 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,11 @@ char	**split_path(t_env *envp, char *str);
 char	**find_path(t_env *envp, char **str);
 
 void	fetch_path(t_env *envp);
+
+/* lexing */
+
+int		lexing_gear_5(t_shell *gear_5, t_env *envp);
+int		is_redirection(char *input);
 
 /* error & free */
 
