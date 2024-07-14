@@ -6,19 +6,11 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:24:02 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/07/11 15:04:01 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/07/14 12:50:49 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-typedef struct s_quotes
-{
-	int		nbofsingle;
-	int		nbofdouble;
-	int		inside_double_quotes;
-	int		inside_single_quotes;
-}				t_quotes;
 
 static int	is_pair(int number)
 {
@@ -50,7 +42,7 @@ static void	handle_double_quote(t_quotes *quotes)
 	}
 }
 
-void	count_quotes(char *input, int *nbofsingle, int *nbofdouble)
+static void	count_quotes(char *input, int *nbofsingle, int *nbofdouble)
 {
 	int			i;
 	t_quotes	quotes;
@@ -72,22 +64,20 @@ void	count_quotes(char *input, int *nbofsingle, int *nbofdouble)
 	*nbofdouble = quotes.nbofdouble;
 }
 
-int	check_quotes(t_shell *minishell)
+int	check_quotes(char *input)
 {
 	int	nbofsingle;
 	int	nbofdouble;
 
 	nbofsingle = 0;
 	nbofdouble = 0;
-	count_quotes(minishell->input, &nbofsingle, &nbofdouble);
+	count_quotes(input, &nbofsingle, &nbofdouble);
 	if (is_pair(nbofdouble) == FAILURE || is_pair(nbofsingle) == FAILURE)
 	{
-		ft_putstr_fd("Error : Quotes is not pair !\n", STDERR_FILENO);
+		ft_putstr_fd("Error : Quotes is not close!\n", STDERR_FILENO);
 		return (FAILURE);
 	}
 	else
 		return (SUCCESS);
 }
 
-// Retourner 1 car c'est une erreur et pas -1
-// if (check_quotes(gear_5) == FAILURE) 

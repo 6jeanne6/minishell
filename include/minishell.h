@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/14 13:27:17 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/14 17:28:49 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,14 @@
 
 /****** STRUCTURES ******/
 
+typedef struct s_quotes
+{
+	int		nbofsingle;
+	int		nbofdouble;
+	int		inside_double_quotes;
+	int		inside_single_quotes;
+}		t_quotes;
+
 typedef struct s_env
 {
 	char	**env;
@@ -60,7 +68,6 @@ typedef struct s_shell
 {
 	char	**path;
 	char	**cmd;
-	t_quotes *nb;
 	char	*input;
 }				t_shell;
 
@@ -71,7 +78,9 @@ extern int	g_signal_status;
 /****** FUNCTIONS ******/
 
 /* parser */
-int		check_quotes(t_shell *minishell);
+int	check_quotes(char *input);
+int	is_pipe(char *input);
+int	check_special_characters(char *input);
 /* init minishell */
 
 /* init environment */

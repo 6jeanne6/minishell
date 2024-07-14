@@ -34,6 +34,8 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/signals/signals.c \
 				${SRCDIR}/error/error_utils.c \
 				${SRCDIR}/lexer/check_quotes.c \
+				${SRCDIR}/lexer/check_special_characters.c \
+				${SRCDIR}/lexer/is_pipes.c \
 
 ################################################################################
 #                                   Objects                                    #

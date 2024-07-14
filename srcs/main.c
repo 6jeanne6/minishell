@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/14 12:13:37 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/14 17:27:32 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 		add_history(gear_5->input); 
 		if (gear_5->input == NULL)
 			break ;
+		check_quotes(gear_5->input);
+		is_pipe(gear_5->input);
+		check_special_characters(gear_5->input);
 	}
 	clean_env(envp);
 	return (status);
