@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/14 22:10:14 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/15 15:27:46 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 			printf("Congrats lexing works!\n");
 		else
 			printf("Redirection: it's not working!\n");
-	} 
+	}
 	clean_env(envp);
 	return (status);
 }
