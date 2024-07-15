@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/14 22:06:51 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/15 17:35:40 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,13 @@
 
 /****** STRUCTURES ******/
 
-typedef enum s_token
+typedef struct s_quotes
 {
-	TOKEN_PIPE,
-	TOKEN_REDIRECTION,
-	TOKEN_BUILTIN,
-	TOKEN_CMD,
-	TOKEN_CMD_SUFFIX,
-	TOKEN_WORD,
-}				t_token;
+	int		nbofsingle;
+	int		nbofdouble;
+	int		inside_double_quotes;
+	int		inside_single_quotes;
+}				t_quotes;
 
 typedef struct s_env
 {
@@ -92,11 +90,15 @@ void	fetch_path(t_env *envp);
 
 /* lexing */
 
-int		lexing_gear_5(t_shell *gear_5, t_env *envp);
 int		is_redirection(char *input);
+int		i_am_delimitor(t_shell *gear_5, t_env *envp);
+int		check_quotes(char *input);
+int		is_pipe(char *input);
+int		check_special_characters(char *input);
 
-bool	backslash_null(char c);
-bool	i_am_blank(char c);
+/* parsing */
+
+int		lexing_gear_5(t_shell *gear_5, t_env *envp);
 
 /* error & free */
 

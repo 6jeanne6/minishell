@@ -31,9 +31,11 @@ SRCDIR 		= srcs
 SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/env/env.c \
 				${SRCDIR}/env/env_utils.c \
-				${SRCDIR}/lexer/lexer.c \
-				${SRCDIR}/lexer/lex_redirections.c \
+				${SRCDIR}/lexer/delimitor.c \
 				${SRCDIR}/lexer/lexer_utils.c \
+				${SRCDIR}/lexer/quotes.c \
+				${SRCDIR}/lexer/redirections.c \
+				${SRCDIR}/parsing/first_parsing.c \
 				${SRCDIR}/signals/signals.c \
 				${SRCDIR}/error/error_utils.c \
 

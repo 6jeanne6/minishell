@@ -5,25 +5,55 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/14 21:50:53 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/14 22:06:39 by jewu             ###   ########.fr       */
+/*   Created: 2024/07/15 16:35:21 by jewu              #+#    #+#             */
+/*   Updated: 2024/07/15 17:36:15 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	i_am_blank(char c)
+int	check_special_characters(char *input)
 {
-	if (c == ' ' || c == '\t')
-		return (true);
-	return (false);
-}
-//check if it's space or tab
+	int	i;
 
-bool	backslash_null(char c)
-{
-	if (c == '\0')
-		return (true);
-	return (false);
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '\\' || input[i] == ';')
+		{
+			if (input[i] == '\\')
+			{
+				ft_putstr_fd("Error : ", STDERR_FILENO);
+				ft_putstr_fd("'\' is not interpreted!\n", STDERR_FILENO);
+				return (FAILURE);
+			}
+			if (input[i] == ';')
+			{
+				ft_putstr_fd("Error : ", STDERR_FILENO);
+				ft_putstr_fd("';' is not interpreted!\n", STDERR_FILENO);
+				return (FAILURE);
+			}
+		}
+		i++;
+	}
+	return (SUCCESS);
 }
-//check if we are in end of string \0
+
+int	is_pipe(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i] != '\0')
+	{
+		if (input[i] == '|' && input[i + 1] == '|')
+		{
+			ft_putstr_fd("Error :'||' is not interpreted!\n", STDERR_FILENO);
+			return (FAILURE);
+		}
+		else if (input[i] == '|')
+			return (SUCCESS);
+		i++;
+	}
+	return (FAILURE);
+}
