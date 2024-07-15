@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:37:29 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/15 16:42:22 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/15 19:28:57 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,18 @@ static bool	backslash_null(char c)
 }
 //check if we are in end of string \0
 
-int	i_am_delimitor(t_shell *gear_5, t_env *envp)
+int	i_am_delimitor(char *str, t_env *envp)
 {
 	int	i;
 
 	i = -1;
-	if (!gear_5 || !envp)
-		return (FAILURE);
-	while (gear_5->input[++i])
+	if (!str || !envp)
+		error("Delimitor: no input or envp\n", envp);
+	while (str[++i])
 	{
-		if ((i_am_blank(gear_5->input[i]) == true)
-			|| (backslash_null(gear_5->input[i]) == true))
-			break ;
+		if ((i_am_blank(str[i]) == true)
+			|| (backslash_null(str[i]) == true))
+			return (SUCCESS);
 	}
 	return (FAILURE);
 }

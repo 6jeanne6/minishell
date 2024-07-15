@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/15 17:35:40 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/15 19:28:36 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,29 @@
 
 /****** STRUCTURES ******/
 
+typedef enum s_type
+{
+	PIPE,
+	QUOTE,
+	APPEND,
+	HEREDOC,
+	INPUT_REDIR,
+	OUTPUT_REDIR,
+	WORD,
+}				t_type;
+
+typedef struct s_token
+{
+	struct s_token	*previous;
+	struct s_token	*next;
+
+	t_type			*type;
+
+	int				index;
+
+	char			*content;
+}				t_token;
+
 typedef struct s_quotes
 {
 	int		nbofsingle;
@@ -74,7 +97,7 @@ typedef struct s_shell
 
 /****** GLOBAL ******/
 
-extern int	g_signal_status;
+//extern int	g_signal_status;
 
 /****** FUNCTIONS ******/
 
@@ -91,17 +114,19 @@ void	fetch_path(t_env *envp);
 /* lexing */
 
 int		is_redirection(char *input);
-int		i_am_delimitor(t_shell *gear_5, t_env *envp);
 int		check_quotes(char *input);
 int		is_pipe(char *input);
 int		check_special_characters(char *input);
+int		i_am_delimitor(char *str, t_env *envp);
 
 /* parsing */
 
 int		lexing_gear_5(t_shell *gear_5, t_env *envp);
+int		tokenizer(t_shell *gear_5, t_env *envp);
 
 /* error & free */
 
 void	clean_env(t_env *envp);
+void	error(t_env *envp, char *message);
 
 #endif

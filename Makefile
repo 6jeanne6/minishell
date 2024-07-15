@@ -36,6 +36,7 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/lexer/quotes.c \
 				${SRCDIR}/lexer/redirections.c \
 				${SRCDIR}/parsing/first_parsing.c \
+				${SRCDIR}/parsing/tokenizer.c \
 				${SRCDIR}/signals/signals.c \
 				${SRCDIR}/error/error_utils.c \
 

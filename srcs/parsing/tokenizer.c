@@ -1,37 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   first_parsing.c                                    :+:      :+:    :+:   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/15 16:43:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/15 18:53:11 by jewu             ###   ########.fr       */
+/*   Created: 2024/07/15 18:04:18 by jewu              #+#    #+#             */
+/*   Updated: 2024/07/15 19:27:39 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	lexing_gear_5(t_shell *gear_5, t_env *envp)
+int	tokenizer(t_shell *gear_5, t_env *envp)
 {
-	int	i;
+	int		i;
+	t_token	tokenizer;
 
 	i = -1;
+	ft_bzero(&tokenizer, 1);
 	if (!gear_5 || !envp)
-		error(envp, "Gear 5 or envp is empty!\n");
+		error("Empty gear_5 or envp\n", envp);
 	while (gear_5->input[++i])
 	{
-		if (gear_5->input[i] == '>' || gear_5->input[i] == '<')
+		if ((i_am_delimitor(gear_5->input[i], envp)) == true)
 		{
-			if (is_redirection(gear_5->input) == SUCCESS)
-				return (SUCCESS);
-		}
-		else if (gear_5->input[i] == '|')
-		{
-			if (is_pipe(gear_5->input) == SUCCESS)
-				return (SUCCESS);
+		
 		}
 	}
-	return (FAILURE);
+	return (SUCCESS);
 }
-//1st check lexical syntax for pre-parsing
+//function to classify tokens

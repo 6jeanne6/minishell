@@ -6,11 +6,26 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:43:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/09 16:27:53 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/15 18:44:25 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	error(t_env *envp, char	*message)
+{
+	if (!message)
+	{
+		clean_env(envp);
+		exit(EXIT_FAILURE);
+	}
+	ft_putstr_fd(RED, STDERR_FILENO);
+	ft_putstr_fd(message, STDERR_FILENO);
+	ft_putstr_fd(RESET, STDERR_FILENO);
+	clean_env(envp);
+	exit(EXIT_FAILURE);
+}
+//customized message and free
 
 void	clean_env(t_env *envp)
 {

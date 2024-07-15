@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/15 17:39:31 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/15 19:24:06 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 		if (gear_5->input == NULL)
 			break ;
 		if (lexing_gear_5(gear_5, envp) == SUCCESS)
-			printf("Congrats lexing works!\n");
+			printf(GREEN"Congrats lexing works!\n"RESET);
 		else
-			printf("Redirection: it's not working!\n");
+			printf(BLUE"Check your lexing!\n"RESET);
 	}
 	clean_env(envp);
 	return (status);
