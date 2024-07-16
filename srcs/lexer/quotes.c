@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:33:10 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/15 16:33:46 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/16 22:55:11 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	check_quotes(char *input)
 	count_quotes(input, &nbofsingle, &nbofdouble);
 	if (is_pair(nbofdouble) == FAILURE || is_pair(nbofsingle) == FAILURE)
 	{
-		ft_putstr_fd("Error : Quotes is not close!\n", STDERR_FILENO);
+		error("Error : Quotes are not close!\n");
 		return (FAILURE);
 	}
 	else

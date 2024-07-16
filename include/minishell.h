@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/15 19:28:36 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/16 22:56:32 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef enum s_type
 	HEREDOC,
 	INPUT_REDIR,
 	OUTPUT_REDIR,
+	CMD,
 	WORD,
 }				t_type;
 
@@ -113,20 +114,26 @@ void	fetch_path(t_env *envp);
 
 /* lexing */
 
-int		is_redirection(char *input);
+int		check_redirection(char *input);
 int		check_quotes(char *input);
-int		is_pipe(char *input);
+int		check_pipe(char *input);
 int		check_special_characters(char *input);
-int		i_am_delimitor(char *str, t_env *envp);
+int		check_variable(char *input);
+int		i_am_delimitor(char *str);
+
+bool	is_input_chevron(char *input);
+bool	is_output_chevron(char *input);
+bool	is_heredoc(char *input);
+bool	is_append(char *input);
 
 /* parsing */
 
 int		lexing_gear_5(t_shell *gear_5, t_env *envp);
-int		tokenizer(t_shell *gear_5, t_env *envp);
+//int		tokenizer(t_shell *gear_5, t_env *envp);
 
 /* error & free */
 
 void	clean_env(t_env *envp);
-void	error(t_env *envp, char *message);
+void	error(char *message);
 
 #endif

@@ -6,11 +6,31 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:35:21 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/15 19:02:05 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/16 22:59:23 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int check_variable(char *input)
+{
+	int	i;
+
+	i = -1;
+	while (input[++i])
+	{
+		if (input[i] == '=')
+		{
+			if (input[i - 1] == ' ' || input[i + 1] == ' ')
+			{
+				error("Check your = again\n");
+				return (FAILURE);
+			}
+		}
+	}
+	return (SUCCESS);
+}
+//if =, checks if there is no space before and after
 
 int	check_special_characters(char *input)
 {
@@ -23,14 +43,12 @@ int	check_special_characters(char *input)
 		{
 			if (input[i] == '\\')
 			{
-				ft_putstr_fd("Error : ", STDERR_FILENO);
-				ft_putstr_fd("'\' is not interpreted!\n", STDERR_FILENO);
+				error("'\\' is not interpreted!\n");
 				return (FAILURE);
 			}
 			if (input[i] == ';')
 			{
-				ft_putstr_fd("Error : ", STDERR_FILENO);
-				ft_putstr_fd("';' is not interpreted!\n", STDERR_FILENO);
+				error("';' is not interpreted!\n");
 				return (FAILURE);
 			}
 		}
@@ -40,7 +58,7 @@ int	check_special_characters(char *input)
 }
 //returns error if \ or ;
 
-int	is_pipe(char *input)
+int	check_pipe(char *input)
 {
 	int	i;
 
@@ -49,7 +67,7 @@ int	is_pipe(char *input)
 	{
 		if (input[i] == '|' && input[i + 1] == '|')
 		{
-			ft_putstr_fd("Error :'||' is not interpreted!\n", STDERR_FILENO);
+			error("Error: '||' is not interpreted!\n");
 			return (FAILURE);
 		}
 		else if (input[i] == '|')
