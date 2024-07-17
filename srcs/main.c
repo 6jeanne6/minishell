@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/15 19:24:06 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/17 21:50:56 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 	while (true)
 	{
 		gear_5->input = readline(RED"Super Gear 5 $> "RESET);
-		printf("Your input: %s\n", gear_5->input);
 		add_history(gear_5->input);
 		if (gear_5->input == NULL)
 			break ;
@@ -29,6 +28,8 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 			printf(GREEN"Congrats lexing works!\n"RESET);
 		else
 			printf(BLUE"Check your lexing!\n"RESET);
+		if ((tokenizor(gear_5, envp)) == SUCCESS)
+			printf(GREEN"Congrats tokenizor works!\n"RESET);
 	}
 	clean_env(envp);
 	return (status);

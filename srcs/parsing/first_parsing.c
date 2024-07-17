@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:43:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/16 22:53:43 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/17 16:20:26 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	lexing_gear_5(t_shell *gear_5, t_env *envp)
 {
-	int	i;
+	int		i;
+	bool	has_quotes;
 
 	i = -1;
 	(void)envp;
@@ -36,12 +37,13 @@ int	lexing_gear_5(t_shell *gear_5, t_env *envp)
 		{
 			if (check_quotes(gear_5->input) == FAILURE)
 				return (FAILURE);
+			has_quotes = true;
 		}
 		else if (check_special_characters(gear_5->input) == FAILURE)
 			return (FAILURE);
 		else if (gear_5->input[i] == '=')
 		{
-			if (check_variable(gear_5->input) == FAILURE)
+			if (check_variable(gear_5->input, has_quotes) == FAILURE)
 				return (FAILURE);
 		}
 	}

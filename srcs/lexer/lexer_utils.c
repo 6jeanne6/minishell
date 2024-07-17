@@ -6,13 +6,13 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:35:21 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/16 22:59:23 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/17 16:22:50 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int check_variable(char *input)
+int check_variable(char *input, bool has_quotes)
 {
 	int	i;
 
@@ -21,10 +21,13 @@ int check_variable(char *input)
 	{
 		if (input[i] == '=')
 		{
-			if (input[i - 1] == ' ' || input[i + 1] == ' ')
+			if (has_quotes == false)
 			{
-				error("Check your = again\n");
-				return (FAILURE);
+				if (input[i - 1] == ' ' || input[i + 1] == ' ')
+				{
+					error("Check your = again\n");
+					return (FAILURE);
+				}
 			}
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:37:29 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/16 22:55:49 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/17 17:39:14 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,23 +43,17 @@ static bool	backslash_null(char c)
 }
 //check if we are in end of string \0
 
-int	i_am_delimitor(char *str)
+int	i_am_delimitor(char c)
 {
-	int	i;
-
-	i = -1;
-	if (!str)
-		error("Delimitor: no input\n");
-	while (str[++i])
-	{
-		if ((i_am_blank(str[i]) == true)
-			|| (backslash_null(str[i]) == true)
-			|| (pipe_character(str[i]) == true)
-			|| (i_am_quote(str[i]) == true)
-			|| (str[i] == '<')
-			|| (str[i] == '>'))
-			return (SUCCESS);
-	}
+	if (!c)
+		error("Delimitor: no character\n");
+	if ((i_am_blank(c) == true)
+		|| (backslash_null(c) == true)
+		|| (pipe_character(c) == true)
+		|| (i_am_quote(c) == true)
+		|| (c == '<')
+		|| (c == '>'))
+		return (SUCCESS);
 	return (FAILURE);
 }
 //the letter is a delimitor for bash

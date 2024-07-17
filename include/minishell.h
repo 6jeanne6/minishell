@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/16 22:56:32 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/17 21:51:12 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,8 @@ int		check_redirection(char *input);
 int		check_quotes(char *input);
 int		check_pipe(char *input);
 int		check_special_characters(char *input);
-int		check_variable(char *input);
-int		i_am_delimitor(char *str);
+int		check_variable(char *input, bool has_quotes);
+int		i_am_delimitor(char c);
 
 bool	is_input_chevron(char *input);
 bool	is_output_chevron(char *input);
@@ -129,7 +129,7 @@ bool	is_append(char *input);
 /* parsing */
 
 int		lexing_gear_5(t_shell *gear_5, t_env *envp);
-//int		tokenizer(t_shell *gear_5, t_env *envp);
+int		tokenizor(t_shell *gear_5, t_env *envp);
 
 /* error & free */
 
