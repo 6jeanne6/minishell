@@ -29,8 +29,11 @@ LFLAG 		= -L./${LIBFT_PATH} -lft
 SRCDIR 		= srcs
 
 SRC			=	${SRCDIR}/main.c \
-				${SRCDIR}/env/env.c \
+				${SRCDIR}/env/init_env.c \
 				${SRCDIR}/env/env_utils.c \
+				${SRCDIR}/env_var/init_var.c \
+				${SRCDIR}/env_var/var_tools.c \
+				${SRCDIR}/env_var/variable_detection.c \
 				${SRCDIR}/lexer/delimitor.c \
 				${SRCDIR}/lexer/lexer_utils.c \
 				${SRCDIR}/lexer/quotes.c \
@@ -39,6 +42,10 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/parsing/separator.c \
 				${SRCDIR}/signals/signals.c \
 				${SRCDIR}/error/error_utils.c \
+				${SRCDIR}/builtins/builtins_tool.c \
+				${SRCDIR}/lexer/check_quotes.c \
+				${SRCDIR}/lexer/check_special_characters.c \
+				${SRCDIR}/lexer/is_pipes.c \
 
 ################################################################################
 #                                   Objects                                    #

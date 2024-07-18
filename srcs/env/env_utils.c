@@ -61,9 +61,10 @@ char	**split_path(t_env *envp, char *str)
 {
 	char	**ptr;
 
+	(void)envp;
 	ptr = ft_split(str, ':');
 	if (!ptr)
-		clean_env(envp);
+		return (NULL);
 	return (ptr);
 }
 //split the PATH into sub_paths
@@ -81,3 +82,17 @@ char	**find_path(t_env *envp, char **path)
 	return (path);
 }
 //check the PATH
+char	**copy_path(t_env *envp)
+{
+	char	**search_path;
+
+	search_path = NULL;
+	if (!envp->env[0])
+	{
+		fetch_path(envp);
+		search_path = split_path(envp, envp->env_tmp[0]);
+	}
+	else
+		search_path = find_path(envp, search_path);
+	return (search_path);
+}
