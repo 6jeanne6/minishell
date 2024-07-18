@@ -1,42 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_utils.c                                      :+:      :+:    :+:   */
+/*   first_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/06 19:43:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/09 16:27:53 by jewu             ###   ########.fr       */
+/*   Created: 2024/07/15 16:43:15 by jewu              #+#    #+#             */
+/*   Updated: 2024/07/15 16:53:30 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-void	clean_env(t_env *envp)
+int	lexing_gear_5(t_shell *gear_5, t_env *envp)
 {
 	int	i;
 
-	i = 0;
-	if (!envp->env[0])
+	i = -1;
+	if (!gear_5 || !envp)
+		return (FAILURE);
+	while (gear_5->input[++i])
 	{
-		free(envp->env_tmp[i]);
-		free(envp->env_tmp);
-	}
-	i = 0;
-	if (envp->path)
-	{
-		while (envp->path[i])
+		if (gear_5->input[i] == '>' || gear_5->input[i] == '<')
 		{
-			free(envp->path[i]);
-			i++;
+			if (is_redirection(gear_5->input) == SUCCESS)
+				return (SUCCESS);
 		}
-		free(envp->path);
+		else if (gear_5->input[i] == '|')
+		{
+			if (is_pipe(gear_5->input) == SUCCESS)
+				return (SUCCESS);
+		}
 	}
-	free_var_list(envp);
-	free(envp->pwd);
-	if (envp->oldpwd)
-		free(envp->oldpwd);
+	return (FAILURE);
 }
-
-//free envp structure
+//1st check lexical syntax for pre-parsing

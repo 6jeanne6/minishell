@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/15 15:32:30 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/18 19:07:11 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 	int	status;
 
 	status = 0;
-	envp->path = copy_path(envp);
 	while (true)
 	{
 		gear_5->input = readline(RED"Super Gear 5 $> "RESET);
 		printf("Your input: %s\n", gear_5->input);
-		add_history(gear_5->input); 
+		add_history(gear_5->input);
 		if (gear_5->input == NULL)
 			break ;
 		check_quotes(gear_5->input);
@@ -56,6 +55,7 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argv;
 	init_structures(&gear_5, &envp);
+	init_env(&envp, env);
 	exit_status = 0;
 	if (argc > 1)
 	{
@@ -64,7 +64,6 @@ int	main(int argc, char **argv, char **env)
 	}
 	else
 	{
-		envp.env = env;
 		exit_status = init_minishell(&gear_5, &envp);
 	}
 	return (exit_status);

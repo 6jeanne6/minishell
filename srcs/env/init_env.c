@@ -12,18 +12,22 @@
 
 #include "minishell.h"
 
-char	**copy_path(t_env *envp)
+void	init_env(t_env *envp, char **env)
 {
-	char	**search_path;
-
-	search_path = NULL;
-	if (!envp->env[0])
+	envp->env = env;
+	if (!env[0])
 	{
-		fetch_path(envp);
-		search_path = split_path(envp, envp->env_tmp[0]);
+		envp->path = copy_path(envp);
+		envp->oldpwd = NULL;
+		envp->pwd = get_current_path();
+		envp->first_variable  = NULL;
 	}
 	else
-		search_path = find_path(envp, search_path);
-	return (search_path);
+	{
+		envp->path = copy_path(envp);
+		envp->oldpwd = NULL;
+		envp->pwd = get_current_path();
+		envp->first_variable = NULL;
+		init_chained_var(envp, env);
+	}
 }
-//init minishell to copy PATH
