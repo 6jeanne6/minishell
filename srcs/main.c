@@ -17,7 +17,6 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 	int	status;
 
 	status = 0;
-	envp->path = copy_path(envp);
 	while (true)
 	{
 		gear_5->input = readline(RED"Super Gear 5 $> "RESET);
@@ -53,6 +52,7 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argv;
 	init_structures(&gear_5, &envp);
+	init_env(&envp, env);
 	exit_status = 0;
 	if (argc > 1)
 	{
@@ -61,7 +61,6 @@ int	main(int argc, char **argv, char **env)
 	}
 	else
 	{
-		envp.env = env;
 		exit_status = init_minishell(&gear_5, &envp);
 	}
 	return (exit_status);

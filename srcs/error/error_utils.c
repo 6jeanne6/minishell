@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+
 void	clean_env(t_env *envp)
 {
 	int	i;
@@ -32,5 +33,10 @@ void	clean_env(t_env *envp)
 		}
 		free(envp->path);
 	}
+	free_var_list(envp);
+	free(envp->pwd);
+	if (envp->oldpwd)
+		free(envp->oldpwd);
 }
+
 //free envp structure
