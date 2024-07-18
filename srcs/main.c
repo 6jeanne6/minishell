@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/17 21:50:56 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/18 14:02:43 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 		add_history(gear_5->input);
 		if (gear_5->input == NULL)
 			break ;
-		if (lexing_gear_5(gear_5, envp) == SUCCESS)
+		if (lexing_gear_5(gear_5) == SUCCESS)
 			printf(GREEN"Congrats lexing works!\n"RESET);
 		else
 			printf(BLUE"Check your lexing!\n"RESET);
-		if ((tokenizor(gear_5, envp)) == SUCCESS)
-			printf(GREEN"Congrats tokenizor works!\n"RESET);
+		if ((separator(gear_5, envp)) == SUCCESS)
+			printf(GREEN"Congrats separator works!\n"RESET);
 	}
 	clean_env(envp);
 	return (status);
@@ -63,7 +63,7 @@ int	main(int argc, char **argv, char **env)
 	exit_status = 0;
 	if (argc > 1)
 	{
-		ft_putstr_fd("Don't put arguments\n", STDERR_FILENO);
+		error("Dont't put arguments\n");
 		return (EXIT_FAILURE);
 	}
 	else

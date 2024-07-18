@@ -6,13 +6,13 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:35:21 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/17 16:22:50 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/18 14:01:19 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int check_variable(char *input, bool has_quotes)
+int	check_variable(char *input, bool has_quotes)
 {
 	int	i;
 

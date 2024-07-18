@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/17 21:51:12 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/18 14:02:10 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,8 @@ bool	is_append(char *input);
 
 /* parsing */
 
-int		lexing_gear_5(t_shell *gear_5, t_env *envp);
-int		tokenizor(t_shell *gear_5, t_env *envp);
+int		lexing_gear_5(t_shell *gear_5);
+int		separator(t_shell *gear_5, t_env *envp);
 
 /* error & free */
 
