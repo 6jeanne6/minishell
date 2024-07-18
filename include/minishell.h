@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/18 19:21:13 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/18 19:32:51 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,6 @@ typedef struct s_var
 
 }	t_var;
 
-typedef struct s_var
-{
-	char			*variable_name;
-	char			*variable_value;
-	struct s_var	*next;
-	struct s_var	*prev;
-
-}	t_var;
-
 typedef struct s_quotes
 {
 	int		nbofsingle;
@@ -79,9 +70,6 @@ typedef struct s_env
 	char	**env;
 	char	**env_tmp;
 	char	**path;
-	char	*oldpwd;
-	char	*pwd;
-	t_var	*first_variable;
 	char	*oldpwd;
 	char	*pwd;
 	t_var	*first_variable;
@@ -104,8 +92,7 @@ extern int	g_signal_status;
 /* init minishell */
 
 /* environment */
-void	init_env(t_env *envp, char **env);
-/* environment */
+
 void	init_env(t_env *envp, char **env);
 char	**copy_path(t_env *envp);
 char	**split_path(t_env *envp, char *str);
@@ -113,23 +100,11 @@ char	**find_path(t_env *envp, char **str);
 void	fetch_path(t_env *envp);
 
 /* builtins */
+
 char	*get_current_path(void);
 
 /* environnement variable */
-bool	is_variable(const char *input);
-bool	is_variable_declaration(const char *input);
-char	*malloc_substr_and_cpy(const char *original_str, int start, int end);
-void	init_chained_var(t_env *env, char **envp);
-t_var	*init_env_variable(char *name, char *value);
-void	add_variable_to_the_list(t_env *env, t_var *var);
-char	*get_variable_name(char *variable);
-char	*get_variable_value(char *variable);
-void	free_var_list(t_env *env);
 
-/* builtins */
-char	*get_current_path(void);
-
-/* environnement variable */
 bool	is_variable(const char *input);
 bool	is_variable_declaration(const char *input);
 char	*malloc_substr_and_cpy(const char *original_str, int start, int end);
@@ -142,22 +117,22 @@ void	free_var_list(t_env *env);
 
 /* lexing */
 
-int		is_redirection(char *input);
-int		i_am_delimitor(t_shell *gear_5, t_env *envp);
+int		check_redirection(char *input);
+int		check_variable(char *input, bool has_quotes);
+int		check_pipe(char *input);
+int		i_am_delimitor(char c);
 int		check_quotes(char *input);
 int		is_pipe(char *input);
 int		check_special_characters(char *input);
 
 /* parsing */
 
-int		lexing_gear_5(t_shell *gear_5, t_env *envp);
+int		lexing_gear_5(t_shell *gear_5);
+int		separator(t_shell *gear_5, t_env *envp);
 
 /* error & free */
 
+void	error(char	*message);
 void	clean_env(t_env *envp);
 
-/*buildins*/
-char	*get_current_path(void);
-/*buildins*/
-char	*get_current_path(void);
 #endif
