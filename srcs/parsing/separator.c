@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 18:04:18 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/18 19:00:03 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/19 16:45:05 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,18 @@
 // }
 //keeps blanks if we are in quotes
 
+// static bool	delimitor_except_blank(char c)
+// {
+// 	if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A'
+// 			&& c <= 'Z') || (c == '|') || (c == '\'') || (c == '"')
+// 		|| (c == '|') || (c == '>') || (c == '<'))
+// 		return (true);
+// 	else
+// 		return (false);
+// }
+//delimitors except blanks: pipe, chevrons, quotes
+//to avoid putting each blank into a node
+
 // int	separator(t_shell *gear_5, t_env *envp)
 // {
 // 	int		i;
@@ -151,63 +163,122 @@
 // }
 //function to separate entities
 
-static void	malloc_strcpy(char *str, int start, int end)
-{
-	int		i;
-	char	*ptr;
-
-	i = 0;
-	ptr = malloc(sizeof(char) * (end - start + 1));
-	if (!ptr || !str)
-		return ;
-	while (str[start] && start < end)
-	{
-		ptr[i] = str[start];
-		i++;
-		start++;
-	}
-	ptr[i] = '\0';
-	printf("ptr: %s\n", ptr);
-	int j = -1;
-	while (ptr[++j])
-		printf("ptr[%d]: %c\n", j, ptr[j]);
-}
-//extracts the entity
-
-static int	ft_strchr_quote(const char *str, char c)
-{
-	int	i;
-
-	i = -1;
-	if (!str || !c)
-		return (FAILURE);
-	while (str[++i])
-	{
-		if (str[i] == c)
-			return (i + 1);
-	}
-	return (FAILURE);
-}
-
-// static bool	delimitor_except_blank(char c)
+// static void	malloc_strcpy(char *str, int *start, int *end)
 // {
-// 	if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A'
-// 			&& c <= 'Z') || (c == '|') || (c == '\'') || (c == '"')
-// 		|| (c == '|') || (c == '>') || (c == '<'))
-// 		return (true);
-// 	else
-// 		return (false);
-// }
-//delimitors except blanks: pipe, chevrons, quotes
-//to avoid putting each blank into a node
+// 	int		i;
+// 	char	*ptr;
 
-static bool	i_am_blank(char c)
+// 	i = 0;
+// 	ptr = malloc(sizeof(char) * (*end - *start + 1));
+// 	if (!ptr || !str)
+// 		return ;
+// 	while (str[*start] && *start < *end)
+// 	{
+// 		ptr[i] = str[*start];
+// 		i++;
+// 		(*start)++;
+// 	}
+// 	ptr[i] = '\0';
+// 	int j = -1;
+// 	while (ptr[++j])
+// 		printf("ptr[%d]: %c\n", j, ptr[j]);
+// }
+// //extracts the entity
+
+// static int	ft_strchr_quote(const char *str, char c)
+// {
+// 	int	i;
+
+// 	i = -1;
+// 	if (!str || !c)
+// 		return (FAILURE);
+// 	while (str[++i])
+// 	{
+// 		if (str[i] == c)
+// 			return (i + 1);
+// 	}
+// 	return (FAILURE);
+// }
+
+// static void	separator_quotes(char *input, int *start, int *end,
+// bool *inside_quotes)
+// {
+// 	int		i;
+// 	char	c;
+
+// 	i = -1;
+// 	(void)start;
+// 	while (input[++i])
+// 	{
+// 		if ((input[i] == '\'' || input[i] == '"') && (*inside_quotes == false))
+// 		{
+// 			c = input[i];
+// 			*end += ft_strchr_quote(&input[i + 1], c) + 1;
+// 			*inside_quotes = true;
+// 			break ;
+// 		}
+// 	}
+// }
+
+// static void	separator_next(char *input, int *start, int *end)
+// {
+// 	int		i;
+// 	bool	inside_quotes;
+// 	bool	blank;
+
+// 	i = -1;
+// 	inside_quotes = false;
+// 	blank = false;
+
+// 	while (input[++i])
+// 	{
+// 		if ((ft_isalnum(input[i]) == 1) && (blank == true))
+// 			blank = false;
+// 		if ((ft_isalnum(input[i]) == 0) && (blank == false))
+// 		{
+// 			if (i_am_blank(input[i]) == true)
+// 				blank = true;
+// 			*end = i;
+// 			separator_quotes(&input[i], start, end, &inside_quotes);
+// 			malloc_strcpy(input, start, end);
+// 			inside_quotes = false;
+// 			*start = i;
+// 			i = *end;
+// 		}
+// 	}
+// }
+//Continuation of separator function
+
+// int	separator(t_shell *gear_5, t_env *envp)
+// {
+// 	int	start;
+// 	int	end;
+// 	(void)envp;
+
+// 	start = 0;
+// 	end = 0;
+// 	gear_5->input = ft_strtrim(gear_5->input, " \t");
+// 	separator_next(gear_5->input, &start, &end);
+// 	printf("YAY it works?\n");
+// 	return (SUCCESS);
+// }
+//function to separate entities
+
+static int	is_word(char *input, int i)
 {
-	if (c == ' ' || c == '\t')
-		return (true);
-	return (false);
+	if (!input)
+		return (FAILURE);
+	if ((backslash_null(input[i]) == true)
+		|| (pipe_character(input[i]) == true)
+		|| (i_am_quote(input[i]) == true)
+		|| (input[i] == '$')
+		|| (input[i] == '<')
+		|| (input[i] == '>')
+		|| (input[i] == ' ')
+		|| (input[i] == '\t'))
+		return (FAILURE);
+	return (SUCCESS);
 }
-//check if it's space or tab
 
 int	separator(t_shell *gear_5, t_env *envp)
 {
@@ -219,28 +290,12 @@ int	separator(t_shell *gear_5, t_env *envp)
 	start = 0;
 	end = 0;
 	i = -1;
+	gear_5->input = ft_strtrim(gear_5->input, " \t");
 	while (gear_5->input[++i])
 	{
-		if ((ft_isalnum(gear_5->input[i]) == 0))
-		{
-			end = i;
-			if (i_am_delimitor(gear_5->input[i]))
-			{
-				if (i_am_blank(gear_5->input[i]) == true)
-				{
-					printf("cc\n");
-					continue ;
-				}
-				if (gear_5->input[i] == '\'')
-					end += ft_strchr_quote(&gear_5->input[i + 1], '\'');
-				else if (gear_5->input[i] == '"')
-					end += ft_strchr_quote(&gear_5->input[i + 1], '"');
-			}
-			malloc_strcpy(gear_5->input, start, end);
-			start = i;
-		}
-		//printf("Letter[%d]: %c\n", i, gear_5->input[i]);
+		if (is_word(gear_5->input, i) == FAILURE)
+			end = word_end(gear_5->input, i);
 	}
+	printf("YAY it works?\n");
 	return (SUCCESS);
 }
-//function to separate entities

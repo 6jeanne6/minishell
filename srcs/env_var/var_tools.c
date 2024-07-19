@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:37:05 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/07/17 18:01:27 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:40:04 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	*malloc_substr_and_cpy(const char *original_str, int start, int end)
 	new_str[i] = '\0';
 	return (new_str);
 }
+
 void	free_var_list(t_env *env)
 {
 	t_var	*current_var;
