@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 18:04:18 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/19 16:45:05 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/20 17:09:09 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,28 +264,28 @@
 // }
 //function to separate entities
 
-static int	is_word(char *input, int i)
-{
-	if (!input)
-		return (FAILURE);
-	if ((backslash_null(input[i]) == true)
-		|| (pipe_character(input[i]) == true)
-		|| (i_am_quote(input[i]) == true)
-		|| (input[i] == '$')
-		|| (input[i] == '<')
-		|| (input[i] == '>')
-		|| (input[i] == ' ')
-		|| (input[i] == '\t'))
-		return (FAILURE);
-	return (SUCCESS);
-}
+// static int	is_word(char *input, int i)
+// {
+// 	if (!input)
+// 		return (FAILURE);
+// 	if ((backslash_null(input[i]) == true)
+// 		|| (pipe_character(input[i]) == true)
+// 		|| (i_am_quote(input[i]) == true)
+// 		|| (input[i] == '$')
+// 		|| (input[i] == '<')
+// 		|| (input[i] == '>')
+// 		|| (input[i] == ' ')
+// 		|| (input[i] == '\t'))
+// 		return (FAILURE);
+// 	return (SUCCESS);
+// }
 
 int	separator(t_shell *gear_5, t_env *envp)
 {
-	int	start;
-	int	end;
-	int	i;
-	(void)envp;
+	int		start;
+	int		end;
+	int		i;
+	(void)	envp;
 
 	start = 0;
 	end = 0;

@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/18 19:32:51 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/20 14:02:30 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,11 @@ extern int	g_signal_status;
 /* environment */
 
 void	init_env(t_env *envp, char **env);
+void	fetch_path(t_env *envp);
+
 char	**copy_path(t_env *envp);
 char	**split_path(t_env *envp, char *str);
 char	**find_path(t_env *envp, char **str);
-void	fetch_path(t_env *envp);
 
 /* builtins */
 
@@ -105,14 +106,17 @@ char	*get_current_path(void);
 
 /* environnement variable */
 
+t_var	*init_env_variable(char *name, char *value);
+
 bool	is_variable(const char *input);
 bool	is_variable_declaration(const char *input);
+
 char	*malloc_substr_and_cpy(const char *original_str, int start, int end);
-void	init_chained_var(t_env *env, char **envp);
-t_var	*init_env_variable(char *name, char *value);
-void	add_variable_to_the_list(t_env *env, t_var *var);
 char	*get_variable_name(char *variable);
 char	*get_variable_value(char *variable);
+
+void	init_chained_var(t_env *env, char **envp);
+void	add_variable_to_the_list(t_env *env, t_var *var);
 void	free_var_list(t_env *env);
 
 /* lexing */
