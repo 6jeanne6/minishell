@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/20 14:02:30 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/23 17:13:30 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int		check_special_characters(char *input);
 /* parsing */
 
 int		lexing_gear_5(t_shell *gear_5);
-int		separator(t_shell *gear_5, t_env *envp);
+//int		separator(t_shell *gear_5, t_env *envp);
 
 /* error & free */
 

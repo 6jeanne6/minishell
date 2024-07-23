@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/18 19:21:25 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/23 17:13:40 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 			printf(GREEN"Congrats lexing works!\n"RESET);
 		else
 			printf(BLUE"Check your lexing!\n"RESET);
-		if ((separator(gear_5, envp)) == SUCCESS)
-			printf(GREEN"Congrats separator works!\n"RESET);
+		// if ((separator(gear_5, envp)) == SUCCESS)
+		// 	printf(GREEN"Congrats separator works!\n"RESET);
 	}
 	clean_env(envp);
 	return (status);
