@@ -6,11 +6,29 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:35:21 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/18 14:01:19 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/23 17:55:11 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	is_special_char(char c)
+{
+	if (c == '(')
+		return ('(');
+	else if (c == ')')
+		return (')');
+	else if (c == '>')
+		return ('>');
+	else if (c == '<')
+		return ('<');
+	else if (c == '&')
+		return ('&');
+	else if (c == '|')
+		return ('|');
+	else
+		return ('\0');
+}
 
 int	check_variable(char *input, bool has_quotes)
 {

@@ -6,11 +6,25 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:43:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/18 19:21:58 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/23 17:58:54 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_token_list(t_token *head)
+{
+	t_token	*temp;
+
+	if (!head)
+		return ;
+	while (head)
+	{
+		temp = head;
+		head = head->next;
+		free(temp);
+	}
+}
 
 void	error(char	*message)
 {

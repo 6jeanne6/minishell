@@ -40,7 +40,9 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/lexer/redirections.c \
 				${SRCDIR}/lexer/is_pipes.c \
 				${SRCDIR}/parsing/first_parsing.c \
-				${SRCDIR}/parsing/separator.c \
+				${SRCDIR}/parsing/extractor.c \
+				${SRCDIR}/parsing/parsing_utils.c \
+				${SRCDIR}/parsing/parsing_utils2.c \
 				${SRCDIR}/signals/signals.c \
 				${SRCDIR}/error/error_utils.c \
 				${SRCDIR}/builtins/builtins_tool.c \
