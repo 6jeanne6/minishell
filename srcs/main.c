@@ -6,17 +6,33 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/23 17:13:40 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/24 14:19:22 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	print_list(t_token *head)
+{
+	t_token	*current;
+
+	current = head;
+	if (!current)
+		return ;
+	while (current)
+	{
+		printf("Word: %s\n", current->word);
+		current = current->next;
+	}
+}
+
 static int	init_minishell(t_shell *gear_5, t_env *envp)
 {
-	int	status;
+	int		status;
+	t_token	*list;
 
 	status = 0;
+	list = NULL;
 	while (true)
 	{
 		gear_5->input = readline(RED"Super Gear 5 $> "RESET);
@@ -27,8 +43,10 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 			printf(GREEN"Congrats lexing works!\n"RESET);
 		else
 			printf(BLUE"Check your lexing!\n"RESET);
-		// if ((separator(gear_5, envp)) == SUCCESS)
-		// 	printf(GREEN"Congrats separator works!\n"RESET);
+		free_token_list(list);
+		list = NULL;
+		extract_words(gear_5->input, &list);
+		print_list(list);
 	}
 	clean_env(envp);
 	return (status);

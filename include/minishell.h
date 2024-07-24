@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/23 17:13:30 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/24 14:19:38 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 # define FAILURE 	-1
 # define SUCCESS 	0
 
+#define MAX_WORD_LENGTH 256
+
 # define BLACK		"\033[0;30m"
 # define RED		"\033[0;31m"
 # define GREEN		"\033[0;32m"
@@ -48,6 +50,27 @@
 
 /****** STRUCTURES ******/
 
+typedef struct s_token
+{
+	char			word[MAX_WORD_LENGTH];
+
+	struct s_token	*previous;
+	struct s_token	*next;
+}				t_token;
+
+typedef struct s_parsing
+{
+	char	*line;
+	char	current_word[MAX_WORD_LENGTH];
+
+	int		i;
+	int		j;
+	int		in_double_quote;
+	int		in_single_quote;
+
+	t_token	**token_list;
+}				t_parsing;
+
 typedef struct s_var
 {
 	char			*variable_name;
@@ -55,7 +78,7 @@ typedef struct s_var
 	struct s_var	*next;
 	struct s_var	*prev;
 
-}	t_var;
+}				t_var;
 
 typedef struct s_quotes
 {
@@ -129,14 +152,27 @@ int		check_quotes(char *input);
 int		is_pipe(char *input);
 int		check_special_characters(char *input);
 
+char	is_special_char(char c);
+
 /* parsing */
 
 int		lexing_gear_5(t_shell *gear_5);
-//int		separator(t_shell *gear_5, t_env *envp);
+
+void	extract_words(const char *line, t_token **head);
+void	add_to_list(t_token **head, const char *word);
+void	appendright(t_token **head, t_token *new);
+void	handle_characters(t_parsing *state);
+void	handle_variable(t_parsing *state);
+void	handle_special_char(t_parsing *state);
+void	handle_space(t_parsing *state);
+void    handle_quotes(t_parsing *state);
+
+t_token	*ft_double_lstlast(t_token *lst);
 
 /* error & free */
 
 void	error(char	*message);
 void	clean_env(t_env *envp);
+void	free_token_list(t_token *head);
 
 #endif
