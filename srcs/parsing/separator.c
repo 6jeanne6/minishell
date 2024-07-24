@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 18:04:18 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/20 20:29:13 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/24 14:07:53 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,22 +280,22 @@
 // 	return (SUCCESS);
 // }
 
-int	separator(t_shell *gear_5, t_env *envp)
-{
-	int		start;
-	int		end;
-	int		i;
-	(void)	envp;
+// int	separator(t_shell *gear_5, t_env *envp)
+// {
+// 	int		start;
+// 	int		end;
+// 	int		i;
+// 	(void)	envp;
 
-	start = 0;
-	end = 0;
-	i = -1;
-	gear_5->input = ft_strtrim(gear_5->input, " \t");
-	while (gear_5->input[++i])
-	{
-		if (is_word(gear_5->input, i) == FAILURE)
-			end = word_end(gear_5->input, i);
-	}
-	printf("YAY it works?\n");
-	return (SUCCESS);
-}
+// 	start = 0;
+// 	end = 0;
+// 	i = -1;
+// 	gear_5->input = ft_strtrim(gear_5->input, " \t");
+// 	while (gear_5->input[++i])
+// 	{
+// 		if (is_word(gear_5->input, i) == FAILURE)
+// 			end = word_end(gear_5->input, i);
+// 	}
+// 	printf("YAY it works?\n");
+// 	return (SUCCESS);
+// }
