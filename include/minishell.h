@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/24 14:19:38 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/24 17:34:52 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # define FAILURE 	-1
 # define SUCCESS 	0
 
-#define MAX_WORD_LENGTH 256
+//#define MAX_WORD_LENGTH 256
 
 # define BLACK		"\033[0;30m"
 # define RED		"\033[0;31m"
@@ -52,7 +52,7 @@
 
 typedef struct s_token
 {
-	char			word[MAX_WORD_LENGTH];
+	char			*word;
 
 	struct s_token	*previous;
 	struct s_token	*next;
@@ -61,7 +61,7 @@ typedef struct s_token
 typedef struct s_parsing
 {
 	char	*line;
-	char	current_word[MAX_WORD_LENGTH];
+	char	*current_word;
 
 	int		i;
 	int		j;
@@ -151,6 +151,7 @@ int		i_am_delimitor(char c);
 int		check_quotes(char *input);
 int		is_pipe(char *input);
 int		check_special_characters(char *input);
+int		ft_ispace(char c);
 
 char	is_special_char(char c);
 
@@ -159,13 +160,13 @@ char	is_special_char(char c);
 int		lexing_gear_5(t_shell *gear_5);
 
 void	extract_words(const char *line, t_token **head);
-void	add_to_list(t_token **head, const char *word);
-void	appendright(t_token **head, t_token *new);
-void	handle_characters(t_parsing *state);
-void	handle_variable(t_parsing *state);
-void	handle_special_char(t_parsing *state);
-void	handle_space(t_parsing *state);
+void	handle_characters(t_parsing *state, int word_length);
+void	handle_variable(t_parsing *state, int word_length);
+void	handle_special_char(t_parsing *state, int word_length);
+void	handle_space(t_parsing *state, int word_length);
 void    handle_quotes(t_parsing *state);
+void	add_to_list(t_token **head, const char *word, int word_length);
+void	appendright(t_token **head, t_token *new);
 
 t_token	*ft_double_lstlast(t_token *lst);
 

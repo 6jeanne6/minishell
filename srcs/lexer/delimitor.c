@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:37:29 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/20 14:02:44 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/24 17:35:45 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ static bool	pipe_character(char c)
 }
 //check if it's pipe |
 
-// static bool	i_am_blank(char c)
-// {
-// 	if (c == ' ' || c == '\t')
-// 		return (true);
-// 	return (false);
-// }
-//check if it's space or tab
+int    ft_ispace(char c)
+{
+    if ((c == '\t') || (c == '\n') || (c == '\v') || (c == '\f')
+		|| (c == ' '))
+		return (SUCCESS);
+    return (FAILURE);
+}
 
 static bool	backslash_null(char c)
 {

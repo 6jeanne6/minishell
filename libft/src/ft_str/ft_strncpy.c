@@ -6,13 +6,13 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:29:29 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/20 17:30:14 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/24 14:27:24 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/libft.h"
 
-char	*ft_strncpy(char *dst, char *src, int n)
+char	*ft_strncpy(char *dst, const char *src, int n)
 {
 	int	i;
 

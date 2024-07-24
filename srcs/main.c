@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/24 14:19:22 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/24 16:22:30 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static void	print_list(t_token *head)
 
 static int	init_minishell(t_shell *gear_5, t_env *envp)
 {
-	int		status;
-	t_token	*list;
+	int			status;
+	t_token		*list;
 
 	status = 0;
 	list = NULL;
@@ -48,6 +48,7 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 		extract_words(gear_5->input, &list);
 		print_list(list);
 	}
+	free_token_list(list);
 	clean_env(envp);
 	return (status);
 }
@@ -55,25 +56,24 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 // • env
 // • lexer
 // 		→ Delimitor
-//		→ Extract word
 // • parsing:
-//		→ Token
-//		→ Order of token
-//		→ ...
+//		→ Extract words
+//		→ Add to linked list
+//		→ Tokenizer
 // • execution
 
 static void	init_structures(t_shell	*gear_5, t_env *envp)
 {
-	ft_bzero(&gear_5, 1);
-	ft_bzero(&envp, 1);
+	ft_bzero(gear_5, sizeof(t_shell));
+	ft_bzero(envp, sizeof(t_env));
 }
 //initialize all variables of structures to 0
 
 int	main(int argc, char **argv, char **env)
 {
-	t_shell	gear_5;
-	t_env	envp;
-	int		exit_status;
+	t_shell		gear_5;
+	t_env		envp;
+	int			exit_status;
 
 	(void)argv;
 	init_structures(&gear_5, &envp);
@@ -85,9 +85,7 @@ int	main(int argc, char **argv, char **env)
 		return (EXIT_FAILURE);
 	}
 	else
-	{
 		exit_status = init_minishell(&gear_5, &envp);
-	}
 	return (exit_status);
 }
 //minishell only takes one argument
