@@ -44,6 +44,7 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/parsing/parsing_utils.c \
 				${SRCDIR}/parsing/parsing_utils2.c \
 				${SRCDIR}/parsing/parsing_utils3.c \
+				${SRCDIR}/parsing/token_path.c \
 				${SRCDIR}/signals/signals.c \
 				${SRCDIR}/error/error_utils.c \
 				${SRCDIR}/builtins/builtins_tool.c \

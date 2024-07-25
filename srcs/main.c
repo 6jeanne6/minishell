@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/25 14:06:07 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/25 18:07:48 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,14 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 		if (gear_5->input == NULL)
 			break ;
 		if (lexing_gear_5(gear_5) == SUCCESS)
-			printf(GREEN"Congrats lexing works!\n"RESET);
-		else
-			printf(BLUE"Check your lexing!\n"RESET);
-		free_token_list(list);
-		list = NULL;
-		extract_words(gear_5->input, &list);
-		print_list(list);
+		{
+			free_token_list(list);
+			list = NULL;
+			extract_words(gear_5->input, &list);
+			print_list(list);
+			if (check_path(envp, list) == SUCCESS)
+				printf(GREEN"Congrats there is a path!\n"RESET);
+		}
 	}
 	free_token_list(list);
 	clean_env(envp);
