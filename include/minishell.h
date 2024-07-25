@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/24 17:34:52 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/25 14:22:37 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ typedef struct s_token
 {
 	char			*word;
 
+	int				outer_double_quote;
+
 	struct s_token	*previous;
 	struct s_token	*next;
 }				t_token;
@@ -67,6 +69,8 @@ typedef struct s_parsing
 	int		j;
 	int		in_double_quote;
 	int		in_single_quote;
+	int		outer_double_quote;
+	int		outer_single_quote;
 
 	t_token	**token_list;
 }				t_parsing;
@@ -164,8 +168,9 @@ void	handle_characters(t_parsing *state, int word_length);
 void	handle_variable(t_parsing *state, int word_length);
 void	handle_special_char(t_parsing *state, int word_length);
 void	handle_space(t_parsing *state, int word_length);
-void    handle_quotes(t_parsing *state);
-void	add_to_list(t_token **head, const char *word, int word_length);
+void	handle_quotes(t_parsing *state);
+void	add_to_list(t_token **head, t_parsing *state,
+			const char *word, int word_length);
 void	appendright(t_token **head, t_token *new);
 
 t_token	*ft_double_lstlast(t_token *lst);

@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 18:04:18 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/24 17:59:27 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/25 14:45:43 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	extract_words(const char *line, t_token **head)
 	if (state.j > 0)
 	{
 		state.current_word[state.j] = '\0';
-		add_to_list(state.token_list, state.current_word, word_length);
+		add_to_list(state.token_list, &state, state.current_word, word_length);
 	}
 	free(state.current_word);
 }

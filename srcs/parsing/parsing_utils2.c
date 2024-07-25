@@ -6,53 +6,18 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:52:41 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/24 17:58:41 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/25 14:45:49 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	handle_space(t_parsing *state, int word_length)
-{
-	if (state->j > 0)
-	{
-		state->current_word[state->j] = '\0';
-		add_to_list(state->token_list, state->current_word, word_length);
-		state->j = 0;
-	}
-}
-
-void	handle_special_char(t_parsing *state, int word_length)
-{
-	if (state->j > 0)
-	{
-		state->current_word[state->j] = '\0';
-		add_to_list(state->token_list, state->current_word, word_length);
-		state->j = 0;
-	}
-	if ((state->line[state->i] == '>' && state->line[state->i + 1] == '>')
-		|| (state->line[state->i] == '<' && state->line[state->i + 1] == '<'))
-	{
-		state->current_word[0] = state->line[state->i];
-		state->current_word[1] = state->line[state->i + 1];
-		state->current_word[2] = '\0';
-		state->i += 2;
-	}
-	else
-	{
-		state->current_word[0] = state->line[state->i];
-		state->current_word[1] = '\0';
-		state->i++;
-	}
-	add_to_list(state->token_list, state->current_word, word_length);
-}
 
 void	handle_variable(t_parsing *state, int word_length)
 {
 	if (state->j > 0)
 	{
 		state->current_word[state->j] = '\0';
-		add_to_list(state->token_list, state->current_word, word_length);
+		add_to_list(state->token_list, state, state->current_word, word_length);
 		state->j = 0;
 	}
 	state->current_word[state->j++] = state->line[state->i++];
@@ -61,35 +26,61 @@ void	handle_variable(t_parsing *state, int word_length)
 		&& !is_special_char(state->line[state->i]))
 		state->current_word[state->j++] = state->line[state->i++];
 	state->current_word[state->j] = '\0';
-	add_to_list(state->token_list, state->current_word, word_length);
+	add_to_list(state->token_list, state, state->current_word, word_length);
 	state->j = 0;
 }
-//$
+//Copy $name as long as no blank or \0
+
+static void	handle_double_quotes(t_parsing *state)
+{
+	if (state->in_double_quote)
+		state->in_double_quote = 0;
+	else if (state->in_single_quote)
+		state->current_word[state->j++] = state->line[state->i];
+	else
+	{
+		if (!state->in_single_quote)
+			state->outer_double_quote = 1;
+		state->in_double_quote = 1;
+	}
+	state->i++;
+}
+// • Double quotes
+// 		→ Ignore exterior quotes
+
+static void	handle_single_quotes(t_parsing *state)
+{
+	if (state->in_single_quote)
+	{
+		state->in_single_quote = 0;
+		if (state->outer_single_quote && !state->in_double_quote)
+			state->outer_single_quote = 0;
+	}
+	else if (state->in_double_quote)
+		state->current_word[state->j++] = state->line[state->i];
+	else
+	{
+		state->in_single_quote = 1;
+		if (!state->in_double_quote)
+			state->outer_single_quote = 1;
+	}
+	state->i++;
+}
+// • Single quotes
+// 		→ Ignore exterior quotes
 
 void	handle_quotes(t_parsing *state)
 {
 	if (state->line[state->i] == '"')
-	{
-		if (state->in_double_quote)
-			state->in_double_quote = 0;
-		else if (state->in_single_quote)
-			state->current_word[state->j++] = state->line[state->i];
-		else
-			state->in_double_quote = 1;
-		state->i++;
-	}
+		handle_double_quotes(state);
 	else if (state->line[state->i] == '\'')
-	{
-		if (state->in_single_quote)
-			state->in_single_quote = 0;
-		else if (state->in_double_quote)
-			state->current_word[state->j++] = state->line[state->i];
-		else
-			state->in_single_quote = 1;
-		state->i++;
-	}
+		handle_single_quotes(state);
 }
-//quotes
+//Quotes
+// • Double quotes
+// 		→ Ignore exterior quotes
+// • Single quotes
+// 		→ Ignore exterior quotes
 
 void	handle_characters(t_parsing *state, int word_length)
 {
@@ -111,3 +102,4 @@ void	handle_characters(t_parsing *state, int word_length)
 		state->current_word[state->j++] = state->line[state->i++];
 }
 //Buffer copies letters until we are in a separator
+//Reinitialize j to 0 and redo same procedure

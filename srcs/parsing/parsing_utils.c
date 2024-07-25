@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:46:18 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/24 17:43:32 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/25 14:03:07 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void	appendright(t_token **head, t_token *new)
 }
 //add node at the end of the linked list
 
-void	add_to_list(t_token **head, const char *word, int word_length)
+void	add_to_list(t_token **head, t_parsing *state,
+const char *word, int word_length)
 {
 	t_token	*new_node;
 
@@ -56,6 +57,7 @@ void	add_to_list(t_token **head, const char *word, int word_length)
 	new_node->word = ft_calloc(word_length + 1, sizeof(char));
 	if (!new_node->word)
 		return ;
+	new_node->outer_double_quote = state->outer_double_quote;
 	ft_strncpy(new_node->word, word, word_length);
 	appendright(head, new_node);
 }
