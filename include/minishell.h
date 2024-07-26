@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/25 14:22:37 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/26 16:58:46 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_token
 	char			*word;
 
 	int				outer_double_quote;
+	int				outer_single_quote;
 
 	struct s_token	*previous;
 	struct s_token	*next;

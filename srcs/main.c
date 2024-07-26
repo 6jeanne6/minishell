@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/25 14:06:07 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/26 17:08:13 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	print_list(t_token *head)
 	{
 		printf("Word: %s\n", current->word);
 		printf("Outer double quote: %d\n", current->outer_double_quote);
+		printf("Outer single quote: %d\n", current->outer_single_quote);
 		current = current->next;
 	}
 }
