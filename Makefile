@@ -33,7 +33,6 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/env/env_utils.c \
 				${SRCDIR}/env_var/init_var.c \
 				${SRCDIR}/env_var/var_tools.c \
-				${SRCDIR}/env_var/variable_detection.c \
 				${SRCDIR}/lexer/delimitor.c \
 				${SRCDIR}/lexer/lexer_utils.c \
 				${SRCDIR}/lexer/quotes.c \
@@ -44,6 +43,8 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/parsing/parsing_utils.c \
 				${SRCDIR}/parsing/parsing_utils2.c \
 				${SRCDIR}/parsing/parsing_utils3.c \
+				${SRCDIR}/parsing/get_token_type.c \
+				${SRCDIR}/parsing/get_token_type_tools.c \
 				${SRCDIR}/parsing/token_path.c \
 				${SRCDIR}/signals/signals.c \
 				${SRCDIR}/error/error_utils.c \

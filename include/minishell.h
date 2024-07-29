@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/25 18:03:31 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/25 14:22:37 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,37 @@
 # define CYAN 		"\033[0;36m"
 # define RESET 		"\033[0m"
 
+/***** TOKEN TYPE *******/
+
+#define TOKEN_CMD        1
+#define TOKEN_ARG        2
+#define TOKEN_PIPE       3
+#define TOKEN_INPUT      4
+#define TOKEN_OUTPUT     5
+#define TOKEN_APPEND     6
+#define TOKEN_HEREDOC    7
+#define TOKEN_VARIABLE   8
+#define TOKEN_FILE       9
+#define TOKEN_UNKNOWN    10
+#define TOKEN_VARIABLEASSIGNATION 11
+#define TOKEN_BUILTIN 12
+
+
+
+
 /****** STRUCTURES ******/
 
 typedef struct s_token
 {
+	int				token_type;
 	char			*word;
 	char			*cmd_path;
 
-	int				outer_double_quote;
-
 	struct s_token	*previous;
 	struct s_token	*next;
+	int				in_double_quote;
+	int				outer_double_quote;
+	int				outer_single_quote;
 }				t_token;
 
 typedef struct s_parsing
@@ -98,12 +118,10 @@ typedef struct s_env
 	char	**env;
 	char	**env_tmp;
 	char	**path;
-
-	char	*tmp_path;
-	char	*cmd_path;
 	char	*oldpwd;
 	char	*pwd;
-
+	char	*cmd_path;
+	char	*tmp_path;
 	t_var	*first_variable;
 }				t_env;
 
@@ -113,7 +131,6 @@ typedef struct s_shell
 	char	**cmd;
 
 	char	*input;
-
 }				t_shell;
 
 /****** GLOBAL ******/
@@ -141,9 +158,6 @@ char	*get_current_path(void);
 
 t_var	*init_env_variable(char *name, char *value);
 
-bool	is_variable(const char *input);
-bool	is_variable_declaration(const char *input);
-
 char	*malloc_substr_and_cpy(const char *original_str, int start, int end);
 char	*get_variable_name(char *variable);
 char	*get_variable_value(char *variable);
@@ -168,7 +182,6 @@ char	is_special_char(char c);
 /* parsing */
 
 int		lexing_gear_5(t_shell *gear_5);
-int		check_path(t_env *envp, t_token *token);
 
 void	extract_words(const char *line, t_token **head);
 void	handle_characters(t_parsing *state, int word_length);
@@ -179,8 +192,11 @@ void	handle_quotes(t_parsing *state);
 void	add_to_list(t_token **head, t_parsing *state,
 			const char *word, int word_length);
 void	appendright(t_token **head, t_token *new);
-
+int		get_token_type(t_env *envp, t_token *token);
+int		check_path(t_env *envp, t_token *token);
 t_token	*ft_double_lstlast(t_token *lst);
+int 	is_variable(const char *input);
+int 	is_variable_declaration(const char *input);
 
 /* error & free */
 

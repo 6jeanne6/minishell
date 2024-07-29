@@ -58,6 +58,7 @@ const char *word, int word_length)
 	if (!new_node->word)
 		return ;
 	new_node->outer_double_quote = state->outer_double_quote;
+	new_node->outer_single_quote = state->outer_single_quote;
 	ft_strncpy(new_node->word, word, word_length);
 	appendright(head, new_node);
 }

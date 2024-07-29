@@ -19,6 +19,8 @@ void	handle_variable(t_parsing *state, int word_length)
 		state->current_word[state->j] = '\0';
 		add_to_list(state->token_list, state, state->current_word, word_length);
 		state->j = 0;
+		state->outer_double_quote = 0;
+		state->outer_single_quote = 0;
 	}
 	state->current_word[state->j++] = state->line[state->i++];
 	while (ft_ispace(state->line[state->i] == FAILURE)
@@ -28,6 +30,8 @@ void	handle_variable(t_parsing *state, int word_length)
 	state->current_word[state->j] = '\0';
 	add_to_list(state->token_list, state, state->current_word, word_length);
 	state->j = 0;
+	state->outer_double_quote = 0;
+	state->outer_single_quote = 0;
 }
 //Copy $name as long as no blank or \0
 
@@ -48,23 +52,19 @@ static void	handle_double_quotes(t_parsing *state)
 // • Double quotes
 // 		→ Ignore exterior quotes
 
-static void	handle_single_quotes(t_parsing *state)
+static void    handle_single_quotes(t_parsing *state)
 {
-	if (state->in_single_quote)
-	{
-		state->in_single_quote = 0;
-		if (state->outer_single_quote && !state->in_double_quote)
-			state->outer_single_quote = 0;
-	}
-	else if (state->in_double_quote)
-		state->current_word[state->j++] = state->line[state->i];
-	else
-	{
-		state->in_single_quote = 1;
-		if (!state->in_double_quote)
-			state->outer_single_quote = 1;
-	}
-	state->i++;
+    if (state->in_single_quote)
+        state->in_single_quote = 0;
+    else if (state->in_double_quote)
+        state->current_word[state->j++] = state->line[state->i];
+    else
+    {
+        if (!state->in_double_quote)
+            state->outer_single_quote = 1;
+        state->in_single_quote = 1;
+    }
+    state->i++;
 }
 // • Single quotes
 // 		→ Ignore exterior quotes
