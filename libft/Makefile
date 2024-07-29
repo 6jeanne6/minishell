@@ -50,6 +50,7 @@ FT_STR		= ${SRCDIR}/ft_str/ft_strchr.c \
 		  	  ${SRCDIR}/ft_str/ft_strlen.c \
 		  	  ${SRCDIR}/ft_str/ft_strmapi.c \
 		  	  ${SRCDIR}/ft_str/ft_strncmp.c \
+			  ${SRCDIR}/ft_str/ft_strncpy.c \
 		  	  ${SRCDIR}/ft_str/ft_strnstr.c \
 		  	  ${SRCDIR}/ft_str/ft_strrchr.c \
 		  	  ${SRCDIR}/ft_str/ft_strtrim.c \
