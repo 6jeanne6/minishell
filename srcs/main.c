@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/31 17:24:04 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/31 18:33:15 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,9 @@ static int init_minishell(t_shell *gear_5, t_env *envp)
         print_token_list(list); 
         free_token_list(list); // Imprimez la liste des tokens ici pour le débogage
     }
-
     clean_env(envp);
     return (status);
 }
-
-
-
 //Function to initialize minishell
 // • env
 // • lexer

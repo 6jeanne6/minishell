@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/31 17:26:58 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/31 18:06:11 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,18 @@
 
 /***** TOKEN TYPE *******/
 
-#define TOKEN_CMD        1
-#define TOKEN_ARG        2
-#define TOKEN_PIPE       3
-#define TOKEN_INPUT      4
-#define TOKEN_OUTPUT     5
-#define TOKEN_APPEND     6
-#define TOKEN_HEREDOC    7
-#define TOKEN_VARIABLE   8
-#define TOKEN_FILE       9
-#define TOKEN_UNKNOWN    10
-#define TOKEN_VARIABLEASSIGNATION 11
-#define TOKEN_BUILTIN 12
-
-
-
+#define TOKEN_CMD        			1
+#define TOKEN_ARG        			2
+#define TOKEN_PIPE       			3
+#define TOKEN_INPUT      			4
+#define TOKEN_OUTPUT     			5
+#define TOKEN_APPEND     			6
+#define TOKEN_HEREDOC    			7
+#define TOKEN_VARIABLE   			8
+#define TOKEN_FILE       			9
+#define TOKEN_UNKNOWN   			10
+#define TOKEN_VARIABLEASSIGNATION	11
+#define TOKEN_BUILTIN 				12
 
 /****** STRUCTURES ******/
 
