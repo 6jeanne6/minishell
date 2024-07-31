@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:46:18 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/26 17:07:37 by jewu             ###   ########.fr       */
+/*   Updated: 2024/07/31 17:25:48 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ const char *word, int word_length)
 	new_node->word = ft_calloc(word_length + 1, sizeof(char));
 	if (!new_node->word)
 		return ;
-	update_quotes(new_node, state);
+	new_node->outer_double_quote = state->outer_double_quote;
+	new_node->outer_single_quote = state->outer_single_quote;
 	ft_strncpy(new_node->word, word, word_length);
 	appendright(head, new_node);
 }
