@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:52:41 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/31 17:27:10 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/01 15:46:56 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,19 @@ static void	handle_double_quotes(t_parsing *state)
 // • Double quotes
 // 		→ Ignore exterior quotes
 
-static void    handle_single_quotes(t_parsing *state)
+static void	handle_single_quotes(t_parsing *state)
 {
-    if (state->in_single_quote)
-        state->in_single_quote = 0;
-    else if (state->in_double_quote)
-        state->current_word[state->j++] = state->line[state->i];
-    else
-    {
-        if (!state->in_double_quote)
-            state->outer_single_quote = 1;
-        state->in_single_quote = 1;
-    }
-    state->i++;
+	if (state->in_single_quote)
+		state->in_single_quote = 0;
+	else if (state->in_double_quote)
+		state->current_word[state->j++] = state->line[state->i];
+	else
+	{
+		if (!state->in_double_quote)
+			state->outer_single_quote = 1;
+		state->in_single_quote = 1;
+	}
+	state->i++;
 }
 // • Single quotes
 // 		→ Ignore exterior quotes

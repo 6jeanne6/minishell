@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:43:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/31 18:33:49 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/01 14:48:01 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	free_token_list(t_token *head)
 		head = head->next;
 		free(temp->word);
 		free(temp);
+		temp = NULL;
 	}
 }
 

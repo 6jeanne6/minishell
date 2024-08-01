@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/31 18:06:11 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/01 17:48:06 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # define FAILURE 	-1
 # define SUCCESS 	0
 
-//#define MAX_WORD_LENGTH 256
+/****** COLORS ********/
 
 # define BLACK		"\033[0;30m"
 # define RED		"\033[0;31m"
@@ -50,18 +50,18 @@
 
 /***** TOKEN TYPE *******/
 
-#define TOKEN_CMD        			1
-#define TOKEN_ARG        			2
-#define TOKEN_PIPE       			3
-#define TOKEN_INPUT      			4
-#define TOKEN_OUTPUT     			5
-#define TOKEN_APPEND     			6
-#define TOKEN_HEREDOC    			7
-#define TOKEN_VARIABLE   			8
-#define TOKEN_FILE       			9
-#define TOKEN_UNKNOWN   			10
-#define TOKEN_VARIABLEASSIGNATION	11
-#define TOKEN_BUILTIN 				12
+# define TOKEN_CMD        			1
+# define TOKEN_ARG        			2
+# define TOKEN_PIPE       			3
+# define TOKEN_INPUT      			4
+# define TOKEN_OUTPUT     			5
+# define TOKEN_APPEND     			6
+# define TOKEN_HEREDOC    			7
+# define TOKEN_VARIABLE   			8
+# define TOKEN_FILE       			9
+# define TOKEN_UNKNOWN   			10
+# define TOKEN_VARIABLEASSIGNATION	11
+# define TOKEN_BUILTIN 				12
 
 /****** STRUCTURES ******/
 
@@ -179,6 +179,11 @@ char	is_special_char(char c);
 /* parsing */
 
 int		lexing_gear_5(t_shell *gear_5);
+int		get_token_type(t_env *envp, t_token *token);
+int		check_path(t_env *envp, t_token *token);
+int		is_variable(const char *input);
+int		is_variable_declaration(const char *input);
+int		token_order(t_env *envp, t_token *token);
 
 void	extract_words(const char *line, t_token **head);
 void	handle_characters(t_parsing *state, int word_length);
@@ -189,11 +194,8 @@ void	handle_quotes(t_parsing *state);
 void	add_to_list(t_token **head, t_parsing *state,
 			const char *word, int word_length);
 void	appendright(t_token **head, t_token *new);
-int		get_token_type(t_env *envp, t_token *token);
-int		check_path(t_env *envp, t_token *token);
+
 t_token	*ft_double_lstlast(t_token *lst);
-int 	is_variable(const char *input);
-int 	is_variable_declaration(const char *input);
 
 /* error & free */
 

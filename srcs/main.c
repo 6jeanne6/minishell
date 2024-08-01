@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/31 18:33:15 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/01 17:49:46 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,37 +63,48 @@ void print_token_list(t_token *list) {
     }
 }
 
-static int init_minishell(t_shell *gear_5, t_env *envp)
+static void	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list)
 {
-    int         status;
-    t_token     *list;
-
-    status = 0;
-    list = NULL;
-
-    gear_5->input = readline("Input : " RESET);
-    add_history(gear_5->input);
-    if (gear_5->input != NULL)
-    {
-        lexing_gear_5(gear_5);
-        free_token_list(list); // Assurez-vous que cette fonction ne libère pas la liste avant d'avoir extrait les nouveaux tokens
-        list = NULL;
-        extract_words(gear_5->input, &list);
-        get_token_type(envp, list);
-        print_token_list(list); 
-        free_token_list(list); // Imprimez la liste des tokens ici pour le débogage
-    }
-    clean_env(envp);
-    return (status);
+	lexing_gear_5(gear_5);
+	free_token_list(list);
+	list = NULL;
+	extract_words(gear_5->input, &list);
+	get_token_type(envp, list);
+	token_order(envp, list);
+	print_token_list(list);
+	//token_order(envp, list);
+	free_token_list(list);
 }
-//Function to initialize minishell
-// • env
-// • lexer
+//• lexer
 // 		→ Delimitor
 // • parsing:
 //		→ Extract words
 //		→ Add to linked list
 //		→ Tokenizer
+
+static int	init_minishell(t_shell *gear_5, t_env *envp)
+{
+	int		status;
+	t_token	*list;
+
+	status = 0;
+	list = NULL;
+
+	while (true)
+	{
+		gear_5->input = readline(RED"Super Gear 5 $> "RESET);
+		add_history(gear_5->input);
+		if (gear_5->input == NULL)
+			break ;
+		parse_gear_5(gear_5, envp, list);
+	}
+	clean_env(envp);
+	return (status);
+}
+//Function to initialize minishell
+// • env
+// • lexer
+// • parsing
 // • execution
 
 static void	init_structures(t_shell	*gear_5, t_env *envp)

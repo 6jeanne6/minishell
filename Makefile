@@ -43,9 +43,10 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/parsing/parsing_utils.c \
 				${SRCDIR}/parsing/parsing_utils2.c \
 				${SRCDIR}/parsing/parsing_utils3.c \
-				${SRCDIR}/parsing/get_token_type.c \
-				${SRCDIR}/parsing/get_token_type_tools.c \
-				${SRCDIR}/parsing/token_path.c \
+				${SRCDIR}/parsing/tokenizer/get_token_type.c \
+				${SRCDIR}/parsing/tokenizer/get_token_type_tools.c \
+				${SRCDIR}/parsing/tokenizer/token_path.c \
+				${SRCDIR}/parsing/tokenizer/token_order.c \
 				${SRCDIR}/signals/signals.c \
 				${SRCDIR}/error/error_utils.c \
 				${SRCDIR}/builtins/builtins_tool.c \
