@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/01 17:48:06 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/02 18:35:49 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,9 @@ typedef struct s_env
 
 typedef struct s_shell
 {
-	char	**path;
-	char	**cmd;
-
 	char	*input;
+
+	int		exit_status;
 }				t_shell;
 
 /****** GLOBAL ******/
@@ -183,7 +182,7 @@ int		get_token_type(t_env *envp, t_token *token);
 int		check_path(t_env *envp, t_token *token);
 int		is_variable(const char *input);
 int		is_variable_declaration(const char *input);
-int		token_order(t_env *envp, t_token *token);
+int		token_order(t_env *envp, t_token *token, t_shell *gear_5);
 
 void	extract_words(const char *line, t_token **head);
 void	handle_characters(t_parsing *state, int word_length);

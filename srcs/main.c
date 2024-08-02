@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/01 17:49:46 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/02 19:08:58 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,8 @@ static void	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list)
 	list = NULL;
 	extract_words(gear_5->input, &list);
 	get_token_type(envp, list);
-	token_order(envp, list);
+	token_order(envp, list, gear_5);
 	print_token_list(list);
-	//token_order(envp, list);
 	free_token_list(list);
 }
 //• lexer
@@ -99,7 +98,7 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 		parse_gear_5(gear_5, envp, list);
 	}
 	clean_env(envp);
-	return (status);
+	return (gear_5->exit_status);
 }
 //Function to initialize minishell
 // • env

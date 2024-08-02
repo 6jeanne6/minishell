@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 16:20:27 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/02 15:12:29 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/02 19:21:51 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	convert_to_file(t_token *token)
 }
 /* Change arg to file if we are in an redirection operator */
 
-static int	input_heredoc_order(t_token *token)
+static int	input_heredoc_order(t_shell *gear_5, t_token *token)
 {
 	if (!token)
 		return (FAILURE);
@@ -31,8 +31,8 @@ static int	input_heredoc_order(t_token *token)
 			if (token->previous->token_type != TOKEN_CMD
 				&& token->previous->token_type != TOKEN_BUILTIN)
 			{
-				error("Command not valid\n");
-				return (FAILURE);
+				error("Command not found\n");
+				return (gear_5->exit_status = 127, FAILURE);
 			}
 		}
 	}
@@ -41,7 +41,7 @@ static int	input_heredoc_order(t_token *token)
 		if (!token->next)
 		{
 			error("Syntax error\n");
-			return (FAILURE);
+			return (gear_5->exit_status = 2, FAILURE);
 		}
 	}
 	convert_to_file(token);
@@ -49,9 +49,9 @@ static int	input_heredoc_order(t_token *token)
 }
 /* Change arg to file if we are in an redirection operator */
 
-static int	output_append_order(t_token *token)
+static int	output_append_order(t_shell *gear_5, t_token *token)
 {
-	if (!token)
+	if (!token || !gear_5)
 		return (FAILURE);
 	if ((token->token_type == TOKEN_OUTPUT
 			|| token->token_type == TOKEN_APPEND))
@@ -59,13 +59,14 @@ static int	output_append_order(t_token *token)
 		if (!token->next)
 		{
 			error("Missing outfile\n");
-			return (FAILURE);
+			return (gear_5->exit_status = 2, FAILURE);
 		}
 		if (token->next->token_type != TOKEN_ARG
-			&& token->next->token_type != TOKEN_BUILTIN)
+			&& token->next->token_type != TOKEN_BUILTIN
+			&& token->next->token_type != TOKEN_CMD)
 		{
 			error("Syntax error\n");
-			return (FAILURE);
+			return (gear_5->exit_status = 2, FAILURE);
 		}
 	}
 	convert_to_file(token);
@@ -77,13 +78,13 @@ static int	first_cmd_redirection(t_token *token, int i)
 {
 	if (!token)
 		return (FAILURE);
-	if ((token->token_type != TOKEN_CMD
-			&& token->token_type != TOKEN_BUILTIN
+	if ((token->token_type != TOKEN_BUILTIN
 			&& token->token_type != TOKEN_INPUT
 			&& token->token_type != TOKEN_HEREDOC
 			&& token->token_type != TOKEN_OUTPUT
 			&& token->token_type != TOKEN_APPEND
 			&& token->token_type != TOKEN_VARIABLEASSIGNATION
+			&& token->token_type != TOKEN_CMD
 			&& i == 0))
 	{
 		error("Check your 1st token\n");
@@ -93,7 +94,7 @@ static int	first_cmd_redirection(t_token *token, int i)
 }
 /* Check if 1st token is command or builtin */
 
-int	token_order(t_env *envp, t_token *token)
+int	token_order(t_env *envp, t_token *token, t_shell *gear_5)
 {
 	int	i;
 
@@ -105,8 +106,8 @@ int	token_order(t_env *envp, t_token *token)
 	{
 		if (first_cmd_redirection(token, i) == FAILURE)
 			return (FAILURE);
-		if ((output_append_order(token) == FAILURE)
-			|| (input_heredoc_order(token) == FAILURE))
+		if ((output_append_order(gear_5, token) == FAILURE)
+			|| (input_heredoc_order(gear_5, token) == FAILURE))
 			return (FAILURE);
 		if (token->token_type == TOKEN_PIPE
 			&& token->next->token_type == TOKEN_PIPE)
