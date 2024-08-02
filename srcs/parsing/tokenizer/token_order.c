@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 16:20:27 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/02 15:10:26 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/02 15:12:29 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int	first_cmd_redirection(t_token *token, int i)
 			&& token->token_type != TOKEN_VARIABLEASSIGNATION
 			&& i == 0))
 	{
-		error("1st token not a command, builtin or redirection operator\n");
+		error("Check your 1st token\n");
 		return (FAILURE);
 	}
 	return (SUCCESS);
