@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 16:20:27 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/01 19:04:57 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/02 15:10:26 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ static int	first_cmd_redirection(t_token *token, int i)
 			&& token->token_type != TOKEN_HEREDOC
 			&& token->token_type != TOKEN_OUTPUT
 			&& token->token_type != TOKEN_APPEND
+			&& token->token_type != TOKEN_VARIABLEASSIGNATION
 			&& i == 0))
 	{
 		error("1st token not a command, builtin or redirection operator\n");
@@ -107,6 +108,12 @@ int	token_order(t_env *envp, t_token *token)
 		if ((output_append_order(token) == FAILURE)
 			|| (input_heredoc_order(token) == FAILURE))
 			return (FAILURE);
+		if (token->token_type == TOKEN_PIPE
+			&& token->next->token_type == TOKEN_PIPE)
+		{
+			error("syntax error near '|'\n");
+			return (FAILURE);
+		}
 		token = token->next;
 		i++;
 	}
