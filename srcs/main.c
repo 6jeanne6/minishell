@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/02 19:08:58 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/05 12:34:28 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,20 +117,17 @@ int	main(int argc, char **argv, char **env)
 {
 	t_shell		gear_5;
 	t_env		envp;
-	int			exit_status;
 
 	(void)argv;
-	init_structures(&gear_5, &envp);
-	init_env(&envp, env);
-	exit_status = 0;
 	if (argc > 1)
 	{
 		error("Dont't put arguments\n");
 		return (EXIT_FAILURE);
 	}
-	else
-		exit_status = init_minishell(&gear_5, &envp);
-	return (exit_status);
+	init_structures(&gear_5, &envp);
+	init_env(&envp, env);
+	gear_5.exit_status = init_minishell(&gear_5, &envp);
+	return (gear_5.exit_status);
 }
 //minishell only takes one argument
 // • init gear_5 structure
