@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/02 18:35:49 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/05 19:17:40 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,48 @@
 
 /****** STRUCTURES ******/
 
+typedef struct s_file
+{
+	char	*name;
+	int		fd;
+}				t_file;
+
+typedef struct s_redir
+{
+	int		fd_in;
+	int		fd_out;
+	int		type;
+	char	*content;
+}				t_redir;
+
+typedef struct s_arg
+{
+	char			*content;
+	int				id;
+	int				index;
+	struct s_arg 	*next;
+	struct s_arg 	*prev;
+}				t_arg;
+
+typedef struct s_cmd
+{
+	int		id;
+	char	*cmd_name;
+	int		fd_in;
+	int		in_double_quote;
+	int		outer_double_quote;
+	int		outer_single_quote;
+	char	**args;
+	char	bin;
+	int		fd_in;
+	int		fd_out;
+	int		pid;
+	t_arg	first_arg;
+}			t_cmd;
+
 typedef struct s_token
 {
+	void			*class;
 	int				token_type;
 	char			*word;
 	char			*cmd_path;
@@ -76,6 +116,11 @@ typedef struct s_token
 	int				in_double_quote;
 	int				outer_double_quote;
 	int				outer_single_quote;
+	int				*index;
+	char *args;
+	int fd in_
+	int fd out
+	
 }				t_token;
 
 typedef struct s_parsing
@@ -193,6 +238,7 @@ void	handle_quotes(t_parsing *state);
 void	add_to_list(t_token **head, t_parsing *state,
 			const char *word, int word_length);
 void	appendright(t_token **head, t_token *new);
+t_token	init_struct(t_token *list, t_env *envp);
 
 t_token	*ft_double_lstlast(t_token *lst);
 
