@@ -6,7 +6,7 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/05 19:17:40 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:32:31 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ typedef struct s_cmd
 {
 	int		id;
 	char	*cmd_name;
-	int		fd_in;
 	int		in_double_quote;
 	int		outer_double_quote;
 	int		outer_single_quote;
@@ -117,10 +116,6 @@ typedef struct s_token
 	int				outer_double_quote;
 	int				outer_single_quote;
 	int				*index;
-	char *args;
-	int fd in_
-	int fd out
-	
 }				t_token;
 
 typedef struct s_parsing
@@ -241,6 +236,7 @@ void	appendright(t_token **head, t_token *new);
 t_token	init_struct(t_token *list, t_env *envp);
 
 t_token	*ft_double_lstlast(t_token *lst);
+void	expander(t_token *list, t_env *envp);
 
 /* error & free */
 
@@ -248,4 +244,7 @@ void	error(char	*message);
 void	clean_env(t_env *envp);
 void	free_token_list(t_token *head);
 
+/* debug */
+
+void print_token_list(t_token *list);
 #endif

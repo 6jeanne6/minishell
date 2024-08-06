@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/05 12:34:28 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/06 15:22:26 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ static void	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list)
 	get_token_type(envp, list);
 	token_order(envp, list, gear_5);
 	print_token_list(list);
+	expander(list, envp);
 	free_token_list(list);
 }
 //• lexer
@@ -83,10 +84,8 @@ static void	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list)
 
 static int	init_minishell(t_shell *gear_5, t_env *envp)
 {
-	int		status;
 	t_token	*list;
 
-	status = 0;
 	list = NULL;
 
 	while (true)
