@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/07 13:52:30 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/07 14:20:03 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,6 @@ void	free_var_list(t_env *env);
 /* lexing */
 
 int		check_redirection(char *input);
-int		check_variable(char *input, bool has_quotes);
 int		check_pipe(char *input);
 int		i_am_delimitor(char c);
 int		check_quotes(char *input);

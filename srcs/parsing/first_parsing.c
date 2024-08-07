@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:43:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/02 18:26:12 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/07 14:19:49 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,6 @@ static int	lexing_again(char *input, char c, bool has_quotes)
 	}
 	else if (check_special_characters(input) == FAILURE)
 		return (FAILURE);
-	else if (c == '=')
-	{
-		if (check_variable(input, has_quotes) == FAILURE)
-			return (FAILURE);
-	}
 	return (SUCCESS);
 }
 //continuation of lexing_gear_5 function

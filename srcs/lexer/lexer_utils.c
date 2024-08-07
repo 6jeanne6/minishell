@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:35:21 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/01 17:15:38 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/07 14:20:21 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,7 @@ char	is_special_char(char c)
 	else
 		return ('\0');
 }
-
-int	check_variable(char *input, bool has_quotes)
-{
-	int	i;
-
-	i = -1;
-	while (input[++i])
-	{
-		if (input[i] == '=')
-		{
-			if (has_quotes == false)
-			{
-				if (input[i - 1] == ' ' || input[i + 1] == ' ')
-				{
-					error("Check your = again\n");
-					return (FAILURE);
-				}
-			}
-		}
-	}
-	return (SUCCESS);
-}
-//if =, checks if there is no space before and after
+// > or < or & or |
 
 int	check_special_characters(char *input)
 {
