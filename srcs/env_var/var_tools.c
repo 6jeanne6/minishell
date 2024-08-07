@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:37:05 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/07/19 16:40:04 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/07 14:07:47 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*malloc_substr_and_cpy(const char *original_str, int start, int end)
 	i = 0;
 	len = (end - start) + 1;
 	new_str = malloc(sizeof(char) * len + 1);
+	if (!new_str)
+		return (NULL);
 	while (i < len)
 	{
 		new_str[i] = original_str[start + i];
@@ -29,6 +31,7 @@ char	*malloc_substr_and_cpy(const char *original_str, int start, int end)
 	new_str[i] = '\0';
 	return (new_str);
 }
+//malloc a new variable into environment list
 
 void	free_var_list(t_env *env)
 {
@@ -46,3 +49,4 @@ void	free_var_list(t_env *env)
 	}
 	env->first_variable = NULL;
 }
+//free all variable in environment

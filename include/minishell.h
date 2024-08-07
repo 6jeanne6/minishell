@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/07 13:09:15 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/07 13:52:30 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ typedef struct s_arg
 	char			*content;
 	int				id;
 	int				index;
-	struct s_arg 	*next;
-	struct s_arg 	*prev;
+	struct s_arg	*next;
+	struct s_arg	*prev;
 }				t_arg;
 
 typedef struct s_cmd

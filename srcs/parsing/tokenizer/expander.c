@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:38:40 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/07 13:28:16 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/07 14:10:12 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static void	create_node(t_env *envp, char *word)
 		new_var->prev = current_var;
 	}
 }
+// • variable assignation name=value
+//		→ add variable at the end of variable list
 
 static void	create_or_update(t_token *list, t_env *envp)
 {
@@ -71,7 +73,19 @@ static void	create_or_update(t_token *list, t_env *envp)
 	}
 	create_node(envp, list->word);
 	print_var_list(envp->first_variable);
+	free(tmp_word);
 }
+// • variable assignation name=value
+//		→ which variables ? a reflechir et voir au fur et a mesure
+
+static void	empty_string(t_token *list)
+{
+	free(list->word);
+	list->word = ft_strdup("");
+	if (!list->word)
+		return ;
+}
+//if variable does not exist, display empty string
 
 static void	variable_substitution(t_token *list, t_env *envp)
 {
@@ -80,9 +94,10 @@ static void	variable_substitution(t_token *list, t_env *envp)
 	int		flag;
 
 	flag = 0;
-	word = NULL;
 	current_var = envp->first_variable;
 	word = ft_strtrim(list->word, "$");
+	if (!word)
+		return ;
 	while (current_var != NULL)
 	{
 		if (ft_strcmp(word, current_var->variable_name) == 0)
@@ -95,10 +110,7 @@ static void	variable_substitution(t_token *list, t_env *envp)
 		current_var = current_var->next;
 	}
 	if (flag == 0)
-	{
-		free(list->word);
-		list->word = ft_strdup("");
-	}
+		empty_string(list);
 	print_token_list(list);
 	free(word);
 }
