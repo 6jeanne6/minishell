@@ -3,64 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/06 15:22:26 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/08/07 18:28:21 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void print_token(t_token *token, int index) {
-    if (token == NULL) {
-        printf("Token %d: NULL\n", index);
-        return;
-    }
+void	print_token(t_token *token, int index)
+{
+	if (token == NULL)
+	{
+		printf("Token %d: NULL\n", index);
+		return ;
+	}
 
     // Afficher le numéro du token
-    printf("Token %d:\n", index);
-    printf("  Word: %s\n", token->word);
-    printf("  Token Type: ");
-    if (token->token_type == TOKEN_CMD) {
-        printf("COMMAND\n");
-    } else if (token->token_type == TOKEN_ARG) {
-        printf("ARGUMENT\n");
-    } else if (token->token_type == TOKEN_PIPE) {
-        printf("PIPE\n");
-    } else if (token->token_type == TOKEN_INPUT) {
-        printf("INPUT REDIRECTION\n");
-    } else if (token->token_type == TOKEN_OUTPUT) {
-        printf("OUTPUT REDIRECTION\n");
-    } else if (token->token_type == TOKEN_APPEND) {
-        printf("OUTPUT APPEND\n");
-    } else if (token->token_type == TOKEN_HEREDOC) {
-        printf("HEREDOC\n");
-    } else if (token->token_type == TOKEN_VARIABLE) {
-        printf("VARIABLE\n");
-    } else if (token->token_type == TOKEN_FILE) {
-        printf("FILE\n");
-    } else if (token->token_type == TOKEN_BUILTIN) {
-        printf("BUILTIN\n");
-    } else if (token->token_type == TOKEN_VARIABLEASSIGNATION) {
-        printf("VARIABLE ASSIGNATION\n");
-    } else {
-        printf("UNKNOWN\n");
-    }
-
+	printf("Token %d:\n", index);
+	printf("  Word: %s\n", token->word);
+	printf("  Token Type: ");
+	if (token->token_type == TOKEN_CMD)
+		printf("COMMAND\n");
+	else if (token->token_type == TOKEN_ARG)
+		printf("ARGUMENT\n");
+	else if (token->token_type == TOKEN_PIPE)
+		printf("PIPE\n");
+	else if (token->token_type == TOKEN_INPUT)
+		printf("INPUT REDIRECTION\n");
+	else if (token->token_type == TOKEN_OUTPUT)
+		printf("OUTPUT REDIRECTION\n");
+	else if (token->token_type == TOKEN_APPEND)
+		printf("OUTPUT APPEND\n");
+	else if (token->token_type == TOKEN_HEREDOC)
+		printf("HEREDOC\n");
+	else if (token->token_type == TOKEN_VARIABLE)
+		printf("VARIABLE\n");
+	else if (token->token_type == TOKEN_FILE)
+		printf("FILE\n");
+	else if (token->token_type == TOKEN_BUILTIN)
+		printf("BUILTIN\n");
+	else if (token->token_type == TOKEN_VARIABLEASSIGNATION)
+		printf("VARIABLE ASSIGNATION\n");
+	else
+		printf("UNKNOWN\n");
     // Afficher les doubles quotes extérieures
-    printf("  Outer Double Quote: %d\n", token->outer_double_quote);
-    printf("  Outer Single Quote: %d\n", token->outer_single_quote);
+	printf("  Outer Double Quote: %d\n", token->outer_double_quote);
+	printf("  Outer Single Quote: %d\n", token->outer_single_quote);
 }
 
-void print_token_list(t_token *list) {
-    int index = 0;
-    t_token *current = list;
-    while (current != NULL) {
-        print_token(current, index);
-        current = current->next;
-        index++;
-    }
+void	print_token_list(t_token *list)
+{
+	int		index;
+	t_token	*current;
+
+	index = 0;
+	current = list;
+	while (current != NULL)
+	{
+		print_token(current, index);
+		current = current->next;
+		index++;
+	}
 }
 
 static void	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list)
@@ -87,7 +92,6 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 	t_token	*list;
 
 	list = NULL;
-
 	while (true)
 	{
 		gear_5->input = readline(RED"Super Gear 5 $> "RESET);

@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:24:03 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/09 16:04:20 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/07 18:23:55 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ char	**find_path(t_env *envp, char **path)
 	return (path);
 }
 //check the PATH
+
 char	**copy_path(t_env *envp)
 {
 	char	**search_path;
@@ -96,3 +97,4 @@ char	**copy_path(t_env *envp)
 		search_path = find_path(envp, search_path);
 	return (search_path);
 }
+//env is NULL or not? fetch path

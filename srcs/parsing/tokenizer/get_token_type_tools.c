@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:03:09 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/07 18:09:10 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/07 18:29:33 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static int	check_all_digits_before_equal(const char *str)
 	int	i;
 
 	i = 0;
-
 	while (str[i] != '\0' && str[i] != '=')
 	{
 		if (!ft_isdigit(str[i]))
