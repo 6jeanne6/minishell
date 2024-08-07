@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:43:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/01 14:48:01 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/07 13:25:35 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	free_token_list(t_token *head)
 		temp = NULL;
 	}
 }
+//free each node in token linked list
 
 void	error(char	*message)
 {
@@ -63,5 +64,4 @@ void	clean_env(t_env *envp)
 	if (envp->oldpwd)
 		free(envp->oldpwd);
 }
-
 //free envp structure
