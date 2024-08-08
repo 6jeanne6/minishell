@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/07 18:18:31 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/08 19:12:22 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,7 @@ void	add_to_list(t_token **head, t_parsing *state,
 			const char *word, int word_length);
 void	appendright(t_token **head, t_token *new);
 void	expander(t_token *list, t_env *envp);
+void	empty_string(t_token *list);
 void	expand_double_quotes(t_token *list, t_env *envp);
 
 //t_token	init_struct(t_token *list, t_env *envp);

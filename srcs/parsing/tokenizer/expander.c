@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:38:40 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/07 14:10:12 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/08 19:52:33 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	print_var_list(t_var *var)
         index++;
     }
 }
+//DEBUG FUNCTION
 
 static void	create_node(t_env *envp, char *word)
 {
@@ -78,7 +79,7 @@ static void	create_or_update(t_token *list, t_env *envp)
 // • variable assignation name=value
 //		→ which variables ? a reflechir et voir au fur et a mesure
 
-static void	empty_string(t_token *list)
+void	empty_string(t_token *list)
 {
 	free(list->word);
 	list->word = ft_strdup("");
@@ -131,6 +132,8 @@ void	expander(t_token *list, t_env *envp)
 			variable_substitution(list, envp);
 		if (list_token->token_type == TOKEN_VARIABLEASSIGNATION)
 			create_or_update(list, envp);
+		if (list_token->token_type == TOKEN_ARG && list_token->outer_double_quote == 1)
+			expand_double_quotes(list, envp);
 		list_token = list_token->next;
 	}
 }

@@ -6,19 +6,19 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:43:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/07 14:19:49 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/08 19:20:25 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	lexing_again(char *input, char c, bool has_quotes)
+static int	lexing_again(char *input, char c, bool *has_quotes)
 {
 	if ((c == '\'') || (c == '"'))
 	{
 		if (check_quotes(input) == FAILURE)
 			return (FAILURE);
-		has_quotes = true;
+		*has_quotes = true;
 	}
 	else if (check_special_characters(input) == FAILURE)
 		return (FAILURE);
@@ -47,7 +47,7 @@ int	lexing_gear_5(t_shell *gear_5)
 			if (check_pipe(gear_5->input) == FAILURE)
 				return (FAILURE);
 		}
-		else if (lexing_again(gear_5->input, gear_5->input[i], has_quotes)
+		else if (lexing_again(gear_5->input, gear_5->input[i], &has_quotes)
 			== FAILURE)
 			return (FAILURE);
 	}

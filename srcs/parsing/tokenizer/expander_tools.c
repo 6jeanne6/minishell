@@ -6,64 +6,136 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 18:09:31 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/07 18:16:29 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/08 20:03:41 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*variable_substitution(t_token *list, t_env *envp, char *word)
+static int	substitute_after(t_token *list, t_env *envp, char *word)
 {
 	t_var	*current_var;
 	int		flag;
+	int		length;
 
 	flag = 0;
 	current_var = envp->first_variable;
-	while (current_var != NULL)
+	length = 0;
+	while (current_var)
 	{
 		if (ft_strcmp(word, current_var->variable_name) == 0)
 		{
 			free(list->word);
 			list->word = ft_strdup(current_var->variable_value);
 			flag = 1;
+			length = ft_strlen(current_var->variable_value);
 			break ;
 		}
 		current_var = current_var->next;
 	}
 	if (flag == 0)
 		empty_string(list);
+	if (flag == 0)
+		length = 0;
 	free(word);
+	return (length);
 }
+//compute after substitution
 
-static int	check_if_variable_exist_in_quotes(char *str)
+static int	compute_substitution(t_token *list, char *word, t_env *envp)
+{
+	int		i;
+	int		j;
+	int		total;
+	char	*tmp;
+
+	i = -1;
+	total = 0;
+	tmp = NULL;
+	if (!word)
+		return (FAILURE);
+	while (word[++i])
+	{
+		j = 0;
+		if (word[i] == '$')
+		{
+			i++;
+			j++;
+			while (word[i] != ' ' || word[i] != '$')
+				tmp[j++] = word[i++];
+			total += substitute_after(list, envp, tmp);
+			free(tmp);
+		}
+	}
+	return (total);
+}
+//compute how many alloc needed after subsitution of $
+
+static int how_many_dollar(char *str)
 {
 	int	i;
+	int dollar;
 
-	i = 0;
-	if (str != NULL)
+	i = -1;
+	dollar = 0;
+	if (!str)
 		return (FAILURE);
-	while (str[i])
+	while (str[++i])
+	{
+		if (str[i] == '$')
+			dollar++;
+	}
+	return (dollar);
+}
+//in total how mnany $
+
+static int	check_valid_name(char *str)
+{
+	int	i;
+	int	dollar;
+	int found;
+
+	i = -1;
+	dollar = 0;
+	found = 0;
+	if (!str)
+		return (FAILURE);
+	dollar = how_many_dollar(str);
+	i = -1;
+	while (str[++i])
 	{
 		if (str[i] == '$' && (ft_isalpha(str[i + 1] || str[i + 1] == '_')))
-			return (SUCCESS);
-		i++;
+		{
+			i += 1;
+			found++;
+			if (found == dollar)
+				return (SUCCESS);
+		}
 	}
 	return (FAILURE);
 }
+//check syntax of variable name, must be a letter after $
 
 void	expand_double_quotes(t_token *list, t_env *envp)
 {
-	char	*joined_word;
-	char	*tmp_word;
-	char	**split_word;
+	int		total;
+	t_token *token;
 
-	if (check_if_variable_exist_in_quotes(list->word) == FAILURE)
+	if (!list || !envp)
 		return ;
-	split_word = ft_split(list->word,"$"); // Allocation de mémoire
-	if (!split_word)
-		return ;
-	tmp_word = variable_substitution(split_word[]);
-	ft_st
+	total = 0;
+	token = list;
+	while (token)
+	{
+		if (token->token_type == TOKEN_APPEND && token->outer_double_quote == 1)
+		{
+			if (check_valid_name(list->word) == FAILURE)
+				return ;
+			total = compute_substitution(list, list->word, envp);	
+		}
+		token = token->next;
+	}
+	printf("Total of characters: %d\n", total);
 }
 // While (str[index])
 // Parcourir la string jusqua ce qu'il croise un dollar
