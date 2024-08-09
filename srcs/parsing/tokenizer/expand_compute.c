@@ -6,42 +6,29 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:31:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/09 15:45:35 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/09 20:33:21 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	substitute_compute(t_token *list, t_env *envp, char *word)
+static void	increment_i_k(int *i, int *k)
 {
-	t_var	*current_var;
-	int		length;
-	(void)list;
-
-	current_var = envp->first_variable;
-	length = 0;
-	while (current_var)
-	{
-		if (ft_strcmp(word, current_var->variable_name) == 0)
-		{
-			length = ft_strlen(current_var->variable_value);
-			break ;
-		}
-		current_var = current_var->next;
-	}
-	free(word);
-	return (length);
+	(*i)++;
+	(*k)++;
 }
-//compute after substitution
+//increment i and k LOL
 
-static int	compute_substitution(t_token *list, char *word, t_env *envp)
+static int	compute_substitution(char *word, t_env *envp)
 {
 	int		i;
 	int		j;
+	int		k;
 	int		total;
 	char	*tmp;
 
 	i = 0;
+	k = 0;
 	total = 0;
 	if (!word)
 		return (FAILURE);
@@ -49,18 +36,16 @@ static int	compute_substitution(t_token *list, char *word, t_env *envp)
 	{
 		if (word[i] == '$')
 		{
-			i++;
 			j = 0;
-			while (word[i + j] && word[i + j] != ' ' && word[i + j] != '$')
-				j++;
+			variable_compute(word, &i, &j);
 			tmp = ft_substr(word, i, j);
-			total += substitute_compute(list, envp, tmp);
+			total += substitute_compute(envp, tmp);
 			i += j;
 		}
 		else
-			i++;
+			increment_i_k(&i, &k);
 	}
-	return (total);
+	return (total + k);
 }
 //compute how many alloc needed after subsitution of $
 
@@ -120,7 +105,7 @@ void	expand_double_quotes(t_token *list, t_env *envp)
 		{
 			if (check_valid_name(token->word) == FAILURE)
 				return ;
-			total += compute_substitution(token, token->word, envp);
+			total += compute_substitution(token->word, envp);
 		}
 		token = token->next;
 	}
