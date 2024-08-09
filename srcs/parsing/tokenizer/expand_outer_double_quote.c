@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_compute.c                                   :+:      :+:    :+:   */
+/*   expand_outer_double_quote.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:31:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/09 20:33:21 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/09 23:47:40 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	expand_double_quotes(t_token *list, t_env *envp)
 {
 	int		total;
 	t_token	*token;
+	char *expanded_content;
 
 	if (!list || !envp)
 		return ;
@@ -109,6 +110,8 @@ void	expand_double_quotes(t_token *list, t_env *envp)
 		}
 		token = token->next;
 	}
-	printf("Total of characters: %d\n", total);
+	expanded_content = create_new_word(list, envp, total);
+	free(list->word);
+	list->word = expanded_content;
 }
 //imagine echo "test $USER $PATH"

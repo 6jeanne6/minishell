@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:38:40 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/09 13:20:13 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/09 22:41:05 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,10 @@ void	expander(t_token *list, t_env *envp)
 			create_or_update(list, envp);
 		if (list_token->token_type == TOKEN_ARG
 			&& list_token->outer_double_quote == 1)
+		{
 			expand_double_quotes(list, envp);
+			print_token_list(list);
+		}
 		list_token = list_token->next;
 	}
 }

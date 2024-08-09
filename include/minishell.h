@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/09 20:35:21 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/09 22:31:29 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,9 +244,12 @@ void	expander(t_token *list, t_env *envp);
 void	empty_string(t_token *list);
 void	expand_double_quotes(t_token *list, t_env *envp);
 void	variable_compute(char *word, int *i, int *j);
-
+char 	*create_new_word(t_token *list, t_env *envp, int len);
 int		substitute_compute(t_env *envp, char *word);
-
+int		treatment(char *word, t_env *envp, char *new_word, int j);
+int		get_var_value(t_env *envp, char *variable, char *new_word, int j);
+int		is_in_list(t_env *envp, char *variable);
+char    *ft_strndup(const char *s, size_t n);
 //t_token	init_struct(t_token *list, t_env *envp);
 
 /* error & free */
