@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:38:40 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/08 19:52:33 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/09 13:20:13 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,8 @@ void	expander(t_token *list, t_env *envp)
 			variable_substitution(list, envp);
 		if (list_token->token_type == TOKEN_VARIABLEASSIGNATION)
 			create_or_update(list, envp);
-		if (list_token->token_type == TOKEN_ARG && list_token->outer_double_quote == 1)
+		if (list_token->token_type == TOKEN_ARG
+			&& list_token->outer_double_quote == 1)
 			expand_double_quotes(list, envp);
 		list_token = list_token->next;
 	}
