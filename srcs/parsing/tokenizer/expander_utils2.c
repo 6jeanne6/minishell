@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:33:49 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/09 23:56:42 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/08/11 15:07:08 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,15 @@ int treatment(char *word, t_env *envp, char *new_word, int j)
 
 char *create_new_word(t_token *list, t_env *envp, int len)
 {
-    int i = 0;
-    int j = 0;
+    int i;
+    int j;
     char *new_word;
 
+    i = 0;
+    j = 0;
     new_word = (char *)malloc(sizeof(char) * (len + 1));
     if (!new_word)
         return NULL;
-
     while (list->word[i] != '\0')
     {
         if (list->word[i] == '$')
@@ -100,10 +101,8 @@ char *create_new_word(t_token *list, t_env *envp, int len)
                 i++;
         }
         else
-        {
             new_word[j++] = list->word[i++];
-        }
     }
     new_word[j] = '\0';
-    return new_word;
+    return (new_word);
 }

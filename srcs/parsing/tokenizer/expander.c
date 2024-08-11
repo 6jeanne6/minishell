@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:38:40 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/09 22:41:05 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/08/11 14:36:45 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void	expander(t_token *list, t_env *envp)
 			&& list_token->outer_double_quote == 1)
 		{
 			expand_double_quotes(list, envp);
+			printf("This AFTER substitution\n");
 			print_token_list(list);
 		}
 		list_token = list_token->next;

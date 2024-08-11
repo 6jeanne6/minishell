@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_outer_double_quote.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:31:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/09 23:47:40 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/08/11 14:55:45 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ static int	syntax_variable(char *str, int dollar_count)
 			if (ft_isalpha(str[i]) || str[i] == '_')
 			{
 				found++;
+				i++;
 				while (ft_isalnum(str[i]) || str[i] == '_')
 					i++;
 				if (found == dollar_count)
 					return (SUCCESS);
+				i--;
 			}
-			else
-				return (FAILURE);
 		}
 	}
 	return (FAILURE);
@@ -107,6 +107,7 @@ void	expand_double_quotes(t_token *list, t_env *envp)
 			if (check_valid_name(token->word) == FAILURE)
 				return ;
 			total += compute_substitution(token->word, envp);
+			printf("total: %d\n", total);
 		}
 		token = token->next;
 	}
