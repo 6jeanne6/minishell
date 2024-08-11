@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/09 22:31:29 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/08/11 21:58:13 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,12 @@ char	**find_path(t_env *envp, char **str);
 
 char	*get_current_path(void);
 
+//int		cd(t_env *envp);
+
+//void		pwd(t_shell *gear_5);
+//void		exit(t_shell *gear_5, t_exec *execution);
+//void  	env(t_shell *gear_5, t_env *envp);
+
 /* environnement variable */
 
 t_var	*init_env_variable(char *name, char *value);
@@ -222,7 +228,13 @@ int		check_path(t_env *envp, t_token *token);
 int		is_variable(const char *input);
 int		is_variable_declaration(const char *input);
 int		token_order(t_env *envp, t_token *token, t_shell *gear_5);
+int		builtin_order(t_shell *gear_5, t_token *token, t_env *envp);
 int		how_many_dollar(char *str);
+int		pwd_ok(t_shell *gear_5, t_token *token, t_env *envp);
+int		env_ok(t_shell *gear_5, t_token *token, t_env *envp);
+int		export_ok(t_shell *gear_5, t_token *token, t_env *envp);
+int		unset_ok(t_shell *gear_5, t_token *token, t_env *envp);
+int		exit_ok(t_shell *gear_5, t_token *token, t_env *envp);
 
 void	extract_words(const char *line, t_token **head);
 void	handle_characters(t_parsing *state, int word_length);
@@ -244,12 +256,15 @@ void	expander(t_token *list, t_env *envp);
 void	empty_string(t_token *list);
 void	expand_double_quotes(t_token *list, t_env *envp);
 void	variable_compute(char *word, int *i, int *j);
+
 char 	*create_new_word(t_token *list, t_env *envp, int len);
+char    *ft_strndup(const char *s, size_t n);
+
 int		substitute_compute(t_env *envp, char *word);
 int		treatment(char *word, t_env *envp, char *new_word, int j);
 int		get_var_value(t_env *envp, char *variable, char *new_word, int j);
 int		is_in_list(t_env *envp, char *variable);
-char    *ft_strndup(const char *s, size_t n);
+
 //t_token	init_struct(t_token *list, t_env *envp);
 
 /* error & free */

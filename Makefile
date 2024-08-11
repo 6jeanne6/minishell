@@ -47,6 +47,8 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/parsing/tokenizer/get_token_type_tools.c \
 				${SRCDIR}/parsing/tokenizer/token_path.c \
 				${SRCDIR}/parsing/tokenizer/token_order.c \
+				${SRCDIR}/parsing/tokenizer/token_builtin.c \
+				${SRCDIR}/parsing/tokenizer/token_builtin2.c \
 				${SRCDIR}/parsing/tokenizer/expander.c \
 				${SRCDIR}/parsing/tokenizer/expander_utils1.c \
 				${SRCDIR}/parsing/tokenizer/expander_utils2.c\
@@ -54,6 +56,10 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/signals/signals.c \
 				${SRCDIR}/error/error_utils.c \
 				${SRCDIR}/builtins/builtins_tool.c \
+				${SRCDIR}/builtins/cd.c \
+				${SRCDIR}/builtins/env.c \
+				${SRCDIR}/builtins/exit.c \
+				${SRCDIR}/builtins/pwd.c \
 
 ################################################################################
 #                                   Objects                                    #

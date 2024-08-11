@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 16:20:27 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/02 19:21:51 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/11 18:50:45 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,14 @@ int	token_order(t_env *envp, t_token *token, t_shell *gear_5)
 		if ((output_append_order(gear_5, token) == FAILURE)
 			|| (input_heredoc_order(gear_5, token) == FAILURE))
 			return (FAILURE);
-		if (token->token_type == TOKEN_PIPE
-			&& token->next->token_type == TOKEN_PIPE)
-		{
-			error("syntax error near '|'\n");
-			return (FAILURE);
+		if (token->next)
+		{ 
+			if (token->token_type == TOKEN_PIPE
+				&& token->next->token_type == TOKEN_PIPE)
+			{
+				error("syntax error near '|'\n");
+				return (FAILURE);
+			}
 		}
 		token = token->next;
 		i++;

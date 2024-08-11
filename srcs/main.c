@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/07 18:28:21 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/11 22:41:23 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,29 @@ void	print_token_list(t_token *list)
 	}
 }
 
-static void	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list)
+static int	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list)
 {
-	lexing_gear_5(gear_5);
-	free_token_list(list);
-	list = NULL;
-	extract_words(gear_5->input, &list);
-	get_token_type(envp, list);
-	token_order(envp, list, gear_5);
-	print_token_list(list);
-	expander(list, envp);
-	free_token_list(list);
+	if (lexing_gear_5(gear_5) == SUCCESS)
+	{
+		free_token_list(list);
+		list = NULL;
+		extract_words(gear_5->input, &list);
+		get_token_type(envp, list);
+		token_order(envp, list, gear_5);
+		print_token_list(list);
+		if (list->token_type == TOKEN_BUILTIN)
+		{
+			if (builtin_order(gear_5, list, envp) == FAILURE)
+			{
+				free_token_list(list);
+				return (FAILURE);
+			}
+		}
+		expander(list, envp);
+		free_token_list(list);
+		return (SUCCESS);
+	}
+	return (FAILURE);
 }
 //• lexer
 // 		→ Delimitor
@@ -98,7 +110,8 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 		add_history(gear_5->input);
 		if (gear_5->input == NULL)
 			break ;
-		parse_gear_5(gear_5, envp, list);
+		if (parse_gear_5(gear_5, envp, list) == FAILURE)
+			continue ;
 	}
 	clean_env(envp);
 	return (gear_5->exit_status);
