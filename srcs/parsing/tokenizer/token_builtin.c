@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:10:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/11 22:26:34 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/12 16:26:30 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,12 @@ static int echo_ok(t_shell *gear_5, t_token *token, t_env *envp)
         || arg->token_type == TOKEN_APPEND || arg->token_type == TOKEN_INPUT
         || arg->token_type == TOKEN_HEREDOC)
             break ;
-        if (arg->token_type != TOKEN_ARG)
-        {
-            gear_5->exit_status = 1;
-            error("echo: parse error\n");
-            return (FAILURE);
-        }
+        // if (arg->token_type != TOKEN_ARG && arg->token_type != TOKEN_VARIABLE)
+        // {
+        //     gear_5->exit_status = 1;
+        //     error("echo: parse error\n");
+        //     return (FAILURE);
+        // }
         arg = arg->next;
     }
     if (arg && (arg == token->next))
