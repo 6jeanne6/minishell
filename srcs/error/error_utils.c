@@ -6,12 +6,42 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:43:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/07 13:25:35 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/15 15:38:13 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//in t_exec free args
+static void	free_args_tab(char **argv)
+{
+	int	i;
+
+	i = -1;
+	if (!argv)
+		return ;
+	while (argv[++i])
+		free(argv[i]);
+	free(argv);
+}
+
+void	free_exec(t_exec *exec)
+{
+	t_exec	*tmp;
+
+	if (!exec)
+		return ;
+	while (exec)
+	{
+		tmp = exec;
+		exec = exec->next;
+		free_args_tab(tmp->args);
+		free(tmp);
+		tmp = NULL;
+	}
+}
+
+//free each node in token linked list
 void	free_token_list(t_token *head)
 {
 	t_token	*temp;
@@ -27,8 +57,8 @@ void	free_token_list(t_token *head)
 		temp = NULL;
 	}
 }
-//free each node in token linked list
 
+//customized message
 void	error(char	*message)
 {
 	if (!message)
@@ -37,8 +67,8 @@ void	error(char	*message)
 	ft_putstr_fd(message, STDERR_FILENO);
 	ft_putstr_fd(RESET, STDERR_FILENO);
 }
-//customized message and free
 
+//free envp structure
 void	clean_env(t_env *envp)
 {
 	int	i;
@@ -64,4 +94,3 @@ void	clean_env(t_env *envp)
 	if (envp->oldpwd)
 		free(envp->oldpwd);
 }
-//free envp structure

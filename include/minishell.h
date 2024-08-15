@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/11 21:58:13 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/15 19:39:15 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@
 # define FAILURE 	-1
 # define SUCCESS 	0
 
+//pipe[0] and pipe[1]
+# define READ_END	0
+# define WRITE_END	1
+
 /****** COLORS ********/
 
 # define BLACK		"\033[0;30m"
@@ -65,44 +69,31 @@
 
 /****** STRUCTURES ******/
 
-typedef struct s_file
+//execution structure
+typedef struct s_exec
 {
-	char	*name;
-	int		fd;
-}				t_file;
+	pid_t			*pid_tab;
 
-typedef struct s_redir
-{
-	int		fd_in;
-	int		fd_out;
-	int		type;
-	char	*content;
-}				t_redir;
+	struct s_exec	*prev;
+	struct s_exec	*next;
 
-typedef struct s_arg
-{
-	char			*content;
 	int				id;
-	int				index;
-	struct s_arg	*next;
-	struct s_arg	*prev;
-}				t_arg;
+	int				in_double_quote;
+	int				outer_double_quote;
+	int				outer_single_quote;
+	int				fd_in;
+	int				fd_out;
 
-typedef struct s_cmd
-{
-	int		id;
-	char	*cmd_name;
-	int		in_double_quote;
-	int		outer_double_quote;
-	int		outer_single_quote;
-	char	**args;
-	char	bin;
-	int		fd_in;
-	int		fd_out;
-	int		pid;
-	t_arg	first_arg;
-}			t_cmd;
+	int				**pipe_tab;
 
+	char			*cmd_name;
+	char			*bin;
+
+	char			**args;
+
+}			t_exec;
+
+//token
 typedef struct s_token
 {
 	void			*class;
@@ -118,6 +109,7 @@ typedef struct s_token
 	int				*index;
 }				t_token;
 
+//parsing state
 typedef struct s_parsing
 {
 	char	*line;
@@ -133,6 +125,7 @@ typedef struct s_parsing
 	t_token	**token_list;
 }				t_parsing;
 
+//environment variable $
 typedef struct s_var
 {
 	char			*variable_name;
@@ -142,6 +135,7 @@ typedef struct s_var
 
 }				t_var;
 
+//quotes ' or "
 typedef struct s_quotes
 {
 	int		nbofsingle;
@@ -150,6 +144,7 @@ typedef struct s_quotes
 	int		inside_single_quotes;
 }				t_quotes;
 
+//set environment or create env
 typedef struct s_env
 {
 	char	**env;
@@ -162,11 +157,13 @@ typedef struct s_env
 	t_var	*first_variable;
 }				t_env;
 
+//shell with readline input and exit status
 typedef struct s_shell
 {
 	char	*input;
 
 	int		exit_status;
+
 }				t_shell;
 
 /****** GLOBAL ******/
@@ -257,8 +254,8 @@ void	empty_string(t_token *list);
 void	expand_double_quotes(t_token *list, t_env *envp);
 void	variable_compute(char *word, int *i, int *j);
 
-char 	*create_new_word(t_token *list, t_env *envp, int len);
-char    *ft_strndup(const char *s, size_t n);
+char	*create_new_word(t_token *list, t_env *envp, int len);
+char	*ft_strndup(const char *s, size_t n);
 
 int		substitute_compute(t_env *envp, char *word);
 int		treatment(char *word, t_env *envp, char *new_word, int j);
@@ -267,11 +264,23 @@ int		is_in_list(t_env *envp, char *variable);
 
 //t_token	init_struct(t_token *list, t_env *envp);
 
+/* execution */
+
+t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp);
+
+int		file_outfile(t_shell *gear_5, t_exec *exec, t_token *token);
+int		file_input(t_token *token);
+int		set_fd(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp);
+
+void	set_arg_tab(t_exec *exec, t_token *token, t_env *envp, int arg_count);
+void	link_exec(t_exec *prev_exec, t_exec *exec);
+
 /* error & free */
 
 void	error(char	*message);
 void	clean_env(t_env *envp);
 void	free_token_list(t_token *head);
+void	free_exec(t_exec *exec);
 
 /* debug */
 

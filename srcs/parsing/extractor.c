@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 18:04:18 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/11 18:43:16 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/15 15:24:11 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	extract_words(const char *line, t_token **head)
 	t_parsing	state;
 	int			word_length;
 
+	if (!line || ft_strlen(line) == 0)
+		return ;
 	ft_bzero(&state, sizeof(t_parsing));
 	word_length = ft_strlen(line);
 	state.current_word = ft_calloc(word_length + 1, sizeof(t_parsing));

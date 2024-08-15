@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/11 22:41:23 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/15 18:46:53 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,25 +68,41 @@ void	print_token_list(t_token *list)
 	}
 }
 
+//if first token
+static int	process_builtin(t_shell *gear_5, t_env *envp, t_token *list)
+{
+	if (list->token_type == TOKEN_BUILTIN)
+	{
+		if (builtin_order(gear_5, list, envp) == FAILURE)
+		{
+			free_token_list(list);
+			return (FAILURE);
+		}
+	}
+	return (SUCCESS);
+}
+
 static int	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list)
 {
+	t_exec	*exec;
+
+	exec = NULL;
 	if (lexing_gear_5(gear_5) == SUCCESS)
 	{
 		free_token_list(list);
 		list = NULL;
 		extract_words(gear_5->input, &list);
+		if (!list)
+			return (FAILURE);
 		get_token_type(envp, list);
 		token_order(envp, list, gear_5);
 		print_token_list(list);
-		if (list->token_type == TOKEN_BUILTIN)
-		{
-			if (builtin_order(gear_5, list, envp) == FAILURE)
-			{
-				free_token_list(list);
-				return (FAILURE);
-			}
-		}
+		if (process_builtin(gear_5, envp, list) == FAILURE)
+			return (FAILURE);
 		expander(list, envp);
+		exec = init_exec(gear_5, list, envp);
+		if (!exec)
+			return (FAILURE);
 		free_token_list(list);
 		return (SUCCESS);
 	}
@@ -114,6 +130,7 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 			continue ;
 	}
 	clean_env(envp);
+	//free_exec()
 	return (gear_5->exit_status);
 }
 //Function to initialize minishell
