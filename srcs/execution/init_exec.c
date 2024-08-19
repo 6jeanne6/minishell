@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:00:38 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/19 20:49:04 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/19 21:25:17 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,17 @@ static t_exec	*process_token(t_shell *gear_5, t_token **head, t_env *envp)
 	else
 		return (NULL);
 	// if (*head && is_redirection(*head) == true)
-	if (*head && is_redirection(*head) == true)
+	while (*head)
 	{
-		printf("Redirection detected: %s\n", (*head)->word);
+		printf("Current head address: %p\n", (void *)*head);
+    	printf("Current token: %s, Type: %d\n", (*head)->word, (*head)->token_type);
+		if ((*head)->token_type == TOKEN_PIPE)
+		{
+			*head = (*head)->next;
+			break ;
+		}
 		*head = (*head)->next;
+		printf("moving to next token\n");
 	}
 	//printf("word is: %s\n", (*head)->word);
 	return (exec);
@@ -110,12 +117,14 @@ t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp)
 	exec = NULL;
 	while (tok)
 	{
+		printf("Current token in init_exec: %s\n", tok->word);
 		exec = process_token(gear_5, &tok, envp);
 		if (exec)
 		{
 			if (prev_exec == NULL)
 				exec_list = exec;
-			exec = link_exec_nodes(prev_exec, exec);
+			else
+				exec = link_exec_nodes(prev_exec, exec);
 			prev_exec = exec;
 		}
 	}
