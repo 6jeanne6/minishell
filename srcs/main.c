@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/15 18:46:53 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/19 20:40:49 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,8 @@ static int	process_builtin(t_shell *gear_5, t_env *envp, t_token *list)
 	return (SUCCESS);
 }
 
-static int	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list)
+static int	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list, t_exec **exec)
 {
-	t_exec	*exec;
-
-	exec = NULL;
 	if (lexing_gear_5(gear_5) == SUCCESS)
 	{
 		free_token_list(list);
@@ -100,8 +97,8 @@ static int	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list)
 		if (process_builtin(gear_5, envp, list) == FAILURE)
 			return (FAILURE);
 		expander(list, envp);
-		exec = init_exec(gear_5, list, envp);
-		if (!exec)
+		*exec = init_exec(gear_5, list, envp);
+		if (!*exec)
 			return (FAILURE);
 		free_token_list(list);
 		return (SUCCESS);
@@ -114,23 +111,29 @@ static int	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list)
 //		→ Extract words
 //		→ Add to linked list
 //		→ Tokenizer
+//		→ Token order
+//		→ Init t_exec structure with tab **args
 
 static int	init_minishell(t_shell *gear_5, t_env *envp)
 {
 	t_token	*list;
+	t_exec	*exec;
 
 	list = NULL;
+	exec = NULL;
 	while (true)
 	{
+		free_exec(exec);
+		exec = NULL;
 		gear_5->input = readline(RED"Super Gear 5 $> "RESET);
 		add_history(gear_5->input);
 		if (gear_5->input == NULL)
 			break ;
-		if (parse_gear_5(gear_5, envp, list) == FAILURE)
+		if (parse_gear_5(gear_5, envp, list, &exec) == FAILURE)
 			continue ;
 	}
 	clean_env(envp);
-	//free_exec()
+	free_exec(exec);
 	return (gear_5->exit_status);
 }
 //Function to initialize minishell

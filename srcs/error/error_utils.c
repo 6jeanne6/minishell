@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:43:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/15 15:38:13 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/19 20:27:30 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,10 @@ void	free_exec(t_exec *exec)
 		return ;
 	while (exec)
 	{
-		tmp = exec;
-		exec = exec->next;
-		free_args_tab(tmp->args);
-		free(tmp);
-		tmp = NULL;
+		tmp = exec->next;
+		free_args_tab(exec->args);
+		free(exec);
+		exec = tmp;
 	}
 }
 

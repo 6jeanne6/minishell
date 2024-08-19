@@ -6,19 +6,24 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:00:38 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/15 19:51:07 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/19 20:49:04 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //linked list t_exec
-static void	link_exec(t_exec *prev_exec, t_exec *exec)
+static t_exec	*link_exec_nodes(t_exec *prev_exec, t_exec *exec)
 {
 	if (prev_exec)
+	{
 		prev_exec->next = exec;
-	exec->prev = prev_exec;
+		exec->prev = prev_exec;
+	}
+	else
+		exec->prev = NULL;
 	exec->next = NULL;
+	return (exec);
 }
 
 //malloc t_exec structure with data provided
@@ -80,47 +85,57 @@ static t_exec	*process_token(t_shell *gear_5, t_token **head, t_env *envp)
 	}
 	else
 		return (NULL);
+	// if (*head && is_redirection(*head) == true)
 	if (*head && is_redirection(*head) == true)
+	{
+		printf("Redirection detected: %s\n", (*head)->word);
 		*head = (*head)->next;
+	}
+	//printf("word is: %s\n", (*head)->word);
 	return (exec);
 }
 
 //init t_exec with data we already have with tokens
 t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp)
 {
-	t_token	*head;
+	t_token	*tok;
 	t_exec	*prev_exec;
 	t_exec	*exec;
+	t_exec	*exec_list;
 
 	if (!gear_5 || !token || !envp)
 		return (NULL);
-	head = token;
+	tok = token;
 	prev_exec = NULL;
 	exec = NULL;
-	while (head)
+	while (tok)
 	{
-		exec = process_token(gear_5, &head, envp);
+		exec = process_token(gear_5, &tok, envp);
 		if (exec)
 		{
-			link_exec(prev_exec, exec);
+			if (prev_exec == NULL)
+				exec_list = exec;
+			exec = link_exec_nodes(prev_exec, exec);
 			prev_exec = exec;
 		}
 	}
-	// int i = 0;
-	// int j = 1;
-	// t_exec *lol = exec;
-	// while (lol)
-	// {
-	// 	i = 0;
-	// 	printf("%dth t_exec\n", j);
-	// 	while (lol->args && lol->args[i])
-	// 	{
-	// 		printf("%dth t_exec again\n", j);
-	// 		printf("arg[%d]: %s\n", i, lol->args[i]);
-	// 		i++;
-	// 	}
-	// 	lol = lol->next;
-	// 	j++;
-	// }
-	return (exec);
+	int i = 0;
+	int j = 1;
+	t_exec *lol = exec_list;
+	if (!lol)
+		return (NULL);
+	while (lol)
+	{
+		i = 0;
+		printf("%dth t_exec\n", j);
+		while (lol->args && lol->args[i])
+		{
+			printf("arg[%d]: %s\n", i, lol->args[i]);
+			i++;
+		}
+		printf("arg[%d]: %s\n", i, lol->args[i]);
+		lol = lol->next;
+		j++;
+	}
+	return (exec_list);
 }
