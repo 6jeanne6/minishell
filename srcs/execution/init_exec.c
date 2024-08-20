@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:00:38 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/20 22:21:25 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/20 23:56:56 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,24 +124,24 @@ t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp)
 			exec->bin = start->cmd_path;
 		}
 	}
-	int i = 0;
-	int j = 1;
-	t_exec *lol = exec_list;
-	if (!lol)
-		return (NULL);
-	while (lol)
-	{
-		i = 0;
-		printf("%dth t_exec\n", j);
-		while (lol->args && lol->args[i])
-		{
-			printf("arg[%d]: %s\n", i, lol->args[i]);
-			i++;
-		}
-		printf("arg[%d]: %s\n", i, lol->args[i]);
-		printf("fd_out: %d\n", lol->fd_out);
-		lol = lol->next;
-		j++;
-	}
+	// int i = 0;
+	// int j = 1;
+	// t_exec *lol = exec_list;
+	// if (!lol)
+	// 	return (NULL);
+	// while (lol)
+	// {
+	// 	i = 0;
+	// 	printf("%dth t_exec\n", j);
+	// 	while (lol->args && lol->args[i])
+	// 	{
+	// 		printf("arg[%d]: %s\n", i, lol->args[i]);
+	// 		i++;
+	// 	}
+	// 	printf("arg[%d]: %s\n", i, lol->args[i]);
+	// 	printf("fd_out: %d\n", lol->fd_out);
+	// 	lol = lol->next;
+	// 	j++;
+	// }
 	return (exec_list);
 }

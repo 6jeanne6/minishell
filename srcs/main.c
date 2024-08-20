@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/20 23:11:08 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/20 23:44:46 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,12 @@ void	print_token_list(t_token *list)
 }
 
 //proceed to execution of Super_Gear_5 shell
+// • execution:
+//		→ pid
+//		→ fork
+//		→ waitpid
+//		→ close fds and pipes
+
 static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_token *list, t_exec *exec)
 {
 	if (!gear_5 || !envp || !list || !exec)
@@ -128,7 +134,7 @@ static int	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list, t_exec **ex
 //		→ Add to linked list
 //		→ Tokenizer
 //		→ Token order
-//		→ Init t_exec structure with tab **args
+//		→ Init t_exec structure with tab **args and redirections
 
 static int	init_minishell(t_shell *gear_5, t_env *envp)
 {

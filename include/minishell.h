@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/20 22:38:20 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/21 00:04:53 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,7 +269,7 @@ int		is_in_list(t_env *envp, char *variable);
 t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp);
 
 int		file_outfile(t_shell *gear_5, t_exec *exec, t_token *token);
-int		file_input(t_token *token);
+int		file_input(t_exec *exec, t_token *token);
 
 void	set_arg_tab(t_exec *exec, t_token *token, t_env *envp, int arg_count);
 void	set_fd(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp);
