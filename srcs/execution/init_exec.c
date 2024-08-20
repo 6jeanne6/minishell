@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:00:38 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/19 21:25:17 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/20 22:21:25 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int arg_count)
 		return (NULL);
 	}
 	(void)gear_5;
-	//if (set_fd(gear_5, exec, token, envp) == SUCCESS)
 	set_arg_tab(exec, token, envp, arg_count);
 	return (exec);
 }
@@ -85,11 +84,9 @@ static t_exec	*process_token(t_shell *gear_5, t_token **head, t_env *envp)
 	}
 	else
 		return (NULL);
-	// if (*head && is_redirection(*head) == true)
+	set_fd(gear_5, exec, *head, envp);
 	while (*head)
 	{
-		printf("Current head address: %p\n", (void *)*head);
-    	printf("Current token: %s, Type: %d\n", (*head)->word, (*head)->token_type);
 		if ((*head)->token_type == TOKEN_PIPE)
 		{
 			*head = (*head)->next;
@@ -98,27 +95,25 @@ static t_exec	*process_token(t_shell *gear_5, t_token **head, t_env *envp)
 		*head = (*head)->next;
 		printf("moving to next token\n");
 	}
-	//printf("word is: %s\n", (*head)->word);
 	return (exec);
 }
 
 //init t_exec with data we already have with tokens
 t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp)
 {
-	t_token	*tok;
 	t_exec	*prev_exec;
 	t_exec	*exec;
 	t_exec	*exec_list;
+	t_token	*start;
 
 	if (!gear_5 || !token || !envp)
 		return (NULL);
-	tok = token;
 	prev_exec = NULL;
 	exec = NULL;
-	while (tok)
+	while (token)
 	{
-		printf("Current token in init_exec: %s\n", tok->word);
-		exec = process_token(gear_5, &tok, envp);
+		start = token;
+		exec = process_token(gear_5, &token, envp);
 		if (exec)
 		{
 			if (prev_exec == NULL)
@@ -126,6 +121,7 @@ t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp)
 			else
 				exec = link_exec_nodes(prev_exec, exec);
 			prev_exec = exec;
+			exec->bin = start->cmd_path;
 		}
 	}
 	int i = 0;
@@ -143,6 +139,7 @@ t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp)
 			i++;
 		}
 		printf("arg[%d]: %s\n", i, lol->args[i]);
+		printf("fd_out: %d\n", lol->fd_out);
 		lol = lol->next;
 		j++;
 	}

@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:12:05 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/15 19:39:06 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/20 22:28:31 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,20 @@ int arg_count)
 }
 
 //set fd_in or fd_out for t_structure
-int	set_fd(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp)
+void	set_fd(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp)
 {
 	if (!exec || !token || !envp)
-		return (FAILURE);
+		return ;
 	exec->fd_in = STDIN_FILENO;
 	exec->fd_out = STDOUT_FILENO;
-	if (token->token_type == TOKEN_OUTPUT || token->token_type == TOKEN_OUTPUT)
+	if (token->token_type == TOKEN_OUTPUT || token->token_type == TOKEN_APPEND)
 	{
 		if (file_outfile(gear_5, exec, token) == SUCCESS)
-			return (SUCCESS);
+			return ;
 	}
 	// else if (token->token_type == TOKEN_INPUT)
 	// {
 	// 	if (file_input(token) == SUCCESS)
 	// 		exec->fd_out = token->word;
 	// }
-	return (FAILURE);
 }

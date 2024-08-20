@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/19 20:40:49 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/20 23:11:08 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,21 @@ void	print_token_list(t_token *list)
 	}
 }
 
+//proceed to execution of Super_Gear_5 shell
+static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_token *list, t_exec *exec)
+{
+	if (!gear_5 || !envp || !list || !exec)
+		return (FAILURE);
+	execve(exec->bin, exec->args, envp->env);
+	if (execve(exec->bin, exec->args, envp->env) < 0)
+	{
+		gear_5->exit_status = 1;
+		error("Check your execve\n");
+		return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
 //if first token
 static int	process_builtin(t_shell *gear_5, t_env *envp, t_token *list)
 {
@@ -92,7 +107,8 @@ static int	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list, t_exec **ex
 		if (!list)
 			return (FAILURE);
 		get_token_type(envp, list);
-		token_order(envp, list, gear_5);
+		if (token_order(envp, list, gear_5) == FAILURE)
+			return (wrong_token_order(list, envp), FAILURE);
 		print_token_list(list);
 		if (process_builtin(gear_5, envp, list) == FAILURE)
 			return (FAILURE);
@@ -130,6 +146,8 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 		if (gear_5->input == NULL)
 			break ;
 		if (parse_gear_5(gear_5, envp, list, &exec) == FAILURE)
+			continue ;
+		if (execute_gear_5(gear_5, envp, list, exec) == FAILURE)
 			continue ;
 	}
 	clean_env(envp);
