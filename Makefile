@@ -52,7 +52,7 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/parsing/tokenizer/expander.c \
 				${SRCDIR}/parsing/tokenizer/expander_utils1.c \
 				${SRCDIR}/parsing/tokenizer/expander_utils2.c\
-				${SRCDIR}/parsing/tokenizer/expand_outer_double_quote.c \
+				${SRCDIR}/parsing/tokenizer/expander_utils3.c\
 				${SRCDIR}/signals/signals.c \
 				${SRCDIR}/error/error_utils.c \
 				${SRCDIR}/builtins/builtins_tool.c \

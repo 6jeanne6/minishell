@@ -77,16 +77,15 @@ static int	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list)
 		extract_words(gear_5->input, &list);
 		get_token_type(envp, list);
 		token_order(envp, list, gear_5);
-		print_token_list(list);
 		if (list->token_type == TOKEN_BUILTIN)
-		{
+		{ 
 			if (builtin_order(gear_5, list, envp) == FAILURE)
 			{
 				free_token_list(list);
 				return (FAILURE);
 			}
 		}
-		expander(list, envp);
+		der(list, envp);
 		free_token_list(list);
 		return (SUCCESS);
 	}
@@ -104,15 +103,13 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 	t_token	*list;
 
 	list = NULL;
-	while (true)
+	gear_5->input = readline("$> ");
+	add_history(gear_5->input);
+	if (gear_5->input == NULL)
 	{
-		gear_5->input = readline(RED"Super Gear 5 $> "RESET);
-		add_history(gear_5->input);
-		if (gear_5->input == NULL)
-			break ;
-		if (parse_gear_5(gear_5, envp, list) == FAILURE)
-			continue ;
+		return (0);
 	}
+	parse_gear_5(gear_5, envp, list);
 	clean_env(envp);
 	return (gear_5->exit_status);
 }

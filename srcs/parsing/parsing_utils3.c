@@ -52,3 +52,15 @@ void	handle_special_char(t_parsing *state, int word_length)
 	add_to_list(state->token_list, state, state->current_word, word_length);
 }
 //Copy special char such as > or >> or < or <<
+
+void	process_token(t_parsing *state, int word_length)
+{
+	if (state->j > 0)
+	{
+		state->current_word[state->j] = '\0';
+		add_to_list(state->token_list, state, state->current_word, word_length);
+		state->j = 0; // Réinitialiser l'index
+		state->outer_double_quote = 0;
+		state->outer_single_quote = 0;
+	}
+}

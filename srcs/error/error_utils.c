@@ -33,9 +33,7 @@ void	error(char	*message)
 {
 	if (!message)
 		return ;
-	ft_putstr_fd(RED, STDERR_FILENO);
 	ft_putstr_fd(message, STDERR_FILENO);
-	ft_putstr_fd(RESET, STDERR_FILENO);
 }
 //customized message and free
 

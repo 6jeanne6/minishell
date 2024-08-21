@@ -39,15 +39,6 @@
 
 /****** COLORS ********/
 
-# define BLACK		"\033[0;30m"
-# define RED		"\033[0;31m"
-# define GREEN		"\033[0;32m"
-# define YELLOW 	"\033[0;33m"
-# define BLUE 		"\033[0;34m"
-# define PURPLE 	"\033[0;35m"
-# define CYAN 		"\033[0;36m"
-# define RESET 		"\033[0m"
-
 /***** TOKEN TYPE *******/
 
 # define TOKEN_CMD        			1
@@ -165,7 +156,6 @@ typedef struct s_env
 typedef struct s_shell
 {
 	char	*input;
-
 	int		exit_status;
 }				t_shell;
 
@@ -242,6 +232,7 @@ void	handle_variable(t_parsing *state, int word_length);
 void	handle_special_char(t_parsing *state, int word_length);
 void	handle_space(t_parsing *state, int word_length);
 void	handle_quotes(t_parsing *state);
+void	process_token(t_parsing *state, int word_length);
 
 /* linked list management */
 
@@ -254,7 +245,7 @@ t_token	*ft_double_lstlast(t_token *lst);
 
 void	expander(t_token *list, t_env *envp);
 void	empty_string(t_token *list);
-void	expand_double_quotes(t_token *list, t_env *envp);
+void	expand_content(t_token *list, t_env *envp);
 void	variable_compute(char *word, int *i, int *j);
 
 char 	*create_new_word(t_token *list, t_env *envp, int len);
