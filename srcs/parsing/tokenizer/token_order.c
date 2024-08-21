@@ -16,7 +16,7 @@ static void	convert_to_file(t_token *token)
 {
 	if ((token->token_type == TOKEN_OUTPUT || token->token_type == TOKEN_APPEND
 			|| token->token_type == TOKEN_INPUT) && (token->next))
-	token->next->token_type = TOKEN_FILE;
+		token->next->token_type = TOKEN_FILE;
 }
 /* Change arg to file if we are in an redirection operator */
 
@@ -110,7 +110,7 @@ int	token_order(t_env *envp, t_token *token, t_shell *gear_5)
 			|| (input_heredoc_order(gear_5, token) == FAILURE))
 			return (FAILURE);
 		if (token->next)
-		{ 
+		{
 			if (token->token_type == TOKEN_PIPE
 				&& token->next->token_type == TOKEN_PIPE)
 			{

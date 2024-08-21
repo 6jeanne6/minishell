@@ -1,108 +1,77 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander_utils2.c                                  :+:      :+:    :+:   */
+/*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/07 16:33:49 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/11 15:07:08 by jewu             ###   ########.fr       */
+/*   Created: 2024/08/09 15:30:16 by jewu              #+#    #+#             */
+/*   Updated: 2024/08/09 20:33:17 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char    *ft_strndup(const char *s, size_t n)
+int	substitute_compute(t_env *envp, char *word)
 {
-    size_t  len;
-    char    *dup;
+	t_var	*current_var;
+	int		length;
 
-    len = 0;
-    while (s[len] && len < n)
-        len++;
-    dup = (char *)malloc(len + 1);
-    if (dup == NULL)
-        return (NULL);
-    ft_memcpy(dup, s, len);
-    dup[len] = '\0';
-    return (dup);
+	current_var = envp->first_variable;
+	length = 0;
+	while (current_var)
+	{
+		if (ft_strcmp(word, current_var->variable_name) == 0)
+		{
+			length = ft_strlen(current_var->variable_value);
+			break ;
+		}
+		current_var = current_var->next;
+	}
+	free(word);
+	return (length);
+}
+//compute after substitution
+
+void	variable_compute(char *word, int *i, int *j)
+{
+	(*i)++;
+	*j = 0;
+	while (word[*i + *j] && word[*i + *j] != ' ' && word[*i + *j] != '$')
+		(*j)++;
+}
+//compute when we are in a variable
+
+int	how_many_dollar(char *str)
+{
+	int	i;
+	int	dollar;
+
+	i = -1;
+	dollar = 0;
+	if (!str)
+		return (FAILURE);
+	while (str[++i])
+	{
+		if (str[i] == '$')
+			dollar++;
+	}
+	return (dollar);
 }
 
-int is_in_list(t_env *envp, char *variable)
+//in total how many $
+char	*ft_strndup(const char *s, size_t n)
 {
-    t_var *begin_list = envp->first_variable;
+	size_t	len;
+	char	*dup;
 
-    while (begin_list != NULL)
-    {
-        if (ft_strcmp(variable, begin_list->variable_name) == 0)
-            return (SUCCESS);
-        begin_list = begin_list->next;
-    }
-    return (FAILURE);
-}
-
-int get_var_value(t_env *envp, char *variable, char *new_word, int j)
-{
-    t_var *begin_list = envp->first_variable;
-    int i = 0;
-
-    while (begin_list != NULL)
-    {
-        if (ft_strcmp(variable, begin_list->variable_name) == 0)
-        {
-            while (begin_list->variable_value[i])
-            {
-                new_word[j++] = begin_list->variable_value[i++];
-            }
-            break;
-        }
-        begin_list = begin_list->next;
-    }
-    return j;
-}
-
-int treatment(char *word, t_env *envp, char *new_word, int j)
-{
-    int i;
-    int start;
-    char *variable;
-
-    i = 1;
-    start = i;
-    while (word[i] && word[i] != ' ' && word[i] != '"')
-        i++;
-    variable = ft_strndup(&word[start], i - start);
-    if (!variable)
-        return (j);
-    if (is_in_list(envp, variable) == 0)
-        j = get_var_value(envp, variable, new_word, j);
-    free(variable);
-    return (j);
-}
-
-
-char *create_new_word(t_token *list, t_env *envp, int len)
-{
-    int i;
-    int j;
-    char *new_word;
-
-    i = 0;
-    j = 0;
-    new_word = (char *)malloc(sizeof(char) * (len + 1));
-    if (!new_word)
-        return NULL;
-    while (list->word[i] != '\0')
-    {
-        if (list->word[i] == '$')
-        {
-            j = treatment(&list->word[i], envp, new_word, j);
-            while (list->word[i] && list->word[i] != ' ' && list->word[i] != '"')
-                i++;
-        }
-        else
-            new_word[j++] = list->word[i++];
-    }
-    new_word[j] = '\0';
-    return (new_word);
+	len = 0;
+	while (s[len] && len < n)
+		len++;
+	dup = (char *)malloc(len + 1);
+	if (dup == NULL)
+		return (NULL);
+	ft_memcpy(dup, s, len);
+	dup[len] = '\0';
+	return (dup);
 }

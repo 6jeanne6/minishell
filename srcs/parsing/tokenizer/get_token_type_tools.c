@@ -35,23 +35,6 @@ int	is_variable(const char *input)
 }
 /* Check syntax of $environment variable */
 
-static int	check_all_digits_before_equal(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0' && str[i] != '=')
-	{
-		if (!ft_isdigit(str[i]))
-			return (FAILURE);
-		i++;
-	}
-	if (str[i] == '=')
-		return (SUCCESS);
-	return (FAILURE);
-}
-// Check if the variable declaration is only numbers
-
 int	is_variable_declaration(const char *input)
 {
 	int	i;
@@ -59,18 +42,21 @@ int	is_variable_declaration(const char *input)
 	i = 0;
 	if (input == NULL || *input == '\0')
 		return (FAILURE);
-	if (!ft_isalnum(input[i]) && input[i] != '_')
+	if (!ft_isalpha(input[i]) && input[i] != '_')
 		return (FAILURE);
 	if (input[i] == '_' && input[i + 1] == '=')
 		return (FAILURE);
-	while (input[i] != '\0' && (ft_isalnum(input[i]) || input[i] == '_'))
+	while (input[i] != '\0' && input[i] != '=')
+	{
+		if (!isalnum(input[i]))
+		{
+			if (input[i] != '_')
+				return (FAILURE);
+		}
 		i++;
-	if (check_all_digits_before_equal(input) == FAILURE)
-		return (FAILURE);
-	if (input[i] == '='
-		&& (ft_isalnum(input[i + 1]) || input[i + 1] == '_')
-		&& input[i + 1] != '\0')
+	}
+	if (input[i] == '=')
 		return (SUCCESS);
 	return (FAILURE);
 }
-/* Check syntax of variable assignant name=value */
+/* Check syntax of variable assignant name=value or name= */

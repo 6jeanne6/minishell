@@ -1,61 +1,115 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_utils.c                                     :+:      :+:    :+:   */
+/*   expand_outer_double_quote.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/09 15:30:16 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/09 20:33:17 by jewu             ###   ########.fr       */
+/*   Created: 2024/08/09 15:31:46 by jewu              #+#    #+#             */
+/*   Updated: 2024/08/11 14:55:45 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	substitute_compute(t_env *envp, char *word)
-{
-	t_var	*current_var;
-	int		length;
-
-	current_var = envp->first_variable;
-	length = 0;
-	while (current_var)
-	{
-		if (ft_strcmp(word, current_var->variable_name) == 0)
-		{
-			length = ft_strlen(current_var->variable_value);
-			break ;
-		}
-		current_var = current_var->next;
-	}
-	free(word);
-	return (length);
-}
-//compute after substitution
-
-void	variable_compute(char *word, int *i, int *j)
+static void	increment_i_k(int *i, int *k)
 {
 	(*i)++;
-	*j = 0;
-	while (word[*i + *j] && word[*i + *j] != ' ' && word[*i + *j] != '$')
-		(*j)++;
+	(*k)++;
 }
-//compute when we are in a variable
 
-int	how_many_dollar(char *str)
+//increment i and k LOL
+static int	compute_substitution(char *word, t_env *envp)
+{
+	int		i;
+	int		j;
+	int		k;
+	int		total;
+	char	*tmp;
+
+	i = 0;
+	k = 0;
+	total = 0;
+	if (!word)
+		return (FAILURE);
+	while (word[i])
+	{
+		if (word[i] == '$')
+		{
+			j = 0;
+			variable_compute(word, &i, &j);
+			tmp = ft_substr(word, i, j);
+			total += substitute_compute(envp, tmp);
+			i += j;
+		}
+		else
+			increment_i_k(&i, &k);
+	}
+	return (total + k);
+}
+
+//compute how many alloc needed after subsitution of $
+static int	syntax_variable(char *str, int dollar_count)
 {
 	int	i;
-	int	dollar;
+	int	found;
 
 	i = -1;
-	dollar = 0;
-	if (!str)
-		return (FAILURE);
+	found = 0;
 	while (str[++i])
 	{
 		if (str[i] == '$')
-			dollar++;
+		{
+			i += 1;
+			if (ft_isalpha(str[i]) || str[i] == '_')
+			{
+				found++;
+				i++;
+				while (ft_isalnum(str[i]) || str[i] == '_')
+					i++;
+				if (found == dollar_count)
+					return (SUCCESS);
+				i--;
+			}
+		}
 	}
-	return (dollar);
+	return (FAILURE);
 }
-//in total how many $
+//while loop to check $syntax
+
+static int	check_valid_name(char *str)
+{
+	int	dollar_count;
+
+	if (!str)
+		return (FAILURE);
+	dollar_count = how_many_dollar(str);
+	if (syntax_variable(str, dollar_count) == SUCCESS)
+		return (SUCCESS);
+	return (FAILURE);
+}
+//check syntax of variable name, must be a letter after $
+
+void	expand_content(t_token *list, t_env *envp)
+{
+	int		total;
+	t_token	*token;
+	char	*expanded_content;
+
+	if (!list || !envp)
+		return ;
+	total = 0;
+	token = list;
+	while (token)
+	{
+		if (check_valid_name(token->word) == FAILURE)
+			return ;
+		total += compute_substitution(token->word, envp);
+		printf("total: %d\n", total);
+		token = token->next;
+	}
+	expanded_content = create_new_word(list, envp, total);
+	free(list->word);
+	list->word = expanded_content;
+}
+//imagine echo "test $USER $PATH"
