@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 14:37:25 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/25 14:47:21 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/21 16:20:59 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	handle_space(t_parsing *state, int word_length)
 		state->outer_single_quote = 0;
 	}
 }
-//Blank = separator so we extract word
 
+//Blank = separator so we extract word
 void	handle_special_char(t_parsing *state, int word_length)
 {
 	if (state->j > 0)
@@ -51,15 +51,15 @@ void	handle_special_char(t_parsing *state, int word_length)
 	}
 	add_to_list(state->token_list, state, state->current_word, word_length);
 }
-//Copy special char such as > or >> or < or <<
 
+//Copy special char such as > or >> or < or <<
 void	process_token(t_parsing *state, int word_length)
 {
 	if (state->j > 0)
 	{
 		state->current_word[state->j] = '\0';
 		add_to_list(state->token_list, state, state->current_word, word_length);
-		state->j = 0; // Réinitialiser l'index
+		state->j = 0;
 		state->outer_double_quote = 0;
 		state->outer_single_quote = 0;
 	}

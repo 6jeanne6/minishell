@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/11 21:58:13 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/21 16:40:10 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,6 @@ char	**split_path(t_env *envp, char *str);
 char	**find_path(t_env *envp, char **str);
 
 /* builtins */
-
 char	*get_current_path(void);
 
 //int		cd(t_env *envp);
@@ -187,19 +186,15 @@ char	*get_current_path(void);
 //void  	env(t_shell *gear_5, t_env *envp);
 
 /* environnement variable */
-
 t_var	*init_env_variable(char *name, char *value);
-
 char	*malloc_substr_and_cpy(const char *original_str, int start, int end);
 char	*get_variable_name(char *variable);
 char	*get_variable_value(char *variable);
-
 void	init_chained_var(t_env *env, char **envp);
 void	add_variable_to_the_list(t_env *env, t_var *var);
 void	free_var_list(t_env *env);
 
 /* lexing */
-
 int		check_redirection(char *input);
 int		check_pipe(char *input);
 int		i_am_delimitor(char c);
@@ -211,7 +206,6 @@ int		ft_ispace(char c);
 char	is_special_char(char c);
 
 /* parsing */
-
 int		lexing_gear_5(t_shell *gear_5);
 int		get_token_type(t_env *envp, t_token *token);
 int		check_path(t_env *envp, t_token *token);
@@ -235,37 +229,31 @@ void	handle_quotes(t_parsing *state);
 void	process_token(t_parsing *state, int word_length);
 
 /* linked list management */
-
 void	add_to_list(t_token **head, t_parsing *state,
 			const char *word, int word_length);
 void	appendright(t_token **head, t_token *new);
 t_token	*ft_double_lstlast(t_token *lst);
 
 /* expander $ */
-
 void	expander(t_token *list, t_env *envp);
 void	empty_string(t_token *list);
 void	expand_content(t_token *list, t_env *envp);
 void	variable_compute(char *word, int *i, int *j);
 
-char 	*create_new_word(t_token *list, t_env *envp, int len);
-char    *ft_strndup(const char *s, size_t n);
+char	*create_new_word(t_token *list, t_env *envp, int len);
+char	*ft_strndup(const char *s, size_t n);
 
 int		substitute_compute(t_env *envp, char *word);
 int		treatment(char *word, t_env *envp, char *new_word, int j);
 int		get_var_value(t_env *envp, char *variable, char *new_word, int j);
 int		is_in_list(t_env *envp, char *variable);
 
-//t_token	init_struct(t_token *list, t_env *envp);
-
 /* error & free */
-
 void	error(char	*message);
 void	clean_env(t_env *envp);
 void	free_token_list(t_token *head);
 
 /* debug */
-
 void	print_token_list(t_token *list);
 void	print_token(t_token *token, int index);
 

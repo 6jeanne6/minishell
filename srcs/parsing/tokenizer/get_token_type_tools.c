@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token_type_tools.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:03:09 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/07 18:29:33 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/21 16:46:11 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	is_variable_declaration(const char *input)
 		return (FAILURE);
 	while (input[i] != '\0' && input[i] != '=')
 	{
-		if (!isalnum(input[i]))
+		if (!ft_isalnum(input[i]))
 		{
 			if (input[i] != '_')
 				return (FAILURE);

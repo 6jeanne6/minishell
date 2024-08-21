@@ -6,7 +6,7 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:38:40 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/12 18:49:07 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:56:01 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ static void	create_node(t_env *envp, char *word)
 		new_var->prev = current_var;
 	}
 }
+
 // • variable assignation name=value
 //		→ add variable at the end of variable list
-
 static void	create_or_update(t_token *token, t_env *envp)
 {
 	t_var	*current_var;
@@ -95,12 +95,10 @@ static void	create_or_update(t_token *token, t_env *envp)
 		current_var = current_var->next;
 	}
 	create_node(envp, token->word);
-	// print_last_var(envp->first_variable);
 	free(tmp_word);
 }
-// • variable assignation name=value
-//		→ which variables ? a reflechir et voir au fur et a mesure
 
+// • variable assignation name=value
 void	empty_string(t_token *list)
 {
 	free(list->word);
@@ -108,12 +106,12 @@ void	empty_string(t_token *list)
 	if (!list->word)
 		return ;
 }
-//if variable does not exist, display empty string
 
+//if variable does not exist, display empty string
 static void	variable_substitution(t_token *current_token, t_env *envp)
 {
 	t_var	*current_var;
-	char 	*word;
+	char	*word;
 	int		flag;
 
 	flag = 0;
@@ -135,34 +133,34 @@ static void	variable_substitution(t_token *current_token, t_env *envp)
 	if (flag == 0)
 		empty_string(current_token);
 	free(word);
+}
 
 // • variable $
 //		→ exist = substitute with new value
 // 		→ inexistant = display an empty string
-
 void	expander(t_token *list, t_env *envp)
 {
-	t_token	*list_token;
+	t_token	*current;
 
-	list_token = list;
-	if (list_token == NULL)
+	current = list;
+	if (current == NULL)
 		return ;
-	while (list_token != NULL)
+	while (current != NULL)
 	{
-		if (list_token->token_type == TOKEN_VARIABLE)
-			variable_substitution(list_token, envp);
-		if (list_token->token_type == TOKEN_VARIABLEASSIGNATION
-			&& (list_token->previous == NULL 
-			|| list_token->previous->token_type == TOKEN_VARIABLEASSIGNATION))
+		if (current->token_type == TOKEN_VARIABLE)
+			variable_substitution(current, envp);
+		if (current->token_type == TOKEN_VARIABLEASSIGNATION
+			&& (current->previous == NULL
+				|| current->previous->token_type == TOKEN_VARIABLEASSIGNATION))
 		{
-			if (ft_strchr(list_token->word, '$') 
-			&& list_token->outer_single_quote == 0)
-				expand_content(list_token, envp);
-			create_or_update(list_token, envp);
+			if (ft_strchr(current->word, '$')
+				&& current->outer_single_quote == 0)
+				expand_content(current, envp);
+			create_or_update(current, envp);
 		}
-		if (list_token->token_type == TOKEN_ARG
-			&& list_token->outer_single_quote == 0)
-			expand_content(list_token, envp);
-		list_token = list_token->next;
+		if (current->token_type == TOKEN_ARG
+			&& current->outer_single_quote == 0)
+			expand_content(current, envp);
+		current = current->next;
 	}
 }
