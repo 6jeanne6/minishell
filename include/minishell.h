@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/21 00:04:53 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/21 16:27:12 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ int		get_token_type(t_env *envp, t_token *token);
 int		check_path(t_env *envp, t_token *token);
 int		is_variable(const char *input);
 int		is_variable_declaration(const char *input);
-int		token_order(t_env *envp, t_token *token, t_shell *gear_5);
+int		token_order(t_token *token, t_shell *gear_5);
 int		builtin_order(t_shell *gear_5, t_token *token, t_env *envp);
 int		how_many_dollar(char *str);
 int		pwd_ok(t_shell *gear_5, t_token *token, t_env *envp);
@@ -270,9 +270,11 @@ t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp);
 
 int		file_outfile(t_shell *gear_5, t_exec *exec, t_token *token);
 int		file_input(t_exec *exec, t_token *token);
+int		set_fd(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp);
+
+bool	token_is_redirection(t_token *token);
 
 void	set_arg_tab(t_exec *exec, t_token *token, t_env *envp, int arg_count);
-void	set_fd(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp);
 
 //void	link_exec(t_exec *prev_exec, t_exec *exec);
 
@@ -282,7 +284,8 @@ void	error(char	*message);
 void	clean_env(t_env *envp);
 void	free_token_list(t_token *head);
 void	free_exec(t_exec *exec);
-void    wrong_token_order(t_token *token, t_env *envp);
+void	wrong_token_order(t_token *token, t_env *envp);
+void	free_envp_path(t_env *envp);
 
 /* debug */
 

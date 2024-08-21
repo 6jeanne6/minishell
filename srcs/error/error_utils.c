@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:43:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/20 23:41:51 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/21 15:53:17 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,5 @@ void	clean_env(t_env *envp)
 	free(envp->pwd);
 	if (envp->oldpwd)
 		free(envp->oldpwd);
+	free_envp_path(envp);
 }

@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/20 23:44:46 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/21 17:54:04 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,18 @@ void	print_token_list(t_token *list)
 //		→ waitpid
 //		→ close fds and pipes
 
-static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_token *list, t_exec *exec)
+// static int cleanup_parse(t_token **list, t_exec **exec)
+// {
+// 	free_token_list(*list);
+// 	free_exec(*exec);
+// 	*list = NULL;
+// 	*exec = NULL;
+// 	return (FAILURE);
+// }
+
+static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
-	if (!gear_5 || !envp || !list || !exec)
+	if (!gear_5 || !envp || !exec)
 		return (FAILURE);
 	execve(exec->bin, exec->args, envp->env);
 	if (execve(exec->bin, exec->args, envp->env) < 0)
@@ -103,7 +112,8 @@ static int	process_builtin(t_shell *gear_5, t_env *envp, t_token *list)
 	return (SUCCESS);
 }
 
-static int	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list, t_exec **exec)
+static int	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list,
+t_exec **exec)
 {
 	if (lexing_gear_5(gear_5) == SUCCESS)
 	{
@@ -113,7 +123,7 @@ static int	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list, t_exec **ex
 		if (!list)
 			return (FAILURE);
 		get_token_type(envp, list);
-		if (token_order(envp, list, gear_5) == FAILURE)
+		if (token_order(list, gear_5) == FAILURE)
 			return (wrong_token_order(list, envp), FAILURE);
 		print_token_list(list);
 		if (process_builtin(gear_5, envp, list) == FAILURE)
@@ -121,7 +131,11 @@ static int	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list, t_exec **ex
 		expander(list, envp);
 		*exec = init_exec(gear_5, list, envp);
 		if (!*exec)
+		{
+			printf("lol\n");
 			return (FAILURE);
+		}
+			//return (cleanup_parse(&list, exec));
 		free_token_list(list);
 		return (SUCCESS);
 	}
@@ -153,7 +167,7 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 			break ;
 		if (parse_gear_5(gear_5, envp, list, &exec) == FAILURE)
 			continue ;
-		if (execute_gear_5(gear_5, envp, list, exec) == FAILURE)
+		if (execute_gear_5(gear_5, envp, exec) == FAILURE)
 			continue ;
 	}
 	clean_env(envp);
@@ -166,13 +180,6 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 // • parsing
 // • execution
 
-static void	init_structures(t_shell	*gear_5, t_env *envp)
-{
-	ft_bzero(gear_5, sizeof(t_shell));
-	ft_bzero(envp, sizeof(t_env));
-}
-//initialize all variables of structures to 0
-
 int	main(int argc, char **argv, char **env)
 {
 	t_shell		gear_5;
@@ -184,7 +191,8 @@ int	main(int argc, char **argv, char **env)
 		error("Dont't put arguments\n");
 		return (EXIT_FAILURE);
 	}
-	init_structures(&gear_5, &envp);
+	ft_bzero(&gear_5, sizeof(t_shell));
+	ft_bzero(&envp, sizeof(t_env));
 	init_env(&envp, env);
 	gear_5.exit_status = init_minishell(&gear_5, &envp);
 	return (gear_5.exit_status);

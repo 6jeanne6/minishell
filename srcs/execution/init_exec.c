@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:00:38 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/20 23:56:56 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/21 17:54:29 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,18 @@ int arg_count)
 	return (exec);
 }
 
-//check if token is a redirection > >> < << or |
-static bool	is_redirection(t_token *token)
+static int	count_arguments_find_redirection(t_token **head, t_token **start)
 {
-	if (!token)
-		return (false);
-	if (token->token_type == TOKEN_APPEND
-		|| token->token_type == TOKEN_OUTPUT
-		|| token->token_type == TOKEN_HEREDOC
-		|| token->token_type == TOKEN_INPUT
-		|| token->token_type == TOKEN_PIPE)
-		return (true);
-	return (false);
+	int	arg_count;
+
+	arg_count = 0;
+	*start = *head;
+	while (*head && token_is_redirection(*head) == false)
+	{
+		*head = (*head)->next;
+		arg_count++;
+	}
+	return (arg_count);
 }
 
 //go through token list
@@ -69,13 +69,7 @@ static t_exec	*process_token(t_shell *gear_5, t_token **head, t_env *envp)
 	t_token	*start;
 	t_exec	*exec;
 
-	arg_count = 0;
-	start = *head;
-	while (*head && is_redirection(*head) == false)
-	{
-		*head = (*head)->next;
-		arg_count++;
-	}
+	arg_count = count_arguments_find_redirection(head, &start);
 	if (start != *head || arg_count > 0)
 	{
 		exec = set_structure(gear_5, start, envp, arg_count);
@@ -84,7 +78,11 @@ static t_exec	*process_token(t_shell *gear_5, t_token **head, t_env *envp)
 	}
 	else
 		return (NULL);
-	set_fd(gear_5, exec, *head, envp);
+	if (set_fd(gear_5, exec, *head, envp) == FAILURE)
+	{
+		printf("set fd\n");
+		return (NULL);
+	}
 	while (*head)
 	{
 		if ((*head)->token_type == TOKEN_PIPE)
@@ -93,7 +91,6 @@ static t_exec	*process_token(t_shell *gear_5, t_token **head, t_env *envp)
 			break ;
 		}
 		*head = (*head)->next;
-		printf("moving to next token\n");
 	}
 	return (exec);
 }
@@ -123,25 +120,27 @@ t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp)
 			prev_exec = exec;
 			exec->bin = start->cmd_path;
 		}
+		else
+			return (NULL);
 	}
-	// int i = 0;
-	// int j = 1;
-	// t_exec *lol = exec_list;
-	// if (!lol)
-	// 	return (NULL);
-	// while (lol)
-	// {
-	// 	i = 0;
-	// 	printf("%dth t_exec\n", j);
-	// 	while (lol->args && lol->args[i])
-	// 	{
-	// 		printf("arg[%d]: %s\n", i, lol->args[i]);
-	// 		i++;
-	// 	}
-	// 	printf("arg[%d]: %s\n", i, lol->args[i]);
-	// 	printf("fd_out: %d\n", lol->fd_out);
-	// 	lol = lol->next;
-	// 	j++;
-	// }
+	int i = 0;
+	int j = 1;
+	t_exec *lol = exec_list;
+	if (!lol)
+		return (NULL);
+	while (lol)
+	{
+		i = 0;
+		printf("%dth t_exec\n", j);
+		while (lol->args && lol->args[i])
+		{
+			printf("arg[%d]: %s\n", i, lol->args[i]);
+			i++;
+		}
+		printf("arg[%d]: %s\n", i, lol->args[i]);
+		printf("fd_out: %d\n", lol->fd_out);
+		lol = lol->next;
+		j++;
+	}
 	return (exec_list);
 }
