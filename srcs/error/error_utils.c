@@ -6,14 +6,14 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:43:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/21 15:53:17 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/22 19:37:31 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //in t_exec free args
-static void	free_args_tab(char **argv)
+void	free_args_tab(char **argv)
 {
 	int	i;
 

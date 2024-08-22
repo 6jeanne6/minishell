@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/22 16:08:24 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/22 19:44:44 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,18 @@ static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
 	if (!gear_5 || !envp || !exec)
 		return (FAILURE);
-	execve(exec->bin, exec->args, envp->env);
-	if (execve(exec->bin, exec->args, envp->env) < 0)
+	if (exec->bin)
 	{
-		gear_5->exit_status = 1;
-		error("Check your execve\n");
-		return (FAILURE);
+		execve(exec->bin, exec->args, envp->env);
+		if (execve(exec->bin, exec->args, envp->env) < 0)
+		{
+			gear_5->exit_status = 1;
+			error("Check your execve\n");
+			return (FAILURE);
+		}
 	}
+	else
+		return (FAILURE);
 	return (SUCCESS);
 }
 
@@ -133,8 +138,8 @@ t_exec **exec)
 		if (!*exec)
 		{
 			printf("lol no t_exec\n");
-			return (free_t_exec(list, envp), FAILURE);
-			//return (FAILURE);
+			free_t_exec(list, envp);
+			return (FAILURE);
 		}
 		free_token_list(list);
 		return (SUCCESS);
