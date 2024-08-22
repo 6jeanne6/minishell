@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/21 17:54:04 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/22 16:08:24 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,10 +132,10 @@ t_exec **exec)
 		*exec = init_exec(gear_5, list, envp);
 		if (!*exec)
 		{
-			printf("lol\n");
-			return (FAILURE);
+			printf("lol no t_exec\n");
+			return (free_t_exec(list, envp), FAILURE);
+			//return (FAILURE);
 		}
-			//return (cleanup_parse(&list, exec));
 		free_token_list(list);
 		return (SUCCESS);
 	}

@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:00:38 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/21 17:54:29 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/22 15:02:18 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,23 @@ int arg_count)
 
 static int	count_arguments_find_redirection(t_token **head, t_token **start)
 {
-	int	arg_count;
+	int		arg_count;
+	t_token	*tmp;
 
 	arg_count = 0;
+	tmp = *head;
 	*start = *head;
+	while (tmp && token_is_redirection(tmp) == false)
+	{
+		tmp = tmp->next;
+		arg_count++;
+	}
 	while (*head && token_is_redirection(*head) == false)
 	{
-		*head = (*head)->next;
-		arg_count++;
+		if ((*head)->next)
+			*head = (*head)->next;
+		else
+			break ;
 	}
 	return (arg_count);
 }
@@ -79,10 +88,7 @@ static t_exec	*process_token(t_shell *gear_5, t_token **head, t_env *envp)
 	else
 		return (NULL);
 	if (set_fd(gear_5, exec, *head, envp) == FAILURE)
-	{
-		printf("set fd\n");
 		return (NULL);
-	}
 	while (*head)
 	{
 		if ((*head)->token_type == TOKEN_PIPE)

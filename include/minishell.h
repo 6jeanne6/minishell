@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/21 16:27:12 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/22 15:17:03 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,6 +286,7 @@ void	free_token_list(t_token *head);
 void	free_exec(t_exec *exec);
 void	wrong_token_order(t_token *token, t_env *envp);
 void	free_envp_path(t_env *envp);
+void	free_t_exec(t_token *token, t_env *envp);
 
 /* debug */
 

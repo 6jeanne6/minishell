@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:12:05 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/21 17:59:10 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/22 14:59:12 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,10 @@ int arg_count)
 int	set_fd(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp)
 {
 	if (!exec || !token || !envp)
-	{
-		printf("token: %p\n", token);
 		return (FAILURE);
-	}
 	exec->fd_in = STDIN_FILENO;
 	exec->fd_out = STDOUT_FILENO;
+	printf("content of token: %s\n", token->word);
 	if (token->token_type == TOKEN_OUTPUT || token->token_type == TOKEN_APPEND)
 	{
 		if (file_outfile(gear_5, exec, token) == FAILURE)

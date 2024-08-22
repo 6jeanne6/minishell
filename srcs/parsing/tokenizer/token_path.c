@@ -6,22 +6,11 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:04:43 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/21 16:03:34 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/22 16:30:06 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	free_paths(char *tmp_path, char *cmd_path)
-{
-	if (!tmp_path || !cmd_path)
-		return ;
-	if (tmp_path)
-		free(tmp_path);
-	if (cmd_path)
-		free(cmd_path);
-}
-/* Free tmp_path and cmd_path */
 
 static int	join_paths(t_env *envp, t_token *token, int i)
 {
@@ -29,16 +18,15 @@ static int	join_paths(t_env *envp, t_token *token, int i)
 	if (!envp->tmp_path)
 		return (FAILURE);
 	envp->cmd_path = ft_strjoin(envp->tmp_path, token->word);
+	free(envp->tmp_path);
 	if (!envp->cmd_path)
 		return (FAILURE);
 	if ((access(envp->cmd_path, F_OK) == 0)
 		&& (access(envp->cmd_path, X_OK) == 0))
 	{
 		token->cmd_path = envp->cmd_path;
-		//free_paths(envp->tmp_path, envp->cmd_path);
 		return (SUCCESS);
 	}
-	free_paths(envp->tmp_path, envp->cmd_path);
 	return (FAILURE);
 }
 /* While loop to join path and word */
@@ -57,7 +45,11 @@ int	check_path(t_env *envp, t_token *token)
 	{
 		if (join_paths(envp, token, i) == SUCCESS)
 			return (SUCCESS);
+		if (envp->cmd_path)
+			free(envp->cmd_path);
 	}
+	envp->tmp_path = NULL;
+	envp->cmd_path = NULL;
 	return (FAILURE);
 }
 /* Is word an executable command? */
