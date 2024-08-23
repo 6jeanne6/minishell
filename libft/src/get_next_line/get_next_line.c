@@ -6,11 +6,12 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 13:53:51 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/09 16:03:57 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/23 15:33:25 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/get_next_line.h"
+
 static char	*clean_stash(char *stash)
 {
 	char	*new_stash;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/21 16:57:10 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:32:44 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list)
 		get_token_type(envp, list);
 		token_order(envp, list, gear_5);
 		if (list->token_type == TOKEN_BUILTIN)
-		{ 
+		{
 			if (builtin_order(gear_5, list, envp) == FAILURE)
 			{
 				free_token_list(list);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:10:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/21 16:06:52 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:34:12 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,6 @@ static int	echo_ok(t_shell *gear_5, t_token *token, t_env *envp)
 			|| arg->token_type == TOKEN_APPEND || arg->token_type == TOKEN_INPUT
 			|| arg->token_type == TOKEN_HEREDOC)
 			break ;
-		// if (arg->token_type != TOKEN_ARG && arg->token_type != TOKEN_VARIABLE)
-		// {
-		//     gear_5->exit_status = 1;
-		//     error("echo: parse error\n");
-		//     return (FAILURE);
-		// }
 		arg = arg->next;
 	}
 	if (arg && (arg == token->next))
