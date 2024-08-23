@@ -29,6 +29,7 @@ LFLAG 		= -L./${LIBFT_PATH} -lft
 SRCDIR 		= srcs
 
 SRC			=	${SRCDIR}/main.c \
+				${SRCDIR}/exit_status.c \
 				${SRCDIR}/env/init_env.c \
 				${SRCDIR}/env/env_utils.c \
 				${SRCDIR}/env_var/init_var.c \
@@ -53,8 +54,12 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/parsing/tokenizer/expander_utils1.c \
 				${SRCDIR}/parsing/tokenizer/expander_utils2.c\
 				${SRCDIR}/parsing/tokenizer/expander_utils3.c\
+				${SRCDIR}/execution/init_exec.c \
+				${SRCDIR}/execution/init_utils.c \
+				${SRCDIR}/execution/file_utils.c \
 				${SRCDIR}/signals/signals.c \
 				${SRCDIR}/error/error_utils.c \
+				${SRCDIR}/error/free_utils.c \
 				${SRCDIR}/builtins/builtins_tool.c \
 				${SRCDIR}/builtins/cd.c \
 				${SRCDIR}/builtins/env.c \

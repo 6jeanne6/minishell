@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:10:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/23 15:34:12 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/23 15:54:41 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ static int	check_builtin(t_shell *gear_5, t_token *token, t_env *envp)
 }
 
 //which builtin are we on?
+
 int	builtin_order(t_shell *gear_5, t_token *token, t_env *envp)
 {
 	t_token	*head;
@@ -116,10 +117,7 @@ int	builtin_order(t_shell *gear_5, t_token *token, t_env *envp)
 		if (head->token_type == TOKEN_BUILTIN)
 		{
 			if (check_builtin(gear_5, head, envp) == SUCCESS)
-			{
-				printf("congrats\n");
 				return (SUCCESS);
-			}
 		}
 		head = head->next;
 	}

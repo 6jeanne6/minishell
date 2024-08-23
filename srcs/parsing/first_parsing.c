@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:43:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/08 19:20:25 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/23 13:07:54 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	lexing_gear_5(t_shell *gear_5)
 		if (gear_5->input[i] == '>' || gear_5->input[i] == '<')
 		{
 			if (check_redirection(gear_5->input) == FAILURE)
-				gear_5->exit_status = 2;
+				gear_5->exit_status = update_exit(gear_5->exit_status, 2);
 		}
 		else if (gear_5->input[i] == '|')
 		{
@@ -51,6 +51,6 @@ int	lexing_gear_5(t_shell *gear_5)
 			== FAILURE)
 			return (FAILURE);
 	}
-	return (gear_5->exit_status);
+	return (SUCCESS);
 }
 //1st check lexical syntax for pre-parsing
