@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/23 15:51:16 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/23 16:07:34 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void	print_token(t_token *token, int index)
 		printf("Token %d: NULL\n", index);
 		return ;
 	}
-
-    // Afficher le numéro du token
 	printf("Token %d:\n", index);
 	printf("  Word: %s\n", token->word);
 	printf("  Token Type: ");

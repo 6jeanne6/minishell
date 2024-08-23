@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:10:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/23 15:54:41 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/23 16:07:07 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,21 @@ static int	cd_ok(t_shell *gear_5, t_token *token, t_env *envp)
 	arg = token->next;
 	if (!arg)
 	{
-		gear_5->exit_status = 1;
+		gear_5->exit_status = update_exit(gear_5->exit_status, 2);
 		return (FAILURE);
 	}
 	if ((arg->token_type != TOKEN_ARG) || (valid_path(arg->word) == FAILURE))
 	{
-		if ((ft_strcmp(arg->word, ".") != 0) && (ft_strcmp(arg->word, "..") != 0))
+		if ((ft_strcmp(arg->word, ".") != 0)
+			&& (ft_strcmp(arg->word, "..") != 0))
 		{
-			gear_5->exit_status = 1;
-			error("cd: check your path\n");
+			gear_5->exit_status = update_exit(gear_5->exit_status, 2);
 			return (FAILURE);
 		}
 	}
 	if (arg->next)
 	{
-		gear_5->exit_status = 1;
-		error("cd: too many arguments\n");
+		gear_5->exit_status = update_exit(gear_5->exit_status, 2);
 		return (FAILURE);
 	}
 	return (SUCCESS);
@@ -76,8 +75,7 @@ static int	echo_ok(t_shell *gear_5, t_token *token, t_env *envp)
 	}
 	if (arg && (arg == token->next))
 	{
-		gear_5->exit_status = 1;
-		error("echo: parse error\n");
+		gear_5->exit_status = update_exit(gear_5->exit_status, 2);
 		return (FAILURE);
 	}
 	return (SUCCESS);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_builtin2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 21:15:23 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/21 16:12:27 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/08/23 16:09:20 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,12 @@ int	exit_ok(t_shell *gear_5, t_token *token, t_env *envp)
 		{
 			if (arg->token_type != TOKEN_ARG)
 			{
-				gear_5->exit_status = 1;
-				error("exit: parse error\n");
+				gear_5->exit_status = update_exit(gear_5->exit_status, 2);
 				return (FAILURE);
 			}
 			if (arg->next)
 			{
-				gear_5->exit_status = 1;
-				error("exit: too many arguments\n");
+				gear_5->exit_status = update_exit(gear_5->exit_status, 2);
 				return (FAILURE);
 			}
 			break ;
@@ -67,8 +65,7 @@ int	unset_ok(t_shell *gear_5, t_token *token, t_env *envp)
 		{
 			if (arg->token_type != TOKEN_ARG)
 			{
-				error("unset: parse error\n");
-				gear_5->exit_status = 1;
+				gear_5->exit_status = update_exit(gear_5->exit_status, 1);
 				return (FAILURE);
 			}
 			arg = arg->next;
@@ -95,8 +92,7 @@ int	export_ok(t_shell *gear_5, t_token *token, t_env *envp)
 			if (arg->token_type != TOKEN_VARIABLEASSIGNATION
 				&& arg->token_type != TOKEN_ARG)
 			{
-				gear_5->exit_status = 1;
-				error("export: check arguments\n");
+				gear_5->exit_status = update_exit(gear_5->exit_status, 1);
 				return (FAILURE);
 			}
 			arg = arg->next;
@@ -120,8 +116,7 @@ int	env_ok(t_shell *gear_5, t_token *token, t_env *envp)
 		return (SUCCESS);
 	else
 	{
-		gear_5->exit_status = 1;
-		error("env: too many arguments\n");
+		gear_5->exit_status = update_exit(gear_5->exit_status, 1);
 		return (FAILURE);
 	}
 }

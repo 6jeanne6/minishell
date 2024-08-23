@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/23 15:49:29 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/23 16:02:55 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,15 @@
 # define WRITE_END	1
 
 /****** COLORS ********/
+
+# define BLACK		"\033[0;30m"
+# define RED		"\033[0;31m"
+# define GREEN		"\033[0;32m"
+# define YELLOW 	"\033[0;33m"
+# define BLUE 		"\033[0;34m"
+# define PURPLE 	"\033[0;35m"
+# define CYAN 		"\033[0;36m"
+# define RESET 		"\033[0m"
 
 /***** TOKEN TYPE *******/
 
@@ -227,7 +236,7 @@ void	handle_variable(t_parsing *state, int word_length);
 void	handle_special_char(t_parsing *state, int word_length);
 void	handle_space(t_parsing *state, int word_length);
 void	handle_quotes(t_parsing *state);
-void	process_token(t_parsing *state, int word_length);
+//void	process_token(t_parsing *state, int word_length);
 
 /* linked list management */
 void	add_to_list(t_token **head, t_parsing *state,

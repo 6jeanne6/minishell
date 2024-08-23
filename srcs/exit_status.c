@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 12:24:00 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/23 12:46:12 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/23 16:09:41 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,12 @@
 //function to update exit status according to flag
 int	update_exit(int exit_status, int flag)
 {
-	if (flag == 2)
+	if (flag == 1)
+	{
+		error("parsing error\n");
+		exit_status = 1;
+	}
+	else if (flag == 2)
 	{
 		error("syntax error\n");
 		exit_status = 2;
