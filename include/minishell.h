@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/22 19:38:36 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/23 12:46:16 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,10 @@ void	fetch_path(t_env *envp);
 char	**copy_path(t_env *envp);
 char	**split_path(t_env *envp, char *str);
 char	**find_path(t_env *envp, char **str);
+
+/* exit status */
+
+int		update_exit(int exit_status, int flag);
 
 /* builtins */
 

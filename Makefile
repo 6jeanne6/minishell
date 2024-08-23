@@ -29,6 +29,7 @@ LFLAG 		= -L./${LIBFT_PATH} -lft
 SRCDIR 		= srcs
 
 SRC			=	${SRCDIR}/main.c \
+				${SRCDIR}/exit_status.c \
 				${SRCDIR}/env/init_env.c \
 				${SRCDIR}/env/env_utils.c \
 				${SRCDIR}/env_var/init_var.c \

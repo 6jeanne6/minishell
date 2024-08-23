@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:43:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/22 19:37:31 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/23 12:59:02 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,31 +40,23 @@ void	free_exec(t_exec *exec)
 	}
 }
 
-//free each node in token linked list
-void	free_token_list(t_token *head)
-{
-	t_token	*temp;
-
-	if (!head)
-		return ;
-	while (head)
-	{
-		temp = head;
-		head = head->next;
-		free(temp->word);
-		free(temp);
-		temp = NULL;
-	}
-}
-
 //customized message
 void	error(char	*message)
 {
 	if (!message)
 		return ;
-	ft_putstr_fd(RED, STDERR_FILENO);
+	ft_putstr_fd(CYAN, STDERR_FILENO);
 	ft_putstr_fd(message, STDERR_FILENO);
 	ft_putstr_fd(RESET, STDERR_FILENO);
+}
+
+//free tmp path and cmd path
+void	free_envp_path(t_env *envp)
+{
+	if (!envp)
+		return ;
+	if (envp->cmd_path)
+		envp->cmd_path = NULL;
 }
 
 //free envp structure

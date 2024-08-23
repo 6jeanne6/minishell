@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/22 19:44:44 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/23 13:06:16 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	print_token(t_token *token, int index)
 		printf("VARIABLE ASSIGNATION\n");
 	else
 		printf("UNKNOWN\n");
-    // Afficher les doubles quotes extérieures
 	printf("  Outer Double Quote: %d\n", token->outer_double_quote);
 	printf("  Outer Single Quote: %d\n", token->outer_single_quote);
 }
@@ -74,16 +73,6 @@ void	print_token_list(t_token *list)
 //		→ fork
 //		→ waitpid
 //		→ close fds and pipes
-
-// static int cleanup_parse(t_token **list, t_exec **exec)
-// {
-// 	free_token_list(*list);
-// 	free_exec(*exec);
-// 	*list = NULL;
-// 	*exec = NULL;
-// 	return (FAILURE);
-// }
-
 static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
 	if (!gear_5 || !envp || !exec)
@@ -93,13 +82,15 @@ static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_exec *exec)
 		execve(exec->bin, exec->args, envp->env);
 		if (execve(exec->bin, exec->args, envp->env) < 0)
 		{
-			gear_5->exit_status = 1;
 			error("Check your execve\n");
 			return (FAILURE);
 		}
 	}
 	else
+	{
+		gear_5->exit_status = update_exit(gear_5->exit_status, 127);
 		return (FAILURE);
+	}
 	return (SUCCESS);
 }
 
@@ -137,7 +128,6 @@ t_exec **exec)
 		*exec = init_exec(gear_5, list, envp);
 		if (!*exec)
 		{
-			printf("lol no t_exec\n");
 			free_t_exec(list, envp);
 			return (FAILURE);
 		}
@@ -193,7 +183,8 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (argc > 1)
 	{
-		error("Dont't put arguments\n");
+		error("Too many arguments\n");
+		gear_5.exit_status = update_exit(gear_5.exit_status, -1);
 		return (EXIT_FAILURE);
 	}
 	ft_bzero(&gear_5, sizeof(t_shell));

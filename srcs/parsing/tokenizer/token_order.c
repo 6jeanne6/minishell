@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 16:20:27 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/21 14:38:28 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/23 12:49:07 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static int	input_heredoc_order(t_shell *gear_5, t_token *token)
 			if (token->previous->token_type != TOKEN_CMD
 				&& token->previous->token_type != TOKEN_BUILTIN)
 			{
-				error("Command not found\n");
-				return (gear_5->exit_status = 127, FAILURE);
+				gear_5->exit_status = update_exit(gear_5->exit_status, 127);
+				return (FAILURE);
 			}
 		}
 	}
@@ -40,8 +40,8 @@ static int	input_heredoc_order(t_shell *gear_5, t_token *token)
 	{
 		if (!token->next)
 		{
-			error("Syntax error\n");
-			return (gear_5->exit_status = 2, FAILURE);
+			gear_5->exit_status = update_exit(gear_5->exit_status, 2);
+			return (FAILURE);
 		}
 	}
 	convert_to_file(token);
@@ -58,15 +58,15 @@ static int	output_append_order(t_shell *gear_5, t_token *token)
 	{
 		if (!token->next)
 		{
-			error("Missing outfile\n");
-			return (gear_5->exit_status = 2, FAILURE);
+			gear_5->exit_status = update_exit(gear_5->exit_status, 2);
+			return (FAILURE);
 		}
 		if (token->next->token_type != TOKEN_ARG
 			&& token->next->token_type != TOKEN_BUILTIN
 			&& token->next->token_type != TOKEN_CMD)
 		{
-			error("Syntax error\n");
-			return (gear_5->exit_status = 2, FAILURE);
+			gear_5->exit_status = update_exit(gear_5->exit_status, 2);
+			return (FAILURE);
 		}
 	}
 	convert_to_file(token);
@@ -113,7 +113,7 @@ int	token_order(t_token *token, t_shell *gear_5)
 			if (token->token_type == TOKEN_PIPE
 				&& token->next->token_type == TOKEN_PIPE)
 			{
-				error("syntax error near '|'\n");
+				gear_5->exit_status = update_exit(gear_5->exit_status, 2);
 				return (FAILURE);
 			}
 		}
