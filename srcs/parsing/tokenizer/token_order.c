@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_order.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 16:20:27 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/23 12:49:07 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/24 09:37:27 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,6 @@ static int	output_append_order(t_shell *gear_5, t_token *token)
 
 int	token_order(t_token *token, t_shell *gear_5)
 {
-	int	i;
-
-	i = 0;
 	if (!token)
 		return (FAILURE);
 	while (token)
@@ -118,7 +115,6 @@ int	token_order(t_token *token, t_shell *gear_5)
 			}
 		}
 		token = token->next;
-		i++;
 	}
 	return (SUCCESS);
 }
