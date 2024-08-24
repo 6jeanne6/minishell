@@ -6,7 +6,7 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 23:08:04 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/24 09:29:44 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/08/24 09:40:17 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,3 @@ int	cd(t_env *envp)
 	envp->oldpwd = last_path;
 	return (SUCCESS);
 }
-// Lui donnée l'argument 
