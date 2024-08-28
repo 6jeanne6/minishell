@@ -1,36 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_status.c                                      :+:      :+:    :+:   */
+/*   update_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 12:24:00 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/23 12:46:12 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/28 14:18:14 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//function to update exit status according to flag
-int	update_exit(int exit_status, int flag)
+//function to update exit status of the parsing according to flag
+int	update_exit_status(t_shell *gear_5, int flag)
 {
 	if (flag == 2)
 	{
-		error("syntax error\n");
-		exit_status = 2;
+		error("Error : syntax error\n");
+		gear_5->exit_status = 2;
 	}
-	else if (flag == 126)
+	else if (flag == 1)
 	{
-		error("permission denied\n");
-		exit_status = 126;
+		error("Error : memory allocation error\n");
+		gear_5->exit_status = 1;
 	}
-	else if (flag == 127)
+	else if (flag == 0)
 	{
-		error("command not found\n");
-		exit_status = 127;
+		gear_5->exit_status = 0;
 	}
-	else
-		exit_status = -1;
-	return (exit_status);
+	return (gear_5->exit_status);
 }

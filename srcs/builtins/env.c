@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:08:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/11 18:18:25 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/24 09:48:15 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,3 +32,6 @@
 //     gear_5->exit_status = 0;
 // }
 //env with no options or arguments
+
+// vérifier qu'il n'y ai pas d'argument !!!!!
+//

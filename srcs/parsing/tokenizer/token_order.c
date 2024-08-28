@@ -6,7 +6,7 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 16:20:27 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/24 09:37:27 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/08/28 18:37:22 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ static void	convert_to_file(t_token *token)
 	token->next->token_type = TOKEN_FILE;
 }
 /* Change arg to file if we are in an redirection operator */
-
-static int	input_heredoc_order(t_shell *gear_5, t_token *token)
+static int	input_heredoc_order(t_token *token)
 {
 	if (!token)
 		return (FAILURE);
@@ -31,7 +30,6 @@ static int	input_heredoc_order(t_shell *gear_5, t_token *token)
 			if (token->previous->token_type != TOKEN_CMD
 				&& token->previous->token_type != TOKEN_BUILTIN)
 			{
-				gear_5->exit_status = update_exit(gear_5->exit_status, 127);
 				return (FAILURE);
 			}
 		}
@@ -40,7 +38,6 @@ static int	input_heredoc_order(t_shell *gear_5, t_token *token)
 	{
 		if (!token->next)
 		{
-			gear_5->exit_status = update_exit(gear_5->exit_status, 2);
 			return (FAILURE);
 		}
 	}
@@ -48,24 +45,21 @@ static int	input_heredoc_order(t_shell *gear_5, t_token *token)
 	return (SUCCESS);
 }
 /* Change arg to file if we are in an redirection operator */
-
-static int	output_append_order(t_shell *gear_5, t_token *token)
+static int	output_append_order(t_token *token)
 {
-	if (!token || !gear_5)
+	if (!token)
 		return (FAILURE);
 	if ((token->token_type == TOKEN_OUTPUT
 			|| token->token_type == TOKEN_APPEND))
 	{
 		if (!token->next)
 		{
-			gear_5->exit_status = update_exit(gear_5->exit_status, 2);
 			return (FAILURE);
 		}
 		if (token->next->token_type != TOKEN_ARG
 			&& token->next->token_type != TOKEN_BUILTIN
 			&& token->next->token_type != TOKEN_CMD)
 		{
-			gear_5->exit_status = update_exit(gear_5->exit_status, 2);
 			return (FAILURE);
 		}
 	}
@@ -94,7 +88,7 @@ static int	output_append_order(t_shell *gear_5, t_token *token)
 // }
 /* Check if 1st token is command or builtin */
 
-int	token_order(t_token *token, t_shell *gear_5)
+int	token_order(t_token *token)
 {
 	if (!token)
 		return (FAILURE);
@@ -102,15 +96,16 @@ int	token_order(t_token *token, t_shell *gear_5)
 	{
 		// if (first_cmd_redirection(token, i) == FAILURE)
 		// 	return (FAILURE);
-		if ((output_append_order(gear_5, token) == FAILURE)
-			|| (input_heredoc_order(gear_5, token) == FAILURE))
+		if ((output_append_order(token) == FAILURE)
+			|| (input_heredoc_order(token) == FAILURE))
+		{
 			return (FAILURE);
+		}
 		if (token->next)
 		{
 			if (token->token_type == TOKEN_PIPE
 				&& token->next->token_type == TOKEN_PIPE)
 			{
-				gear_5->exit_status = update_exit(gear_5->exit_status, 2);
 				return (FAILURE);
 			}
 		}

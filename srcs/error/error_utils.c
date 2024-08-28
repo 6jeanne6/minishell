@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:43:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/23 12:59:02 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/28 14:51:55 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	error(char	*message)
 {
 	if (!message)
 		return ;
-	ft_putstr_fd(CYAN, STDERR_FILENO);
+	ft_putstr_fd(RED, STDERR_FILENO);
 	ft_putstr_fd(message, STDERR_FILENO);
 	ft_putstr_fd(RESET, STDERR_FILENO);
 }

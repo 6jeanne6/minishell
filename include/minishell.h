@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/23 12:46:16 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/28 18:39:30 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@
 # define PURPLE 	"\033[0;35m"
 # define CYAN 		"\033[0;36m"
 # define RESET 		"\033[0m"
+# define WHITE      "\033[0;37m"
 
 /***** TOKEN TYPE *******/
 
@@ -161,7 +162,6 @@ typedef struct s_env
 typedef struct s_shell
 {
 	char	*input;
-
 	int		exit_status;
 
 }				t_shell;
@@ -184,14 +184,15 @@ char	**split_path(t_env *envp, char *str);
 char	**find_path(t_env *envp, char **str);
 
 /* exit status */
-
-int		update_exit(int exit_status, int flag);
+int		update_exit_status_code(t_shell *gear_5);
+int		is_dollar_question_mark_input(t_shell *gear_5);
+int		update_exit_status(t_shell *gear_5, int flag);
 
 /* builtins */
-
+int		is_builtin(char *word);
+void	exec_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
 char	*get_current_path(void);
-
-//int		cd(t_env *envp);
+int		cd(t_env *envp, t_exec *exec);
 
 //void		pwd(t_shell *gear_5);
 //void		exit(t_shell *gear_5, t_exec *execution);
@@ -222,13 +223,12 @@ int		ft_ispace(char c);
 char	is_special_char(char c);
 
 /* parsing */
-
 int		lexing_gear_5(t_shell *gear_5);
 int		get_token_type(t_env *envp, t_token *token);
 int		check_path(t_env *envp, t_token *token);
 int		is_variable(const char *input);
 int		is_variable_declaration(const char *input);
-int		token_order(t_token *token, t_shell *gear_5);
+int		token_order(t_token *token);
 int		builtin_order(t_shell *gear_5, t_token *token, t_env *envp);
 int		how_many_dollar(char *str);
 int		pwd_ok(t_shell *gear_5, t_token *token, t_env *envp);
@@ -243,6 +243,7 @@ void	handle_variable(t_parsing *state, int word_length);
 void	handle_special_char(t_parsing *state, int word_length);
 void	handle_space(t_parsing *state, int word_length);
 void	handle_quotes(t_parsing *state);
+void	process_token(t_parsing *state, int word_length);
 
 /* linked list management */
 
@@ -252,14 +253,13 @@ void	appendright(t_token **head, t_token *new);
 t_token	*ft_double_lstlast(t_token *lst);
 
 /* expander $ */
-
 void	expander(t_token *list, t_env *envp);
 void	empty_string(t_token *list);
-void	expand_double_quotes(t_token *list, t_env *envp);
+void	expand_content(t_token *list, t_env *envp);
 void	variable_compute(char *word, int *i, int *j);
 
-char	*create_new_word(t_token *list, t_env *envp, int len);
-char	*ft_strndup(const char *s, size_t n);
+char 	*create_new_word(t_token *list, t_env *envp, int len);
+char    *ft_strndup(const char *s, size_t n);
 
 int		substitute_compute(t_env *envp, char *word);
 int		treatment(char *word, t_env *envp, char *new_word, int j);
@@ -288,7 +288,7 @@ void	error(char	*message);
 void	clean_env(t_env *envp);
 void	free_token_list(t_token *head);
 void	free_exec(t_exec *exec);
-void	wrong_token_order(t_token *token, t_env *envp);
+void	wrong_token_order(t_token *token, t_env *envp, t_shell *gear_5);
 void	free_envp_path(t_env *envp);
 void	free_t_exec(t_token *token, t_env *envp);
 void	free_args_tab(char **argv);
@@ -298,5 +298,6 @@ void	super_free_token_list(t_token *head);
 
 void	print_token_list(t_token *list);
 void	print_token(t_token *token, int index);
+void	print_exec_list(t_exec *exec);	
 
 #endif

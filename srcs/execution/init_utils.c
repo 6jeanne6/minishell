@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:12:05 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/22 14:59:12 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/28 12:37:31 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	set_fd(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp)
 		return (FAILURE);
 	exec->fd_in = STDIN_FILENO;
 	exec->fd_out = STDOUT_FILENO;
-	printf("content of token: %s\n", token->word);
+	// printf("content of token: %s\n", token->word);
 	if (token->token_type == TOKEN_OUTPUT || token->token_type == TOKEN_APPEND)
 	{
 		if (file_outfile(gear_5, exec, token) == FAILURE)

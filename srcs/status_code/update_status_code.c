@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   update_status_code.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/14 23:08:04 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/24 10:56:16 by lnjoh-tc         ###   ########.fr       */
+/*   Created: 2024/08/28 15:41:43 by lnjoh-tc          #+#    #+#             */
+/*   Updated: 2024/08/28 16:22:22 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cd(t_env *envp, t_exec *exec)
+int	is_dollar_question_mark_input(t_shell *gear_5)
 {
-	char	*path = exec->cmd_name;
-	char	*new_path;
-	char	*last_path;
-
-	if (chdir(path) == -1)
+	if (ft_strcmp(gear_5->input, "$?") == 0)
 	{
-		ft_printf("%s: No such file or directory\n", path);
-		return (FAILURE);
+		printf("%d\n", gear_5->exit_status);
+		return (SUCCESS);
 	}
-	last_path = envp->pwd;
-	new_path = get_current_path();
-	envp->pwd = new_path;
-	envp->oldpwd = last_path;
-	return (SUCCESS);
+	return (FAILURE);
+}
+int	update_exit_status_code(t_shell *gear_5)
+{
+	if (is_dollar_question_mark_input(gear_5) == SUCCESS)
+		return(SUCCESS);
+	else
+		gear_5->exit_status = 0;
+	return(FAILURE);
 }

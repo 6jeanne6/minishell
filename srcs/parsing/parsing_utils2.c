@@ -14,24 +14,22 @@
 
 void	handle_variable(t_parsing *state, int word_length)
 {
-	if (state->j > 0)
-	{
-		state->current_word[state->j] = '\0';
-		add_to_list(state->token_list, state, state->current_word, word_length);
-		state->j = 0;
-		state->outer_double_quote = 0;
-		state->outer_single_quote = 0;
-	}
 	state->current_word[state->j++] = state->line[state->i++];
-	while (ft_ispace(state->line[state->i] == FAILURE)
-		&& state->line[state->i] != '\0'
+	while (state->line[state->i] != '\0'
+		&& (ft_ispace(state->line[state->i]) == FAILURE)
 		&& !is_special_char(state->line[state->i]))
+	{
 		state->current_word[state->j++] = state->line[state->i++];
-	state->current_word[state->j] = '\0';
-	add_to_list(state->token_list, state, state->current_word, word_length);
-	state->j = 0;
-	state->outer_double_quote = 0;
-	state->outer_single_quote = 0;
+	}
+	if (ft_ispace(state->line[state->i]) != FAILURE)
+	{
+		process_token(state, word_length);
+		state->i++;
+	}
+	if (state->line[state->i] == '\0')
+	{
+		process_token(state, word_length);
+	}
 }
 //Copy $name as long as no blank or \0
 

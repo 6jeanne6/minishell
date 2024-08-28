@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/14 23:08:04 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/24 10:56:16 by lnjoh-tc         ###   ########.fr       */
+/*   Created: 2024/08/24 10:02:33 by lnjoh-tc          #+#    #+#             */
+/*   Updated: 2024/08/24 10:48:11 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cd(t_env *envp, t_exec *exec)
+void    export(t_env *envp)
 {
-	char	*path = exec->cmd_name;
-	char	*new_path;
-	char	*last_path;
+	t_envp *start;
 
-	if (chdir(path) == -1)
+	start = envp;
+	while (envp != NULL)
 	{
-		ft_printf("%s: No such file or directory\n", path);
-		return (FAILURE);
+		printf("export ");
+		printf("%s =",variable_name);
+		printf("%s =",variable_value);
+		envp = envp -> next;
 	}
-	last_path = envp->pwd;
-	new_path = get_current_path();
-	envp->pwd = new_path;
-	envp->oldpwd = last_path;
-	return (SUCCESS);
+}
+
+
+
+
 }

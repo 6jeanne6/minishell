@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:00:38 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/22 19:03:33 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/28 18:43:33 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int	count_arguments_find_redirection(t_token **head, t_token **start)
 }
 
 //go through token list
-static t_exec	*process_token(t_shell *gear_5, t_token **head, t_env *envp)
+static t_exec	*process_tokenn(t_shell *gear_5, t_token **head, t_env *envp)
 {
 	int		arg_count;
 	t_token	*start;
@@ -116,7 +116,7 @@ t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp)
 	while (token)
 	{
 		start = token;
-		exec = process_token(gear_5, &token, envp);
+		exec = process_tokenn(gear_5, &token, envp);
 		if (exec)
 		{
 			if (prev_exec == NULL)
@@ -129,6 +129,7 @@ t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp)
 		else
 			return (NULL);
 	}
+
 	// int i = 0;
 	// int j = 1;
 	// t_exec *lol = exec_list;

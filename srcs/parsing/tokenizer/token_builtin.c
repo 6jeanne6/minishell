@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:10:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/15 15:54:33 by jewu             ###   ########.fr       */
+/*   Updated: 2024/08/12 16:26:30 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,22 +110,25 @@ static int check_builtin(t_shell *gear_5, t_token *token, t_env *envp)
 }
 //which builtin are we on?
 
-int	builtin_order(t_shell *gear_5, t_token *token, t_env *envp)
+int builtin_order(t_shell *gear_5, t_token *token, t_env *envp)
 {
-	t_token	*head;
+    t_token *head;
 
-	if (!gear_5 || !token || !envp)
-		return (FAILURE);
-	head = token;
-	while (head)
-	{
-		if (head->token_type == TOKEN_BUILTIN)
-		{
-			if (check_builtin(gear_5, head, envp) == SUCCESS)
-				return (SUCCESS);
-		}
-		head = head->next;
-	}
-	return (FAILURE);
+    if (!gear_5 || !token || !envp)
+        return (FAILURE);
+    head = token;
+    while (head)
+    {
+        if (head->token_type == TOKEN_BUILTIN)
+        {
+            if (check_builtin(gear_5, head, envp) == SUCCESS)
+            {
+                printf("congrats\n");
+                return (SUCCESS);
+            }
+        }
+        head = head->next;
+    }
+    return (FAILURE);
 }
 //check builtin and the word following after
