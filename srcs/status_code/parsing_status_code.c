@@ -22,7 +22,7 @@ int	update_exit_status(t_shell *gear_5, int flag)
 	}
 	else if (flag == 1)
 	{
-		error("Error : memory allocation error\n");
+		error("Error : check your input\n");
 		gear_5->exit_status = 1;
 	}
 	else if (flag == 0)

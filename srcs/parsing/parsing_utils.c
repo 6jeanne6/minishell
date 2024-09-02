@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:46:18 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/11 18:39:49 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/02 15:38:42 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ const char *word, int word_length)
 {
 	t_token	*new_node;
 
-	new_node = malloc(sizeof(t_token));
+	new_node = ft_calloc(1, sizeof(t_token));
 	if (!new_node)
 	{
 		perror("Unable to allocate memory");

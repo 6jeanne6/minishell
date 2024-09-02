@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 22:35:16 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/28 16:18:22 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/02 16:46:41 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	free_token_list(t_token *head)
 		temp = head;
 		head = head->next;
 		free(temp->word);
+		if (temp->cmd_path)
+			free(temp->cmd_path);
 		free(temp);
 		temp = NULL;
 	}
@@ -61,8 +63,8 @@ void	free_t_exec(t_token *token, t_env *envp)
 //free token list when token order is wrong
 void	wrong_token_order(t_token *token, t_env *envp, t_shell *gear_5)
 {
+	(void)gear_5;
 	if (!token || !envp)
 		return ;
 	super_free_token_list(token);
-	update_exit_status(gear_5, 2); 
 }

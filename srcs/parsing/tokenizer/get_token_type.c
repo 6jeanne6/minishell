@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token_type.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 14:43:23 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/28 18:39:16 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/02 16:08:15 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,40 +61,41 @@ static int	is_cmd(t_env *envp, t_token *token)
 }
 
 /* Determine token type*/
-static int determine_token_type(t_env *envp, t_token *token)
+static int	determine_token_type(t_env *envp, t_token *token)
 {
-    if (is_redirection(token->word) >= 0)
-        return (is_redirection(token->word));
-    else if (is_variable_declaration(token->word) == SUCCESS)
-        return (TOKEN_VARIABLEASSIGNATION);
-    else if (is_variable(token->word) == SUCCESS)
-        return (TOKEN_VARIABLE);
-    else if (is_builtin(token->word) == SUCCESS)
-        return (TOKEN_BUILTIN);
-    else if (is_cmd(envp, token) == SUCCESS)
-        return (TOKEN_CMD);
-    else if (is_file(token->word) == SUCCESS)
-        return(TOKEN_FILE);
-    else
-        return (TOKEN_ARG);
+	if (is_redirection(token->word) >= 0)
+		return (is_redirection(token->word));
+	else if (is_variable_declaration(token->word) == SUCCESS)
+		return (TOKEN_VARIABLEASSIGNATION);
+	else if (is_variable(token->word) == SUCCESS)
+		return (TOKEN_VARIABLE);
+	else if (is_builtin(token->word) == SUCCESS)
+		return (TOKEN_BUILTIN);
+	else if (is_cmd(envp, token) == SUCCESS)
+		return (TOKEN_CMD);
+	else if (is_file(token->word) == SUCCESS)
+		return (TOKEN_FILE);
+	else
+		return (TOKEN_ARG);
 }
 
 int	get_token_type(t_env *envp, t_token *token)
 {
-    while (token)
-    {
-        if (token->outer_double_quote == 0 && token->outer_single_quote == 0)
-            token->token_type = determine_token_type(envp, token);
-        else if ((is_variable_declaration(token->word) == SUCCESS) &&
-                 (token->outer_double_quote == 1 || token->outer_single_quote == 1))
-            token->token_type = determine_token_type(envp, token);
-        else if (is_variable(token->word) == SUCCESS 
-				&& token->outer_double_quote == 1)
-            token->token_type = TOKEN_VARIABLE;
-        else
-            token->token_type = TOKEN_ARG;
-        token = token->next;
-    } 
-    return (SUCCESS);
+	while (token)
+	{
+		if (token->outer_double_quote == 0 && token->outer_single_quote == 0)
+			token->token_type = determine_token_type(envp, token);
+		else if ((is_variable_declaration(token->word) == SUCCESS)
+			&& (token->outer_double_quote == 1
+				|| token->outer_single_quote == 1))
+			token->token_type = determine_token_type(envp, token);
+		else if (is_variable(token->word) == SUCCESS
+			&& token->outer_double_quote == 1)
+			token->token_type = TOKEN_VARIABLE;
+		else
+			token->token_type = TOKEN_ARG;
+		token = token->next;
+	}
+	return (SUCCESS);
 }
 /* classify extracted word into a TOKEN type */

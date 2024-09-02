@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token_type_tools.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:03:09 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/28 18:40:00 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/02 16:43:58 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,11 @@ int	is_variable_declaration(const char *input)
 		return (SUCCESS);
 	return (FAILURE);
 }
+
 /* Check if its a file*/
 int	is_file(char *file)
 {
-	int fd;
+	int	fd;
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)

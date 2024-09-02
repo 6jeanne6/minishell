@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/28 18:41:46 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:03:14 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,10 @@ t_exec **exec)
 			return (update_exit_status(gear_5, 1));
 		get_token_type(envp, list);
 		print_token_list(list);
-		if (token_order(list) == FAILURE)
+		if (token_order(gear_5, list) == FAILURE)
 		{
-			//wrong_token_order(list, envp, gear_5);
-			update_exit_status(gear_5, 2); 
-			//free_token_list(list);
+			wrong_token_order(list, envp, gear_5);
+			//update_exit_status(gear_5, 1);
 			return (FAILURE);
 		}
 		expander(list, envp);

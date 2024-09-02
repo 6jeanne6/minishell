@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_pipes.c                                      :+:      :+:    :+:   */
+/*   is_pipes.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 11:49:40 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/07/14 13:00:21 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/02 16:49:48 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ int	is_pipe(char *input)
 	while (input[i] != '\0')
 	{
 		if (input[i] == '|' && input[i + 1] == '|')
-		{
-			ft_putstr_fd("Error :'||' is not interpreted!\n", STDERR_FILENO);
 			return (FAILURE);
-		}
 		else if (input[i] == '|')
 			return (SUCCESS);
 		i++;

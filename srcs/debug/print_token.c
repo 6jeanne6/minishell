@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:16:25 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/27 18:40:16 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/02 15:34:50 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void print_exec_list(t_exec *exec)
         }
 
         // Affiche le nom de la commande et le chemin binaire
-        printf("Command Name: %s\n", current->cmd_name ? current->cmd_name : "NULL");
+       	printf("Command Name: %s\n", current->cmd_name ? current->cmd_name : "NULL");
         printf("Binary Path: %s\n", current->bin ? current->bin : "NULL");
 
         // Affiche les arguments
