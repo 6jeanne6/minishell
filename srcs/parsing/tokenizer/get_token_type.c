@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+/* check if it's a BUILTIN */
 int	is_builtin(char *word)
 {
 	if (ft_strcmp(word, "echo") == 0)
@@ -30,8 +31,8 @@ int	is_builtin(char *word)
 		return (SUCCESS);
 	return (FAILURE);
 }
-/* check if it's a BUILTIN */
 
+/* check if it's a redirection operator */
 static int	is_redirection(char *word)
 {
 	if (ft_strcmp(word, "|") == SUCCESS)
@@ -46,8 +47,9 @@ static int	is_redirection(char *word)
 		return (TOKEN_OUTPUT);
 	return (FAILURE);
 }
-/* check if it's a redirection operator */
 
+
+/* Check if it's a binary or an executable */
 static int	is_cmd(t_env *envp, t_token *token)
 {
 	if ((access(token->word, F_OK) == 0)
@@ -57,7 +59,6 @@ static int	is_cmd(t_env *envp, t_token *token)
 		return (SUCCESS);
 	return (FAILURE);
 }
-/* Check if it's a binary or an executable */
 
 /* Determine token type*/
 static int determine_token_type(t_env *envp, t_token *token)
@@ -72,6 +73,8 @@ static int determine_token_type(t_env *envp, t_token *token)
         return (TOKEN_BUILTIN);
     else if (is_cmd(envp, token) == SUCCESS)
         return (TOKEN_CMD);
+    else if (is_file(token->word) == SUCCESS)
+        return(TOKEN_FILE);
     else
         return (TOKEN_ARG);
 }
@@ -81,23 +84,15 @@ int	get_token_type(t_env *envp, t_token *token)
     while (token)
     {
         if (token->outer_double_quote == 0 && token->outer_single_quote == 0)
-        {
             token->token_type = determine_token_type(envp, token);
-        }
         else if ((is_variable_declaration(token->word) == SUCCESS) &&
                  (token->outer_double_quote == 1 || token->outer_single_quote == 1))
-        {
             token->token_type = determine_token_type(envp, token);
-        }
         else if (is_variable(token->word) == SUCCESS 
 				&& token->outer_double_quote == 1)
-        {
             token->token_type = TOKEN_VARIABLE;
-        }
         else
-        {
             token->token_type = TOKEN_ARG;
-        }
         token = token->next;
     } 
     return (SUCCESS);

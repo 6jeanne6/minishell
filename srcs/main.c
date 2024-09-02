@@ -62,19 +62,24 @@ t_exec **exec)
 		if (!list)
 			return (update_exit_status(gear_5, 1));
 		get_token_type(envp, list);
+		print_token_list(list);
 		if (token_order(list) == FAILURE)
 		{
-			wrong_token_order(list, envp, gear_5);
+			//wrong_token_order(list, envp, gear_5);
+			update_exit_status(gear_5, 2); 
+			//free_token_list(list);
 			return (FAILURE);
 		}
 		expander(list, envp);
 		*exec = init_exec(gear_5, list, envp);
+		/*
 		if (!*exec)
 		{
 			free_t_exec(list, envp);
 			// update_exit_status(gear_5, 1);
 			return (FAILURE);
 		}
+		*/
 		print_exec_list(*exec);
 		free_token_list(list);
 		return (SUCCESS);

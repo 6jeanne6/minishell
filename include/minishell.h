@@ -236,7 +236,7 @@ int		env_ok(t_shell *gear_5, t_token *token, t_env *envp);
 int		export_ok(t_shell *gear_5, t_token *token, t_env *envp);
 int		unset_ok(t_shell *gear_5, t_token *token, t_env *envp);
 int		exit_ok(t_shell *gear_5, t_token *token, t_env *envp);
-
+int		is_file(char *file);
 void	extract_words(const char *line, t_token **head);
 void	handle_characters(t_parsing *state, int word_length);
 void	handle_variable(t_parsing *state, int word_length);
