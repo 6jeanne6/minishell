@@ -293,6 +293,7 @@ void	free_envp_path(t_env *envp);
 void	free_t_exec(t_token *token, t_env *envp);
 void	free_args_tab(char **argv);
 void	super_free_token_list(t_token *head);
+void	filename_error(char *name, char *message, t_shell *gear_5, int flag);
 
 /* debug */
 

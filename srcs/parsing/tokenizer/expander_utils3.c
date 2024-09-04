@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 int is_in_list(t_env *envp, char *variable)
 {
     t_var *begin_list = envp->first_variable;

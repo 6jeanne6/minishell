@@ -107,7 +107,6 @@ void	expand_double_quotes(t_token *list, t_env *envp)
 			if (check_valid_name(token->word) == FAILURE)
 				return ;
 			total += compute_substitution(token->word, envp);
-			printf("total: %d\n", total);
 		}
 		token = token->next;
 	}

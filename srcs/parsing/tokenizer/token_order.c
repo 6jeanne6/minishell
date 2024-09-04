@@ -12,25 +12,20 @@
 
 #include "minishell.h"
 
-static void	filename_error(char *name, char *message, t_shell *gear_5, int flag)
+//verifications for heredoc
+static int	heredoc_order(t_token *token, t_shell *gear_5)
 {
-
-	if (!message)
-		return ;
-	if (flag == 1)
-	{
-		error(name);
-		error(": ");
-		error(message);
-		error("\n");
-		gear_5->exit_status = 1;
-	}
-	else if (flag == 2)
-	{
-		error(message);
-		error("\n");
-		gear_5->exit_status = 2;
-	}
+    if (!token || !gear_5)
+        return (FAILURE);
+    if (token->token_type == TOKEN_HEREDOC)
+    {
+        if (!token->next)
+        {
+            filename_error(token->word, "error: missing delimiter", gear_5, 2);
+            return (FAILURE);
+        }       
+    }
+    return (SUCCESS);
 }
 
 static void	convert_to_file(t_token *token)
@@ -41,11 +36,11 @@ static void	convert_to_file(t_token *token)
 }
 /* Change arg to file if we are in an redirection operator */
 
-static int	input_heredoc_order(t_token *token, t_shell *gear_5)
+static int	input_order(t_token *token, t_shell *gear_5)
 {
 	if (!token || !gear_5)
 		return (FAILURE);
-	if (token->token_type == TOKEN_INPUT || token->token_type == TOKEN_HEREDOC)
+	if (token->token_type == TOKEN_INPUT)
 	{
 		if (token->previous)
 		{
@@ -100,10 +95,9 @@ int	token_order(t_shell *gear_5, t_token *token)
 	while (token)
 	{
 		if ((output_append_order(token) == FAILURE)
-			|| (input_heredoc_order(token, gear_5) == FAILURE))
-		{
+			|| (input_order(token, gear_5) == FAILURE)
+			|| (heredoc_order(token, gear_5) == FAILURE))
 			return (FAILURE);
-		}
 		if (token->next)
 		{
 			if (token->token_type == TOKEN_PIPE

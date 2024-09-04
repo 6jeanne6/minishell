@@ -61,6 +61,7 @@ t_exec **exec)
 		extract_words(gear_5->input, &list);
 		if (!list)
 			return (update_exit_status(gear_5, 1));
+		printf("BEFORE EXPAND\n");
 		get_token_type(envp, list);
 		print_token_list(list);
 		if (token_order(gear_5, list) == FAILURE)
@@ -70,6 +71,7 @@ t_exec **exec)
 			return (FAILURE);
 		}
 		expander(list, envp);
+		printf("AFTER EXPAND\n");
 		*exec = init_exec(gear_5, list, envp);
 		/*
 		if (!*exec)
