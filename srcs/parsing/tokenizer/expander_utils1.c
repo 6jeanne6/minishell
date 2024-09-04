@@ -56,9 +56,11 @@ static int	syntax_variable(char *str, int dollar_count)
 
 	i = -1;
 	found = 0;
+	if (!str)
+		return (FAILURE);
 	while (str[++i])
 	{
-		if (str[i] == '$')
+		if (str[i] == '$' && str[i + 1])
 		{
 			i += 1;
 			if (ft_isalpha(str[i]) || str[i] == '_')
