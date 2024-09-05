@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/05 14:42:47 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/05 15:59:19 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ t_exec **exec)
 		if (token_order(gear_5, list) == FAILURE)
 		{
 			wrong_token_order(list, envp, gear_5);
-			update_exit_status(gear_5, 1, NULL);
 			return (FAILURE);
 		}
 		expander(list, envp);

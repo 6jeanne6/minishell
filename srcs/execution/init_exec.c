@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:00:38 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/05 14:37:13 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/05 16:16:50 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static int	count_arguments_find_redirection(t_token **head, t_token **start)
 	}
 	while (*head && token_is_redirection(*head) == false)
 	{
+		if ((*head)->token_type == TOKEN_HEREDOC)
+			break ;
 		if ((*head)->next)
 			*head = (*head)->next;
 		else

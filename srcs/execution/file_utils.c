@@ -6,27 +6,25 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:21:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/21 16:23:56 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/05 15:24:06 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//handle <<
-// static int	handle_heredoc(t_exec *exec, t_token *token)
-// {
-// 	if (!exec || !token)
-// 		return (FAILURE);
-
-//	return (SUCCESS);
-// }
-
-// //handle <
-// static int	handle_input(t_exec *exec, t_token *token)
-// {
-// 	if (!exec || !token)
-// 		return (FAILURE);
-// }
+//handle <
+static int	handle_input(t_exec *exec, t_token *token)
+{
+	if (!exec || !token)
+		return (FAILURE);
+	if (token->next)
+	{
+		exec->fd_in = open(token->next->word, O_RDONLY);
+		if (exec->fd_in < 0)
+			return (FAILURE);
+	}
+	return (SUCCESS);
+}
 
 //check rights for input file in <
 int	file_input(t_exec *exec, t_token *token)
@@ -35,12 +33,12 @@ int	file_input(t_exec *exec, t_token *token)
 		return (FAILURE);
 	if (token->token_type == TOKEN_INPUT)
 	{
-		//if (handle_input(exec, token) == FAILURE)
+		if (handle_input(exec, token) == FAILURE)
 			return (FAILURE);
 	}
 	else if (token->token_type == TOKEN_HEREDOC)
 	{
-		//if (handle_heredoc(exec, token) == FAILURE)
+		if (handle_heredoc(exec, token) == FAILURE)
 			return (FAILURE);
 	}
 	return (SUCCESS);

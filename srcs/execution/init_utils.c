@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:12:05 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/05 12:06:52 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/05 16:17:11 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	token_is_redirection(t_token *token)
 		return (false);
 	if (token->token_type == TOKEN_APPEND
 		|| token->token_type == TOKEN_OUTPUT
-		|| token->token_type == TOKEN_HEREDOC
+		//|| token->token_type == TOKEN_HEREDOC
 		|| token->token_type == TOKEN_INPUT
 		|| token->token_type == TOKEN_PIPE)
 		return (true);
@@ -60,10 +60,11 @@ int	set_fd(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp)
 		if (file_outfile(gear_5, exec, token) == FAILURE)
 			return (FAILURE);
 	}
-	// else if (token->token_type == TOKEN_INPUT || token->token_type == TOKEN_HEREDOC)
-	// {
-	// 	if (file_input(exec, token) == FAILURE)
-	// 		return (FAILURE);
-	// }
+	else if (token->token_type == TOKEN_INPUT
+		|| token->token_type == TOKEN_HEREDOC)
+	{
+		if (file_input(exec, token) == FAILURE)
+			return (FAILURE);
+	}
 	return (SUCCESS);
 }
