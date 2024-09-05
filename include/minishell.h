@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/02 17:06:03 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/05 14:25:05 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,13 +186,13 @@ char	**find_path(t_env *envp, char **str);
 /* exit status */
 int		update_exit_status_code(t_shell *gear_5);
 int		is_dollar_question_mark_input(t_shell *gear_5);
-int		update_exit_status(t_shell *gear_5, int flag);
+int		update_exit_status(t_shell *gear_5, int flag, char *name);
 
 /* builtins */
 int		is_builtin(char *word);
 void	exec_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
 char	*get_current_path(void);
-int		cd(t_env *envp, t_exec *exec);
+int		cd(t_env *envp, t_exec *exec, t_shell *gear_5);
 
 //void		pwd(t_shell *gear_5);
 //void		exit(t_shell *gear_5, t_exec *execution);

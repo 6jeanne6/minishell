@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:31:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/11 14:55:45 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/05 14:17:29 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	expand_double_quotes(t_token *list, t_env *envp)
 {
 	int		total;
 	t_token	*token;
-	char *expanded_content;
+	char	*expanded_content;
 
 	if (!list || !envp)
 		return ;

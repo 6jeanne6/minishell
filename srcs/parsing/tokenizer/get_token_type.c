@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 14:43:23 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/02 16:08:15 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/05 14:16:21 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static int	is_redirection(char *word)
 		return (TOKEN_OUTPUT);
 	return (FAILURE);
 }
-
 
 /* Check if it's a binary or an executable */
 static int	is_cmd(t_env *envp, t_token *token)

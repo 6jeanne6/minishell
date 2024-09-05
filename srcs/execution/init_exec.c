@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:00:38 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/02 15:08:09 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/05 14:37:13 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,6 @@ t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp)
 	t_exec	*exec_list;
 	t_token	*start;
 
-	if (!gear_5 || !token || !envp)
-		return (NULL);
 	prev_exec = NULL;
 	exec = NULL;
 	while (token)
@@ -129,25 +127,5 @@ t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp)
 		else
 			return (NULL);
 	}
-
-	// int i = 0;
-	// int j = 1;
-	// t_exec *lol = exec_list;
-	// if (!lol)
-	// 	return (NULL);
-	// while (lol)
-	// {
-	// 	i = 0;
-	// 	printf("%dth t_exec\n", j);
-	// 	while (lol->args && lol->args[i])
-	// 	{
-	// 		printf("arg[%d]: %s\n", i, lol->args[i]);
-	// 		i++;
-	// 	}
-	// 	printf("arg[%d]: %s\n", i, lol->args[i]);
-	// 	printf("fd_out: %d\n", lol->fd_out);
-	// 	lol = lol->next;
-	// 	j++;
-	// }
 	return (exec_list);
 }

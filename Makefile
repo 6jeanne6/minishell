@@ -60,14 +60,13 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/signals/signals.c \
 				${SRCDIR}/error/error_utils.c \
 				${SRCDIR}/error/free_utils.c \
-				${SRCDIR}/builtins/exec_buildin.c \
+				${SRCDIR}/builtins/exec_builtin.c \
 				${SRCDIR}/builtins/builtins_tool.c \
 				${SRCDIR}/builtins/cd.c \
 				${SRCDIR}/builtins/env.c \
 				${SRCDIR}/builtins/exit.c \
 				${SRCDIR}/builtins/pwd.c \
 				${SRCDIR}/debug/print_token.c \
-				${SRCDIR}/status_code/parsing_status_code.c \
 				${SRCDIR}/status_code/update_status_code.c
 
 ################################################################################

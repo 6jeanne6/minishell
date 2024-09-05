@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 14:37:25 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/25 14:47:21 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/05 13:51:21 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	process_token(t_parsing *state, int word_length)
 	{
 		state->current_word[state->j] = '\0';
 		add_to_list(state->token_list, state, state->current_word, word_length);
-		state->j = 0; // Réinitialiser l'index
+		state->j = 0;
 		state->outer_double_quote = 0;
 		state->outer_single_quote = 0;
 	}

@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 16:20:27 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/02 17:14:37 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/05 11:36:32 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 //verifications for heredoc
 static int	heredoc_order(t_token *token, t_shell *gear_5)
 {
-    if (!token || !gear_5)
-        return (FAILURE);
-    if (token->token_type == TOKEN_HEREDOC)
-    {
-        if (!token->next)
-        {
-            filename_error(token->word, "error: missing delimiter", gear_5, 2);
-            return (FAILURE);
-        }       
-    }
-    return (SUCCESS);
+	if (!token || !gear_5)
+		return (FAILURE);
+	if (token->token_type == TOKEN_HEREDOC)
+	{
+		if (!token->next)
+		{
+			filename_error(token->word, "Error: missing delimiter", gear_5, 2);
+			return (FAILURE);
+		}
+	}
+	return (SUCCESS);
 }
 
 static void	convert_to_file(t_token *token)
@@ -55,7 +55,8 @@ static int	input_order(t_token *token, t_shell *gear_5)
 		}
 		if (is_file(token->next->word) == FAILURE)
 		{
-			filename_error(token->next->word, "inexistant file", gear_5, 1);
+			filename_error(token->next->word,
+				"Error: inexistant file", gear_5, 1);
 			return (FAILURE);
 		}
 	}

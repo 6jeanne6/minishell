@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 22:35:16 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/02 16:46:41 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/05 14:01:44 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ void	free_token_list(t_token *head)
 		temp = head;
 		head = head->next;
 		free(temp->word);
-		if (temp->cmd_path)
-			free(temp->cmd_path);
 		free(temp);
 		temp = NULL;
 	}
@@ -66,5 +64,6 @@ void	wrong_token_order(t_token *token, t_env *envp, t_shell *gear_5)
 	(void)gear_5;
 	if (!token || !envp)
 		return ;
+	gear_5->exit_status = update_exit_status(gear_5, 1, NULL);
 	super_free_token_list(token);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_buildin.c                                     :+:      :+:    :+:   */
+/*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 09:43:09 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/27 20:56:14 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/05 14:29:52 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	exec_builtin(t_shell *gear_5, t_env *envp, t_exec *exec)
 		gear_5->exit_status = 
 	*/
 	if (ft_strcmp(exec->cmd_name, "cd") == 0)
-		gear_5->exit_status = cd(envp, exec);
+		gear_5->exit_status = cd(envp, exec, gear_5);
 	/*
 	if (ft_strcmp(exec->cmd_name, "pwd") == 0)
 		gear_5->exit_status = 

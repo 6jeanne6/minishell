@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 10:14:54 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/24 10:36:05 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/05 14:32:41 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)())
     }
 
     current = *begin_list;
-
     while (current && current->next)
     {
         if (cmp(current->next->data, data_ref) == 0)
@@ -49,22 +48,6 @@ void unset(t_shell *shell)
 {
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
  if (args == NULL)
