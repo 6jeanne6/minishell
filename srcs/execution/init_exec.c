@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:00:38 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/05 16:16:50 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/06 17:14:33 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int arg_count)
 {
 	t_exec	*exec;
 
-	if (!token || !envp || arg_count == 0)
+	if (!token || !envp)
 		return (NULL);
 	exec = ft_calloc(1, sizeof(t_exec));
 	if (!exec)
@@ -63,8 +63,6 @@ static int	count_arguments_find_redirection(t_token **head, t_token **start)
 	}
 	while (*head && token_is_redirection(*head) == false)
 	{
-		if ((*head)->token_type == TOKEN_HEREDOC)
-			break ;
 		if ((*head)->next)
 			*head = (*head)->next;
 		else
@@ -81,7 +79,7 @@ static t_exec	*process_tokenn(t_shell *gear_5, t_token **head, t_env *envp)
 	t_exec	*exec;
 
 	arg_count = count_arguments_find_redirection(head, &start);
-	if (start != *head || arg_count > 0)
+	if (start != *head || start->token_type == TOKEN_HEREDOC || arg_count > 0)
 	{
 		exec = set_structure(gear_5, start, envp, arg_count);
 		if (!exec)

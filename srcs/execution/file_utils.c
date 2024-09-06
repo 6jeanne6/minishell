@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:21:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/05 15:24:06 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/06 15:02:34 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	file_input(t_exec *exec, t_token *token)
 	}
 	else if (token->token_type == TOKEN_HEREDOC)
 	{
-		if (handle_heredoc(exec, token) == FAILURE)
+		if (create_heredoc(exec, token) == FAILURE)
 			return (FAILURE);
 	}
 	return (SUCCESS);

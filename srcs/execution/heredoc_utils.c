@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:24:09 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/05 16:22:02 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/06 15:01:45 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	gnl_here_doc(t_exec *exec, char *delimiter)
 }
 
 //handle <<
-int	handle_heredoc(t_exec *exec, t_token *token)
+int	create_heredoc(t_exec *exec, t_token *token)
 {
 	char	*delimiter;
 
