@@ -58,9 +58,11 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/execution/init_utils.c \
 				${SRCDIR}/execution/file_utils.c \
 				${SRCDIR}/execution/heredoc_utils.c \
+				${SRCDIR}/execution/fork_pid.c \
 				${SRCDIR}/signals/signals.c \
 				${SRCDIR}/error/error_utils.c \
 				${SRCDIR}/error/free_utils.c \
+				${SRCDIR}/error/pid_pipe_free.c \
 				${SRCDIR}/builtins/exec_builtin.c \
 				${SRCDIR}/builtins/builtins_tool.c \
 				${SRCDIR}/builtins/cd.c \

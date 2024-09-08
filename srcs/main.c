@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/06 17:33:30 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/08 14:08:46 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@
 // • execution:
 //		→ pid
 //		→ fork
-//		→ waitpidb
+//		→ waitpid
 //		→ close fds and pipes
 static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
 	if (!gear_5 || !envp || !exec)
+		return (FAILURE);
+	if (init_fork(gear_5, envp, exec) == FAILURE)
 		return (FAILURE);
 	if (is_builtin(exec->cmd_name) == SUCCESS)
 	{	

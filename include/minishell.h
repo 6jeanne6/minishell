@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/06 15:35:22 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/08 15:49:54 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_exec
 	struct s_exec	*next;
 
 	int				id;
+	int				nb_cmd;
 	int				in_double_quote;
 	int				outer_double_quote;
 	int				outer_single_quote;
@@ -281,6 +282,7 @@ int		file_outfile(t_shell *gear_5, t_exec *exec, t_token *token);
 int		file_input(t_exec *exec, t_token *token);
 int		set_fd(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp);
 int		create_heredoc(t_exec *exec, t_token *token);
+int		init_fork(t_shell *gear_5, t_env *envp, t_exec *exec);
 
 bool	token_is_redirection(t_token *token);
 
@@ -300,6 +302,7 @@ void	free_t_exec(t_token *token, t_env *envp);
 void	free_args_tab(char **argv);
 void	super_free_token_list(t_token *head);
 void	filename_error(char *name, char *message, t_shell *gear_5, int flag);
+void	clean_exec(t_exec *exec);
 
 /* debug */
 
