@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:18:07 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/08 16:23:03 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/09 13:34:30 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,21 @@ static void	do_fork(t_shell *gear_5, t_env *envp, t_exec *exec, int cmd)
 	int	i;
 
 	i = -1;
+	exec->pid_tab[gear_5->j] = fork();
+	if (exec->pid_tab[gear_5->j] == -1)
+	{
+		update_exit_status(gear_5, 1, NULL);
+		return ;
+	}
+	else if (exec->pid_tab[gear_5->j] == 0)
+		child_process(exec, gear_5, envp, cmd);
+	i = -1;
 	while (++i < cmd)
 	{
-		exec->pid_tab[i] = fork();
-		if (exec->pid_tab[i] == -1)
-		{
-			update_exit_status(gear_5, 1, NULL);
-			return ;
-		}
-		else if (exec->pid_tab[i] == 0)
-			child_process(pipex, i, argv, env);
-		i = -1;
-		while (++i < cmd)
-		{
-			close(exec->pipe_tab[i][READ_END]);
-			close(exec->pipe_tab[i][WRITE_END]);
-		}
-		i = -1;
-		while (++i < cmd)
-			waitpid(exec->pid_tab[i], 0, 0);
+		close(exec->pipe_tab[i][READ_END]);
+		close(exec->pipe_tab[i][WRITE_END]);
 	}
+	waitpid(exec->pid_tab[gear_5->j], 0, 0);
 }
 
 //pipe tab initialization
@@ -107,10 +102,11 @@ int	init_fork(t_shell *gear_5, t_env *envp, t_exec *exec)
 	exec->nb_cmd = commands;
 	init_tab_pid(gear_5, envp, exec, commands);
 	init_tab_pipe(gear_5, envp, exec, commands);
-	do_fork(gear_5, envp, exec, commands);
 	while (current_process)
 	{
+		do_fork(gear_5, envp, exec, commands);
 		current_process = current_process->next;
+		gear_5->j++;
 	}
 	return (SUCCESS);
 }

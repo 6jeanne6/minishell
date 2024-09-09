@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/08 15:49:54 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/09 13:42:54 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,9 @@ typedef struct s_env
 typedef struct s_shell
 {
 	char	*input;
+
 	int		exit_status;
+	int		j;
 
 }				t_shell;
 
@@ -287,6 +289,8 @@ int		init_fork(t_shell *gear_5, t_env *envp, t_exec *exec);
 bool	token_is_redirection(t_token *token);
 
 void	set_arg_tab(t_exec *exec, t_token *token, t_env *envp, int arg_count);
+void	child_process(t_exec *exec, t_shell *gear_5, t_env *envp, int cmd);
+void	execve_all(t_shell *gear_5, t_env *envp, t_exec *exec);
 
 //void	link_exec(t_exec *prev_exec, t_exec *exec);
 
