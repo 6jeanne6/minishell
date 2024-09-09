@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:00:38 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/06 17:14:33 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/09 17:32:55 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,8 @@ t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp)
 			else
 				exec = link_exec_nodes(prev_exec, exec);
 			prev_exec = exec;
-			exec->bin = start->cmd_path;
+			if (start->cmd_path)
+				exec->bin = ft_strdup(start->cmd_path);
 		}
 		else
 			return (NULL);

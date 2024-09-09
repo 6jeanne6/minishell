@@ -6,11 +6,22 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:21:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/06 15:02:34 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/09 18:33:04 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//check if fd is STDIN, STDOUT or STDERR or not
+bool	basic_fd(t_exec *exec)
+{
+	if (!exec)
+		return (false);
+	if (exec->fd_in > 2 || exec->fd_out > 2)
+		return (false);
+	else
+		return (true);
+}
 
 //handle <
 static int	handle_input(t_exec *exec, t_token *token)

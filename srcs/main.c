@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/08 14:08:46 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/09 19:13:02 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,13 @@ static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
 	if (!gear_5 || !envp || !exec)
 		return (FAILURE);
+	printf(GREEN"PARENT: BEFORE INIT FORK\n");
+	printf(RESET"\n");
 	if (init_fork(gear_5, envp, exec) == FAILURE)
 		return (FAILURE);
-	if (is_builtin(exec->cmd_name) == SUCCESS)
-	{	
-		exec_builtin(gear_5, envp, exec);
-		return (SUCCESS);
-	}
-	if (exec->bin)
-	{
-		execve(exec->bin, exec->args, envp->env);
-		if (execve(exec->bin, exec->args, envp->env) < 0)
-		{
-			error("Check your execve\n");
-			return (FAILURE);
-		}
-	}
-	else
-		return (FAILURE);
+	printf(RESET"\n");
+	printf(GREEN"PARENT: FORK WORKED\n");
+	printf(RESET"\n");
 	return (SUCCESS);
 }
 
@@ -62,12 +51,9 @@ t_exec **exec)
 		if (!list)
 			return (update_exit_status(gear_5, 1, NULL));
 		get_token_type(envp, list);
-		print_token_list(list);
+		//print_token_list(list, gear_5);
 		if (token_order(gear_5, list) == FAILURE)
-		{
-			wrong_token_order(list, envp, gear_5);
-			return (FAILURE);
-		}
+			return (wrong_token_order(list, envp, gear_5), FAILURE);
 		expander(list, envp);
 		*exec = init_exec(gear_5, list, envp);
 		if (!*exec)
@@ -76,8 +62,8 @@ t_exec **exec)
 			update_exit_status(gear_5, 1, NULL);
 			return (FAILURE);
 		}
-		print_exec_list(*exec);
-		free_token_list(list);
+		//print_exec_list(*exec);
+		super_free_token_list(list);
 		return (SUCCESS);
 	}
 	return (FAILURE);
@@ -97,6 +83,7 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 	exec = NULL;
 	while (true)
 	{
+		clean_exec(exec, gear_5);
 		free_exec(exec);
 		exec = NULL;
 		gear_5->input = readline(WHITE"Super Gear 5 $> "RESET);
@@ -110,8 +97,7 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 		if (execute_gear_5(gear_5, envp, exec) == FAILURE)
 			continue ;
 	}
-	clean_env(envp);
-	free_exec(exec);
+	end_gear_5(gear_5, exec, envp);
 	return (gear_5->exit_status);
 }
 

@@ -6,14 +6,13 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 22:35:16 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/05 15:45:59 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/09 17:06:10 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //free each node in token linked list + free cmd_path
-//to avoid syscall in execve
 void	super_free_token_list(t_token *head)
 {
 	t_token	*temp;

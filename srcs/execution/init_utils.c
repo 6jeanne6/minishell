@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:12:05 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/06 15:35:16 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/09 17:52:01 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int arg_count)
 	arg_count--;
 	while (arg_count >= 0)
 	{
+		if (j == 0)
+			exec->cmd_name = ft_strdup(token->word);
 		exec->args[j] = ft_strdup(tmp->word);
 		arg_count--;
 		j++;

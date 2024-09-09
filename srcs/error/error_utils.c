@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:43:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/28 14:51:55 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:51:20 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ void	free_envp_path(t_env *envp)
 	if (!envp)
 		return ;
 	if (envp->cmd_path)
+	{
+		free(envp->cmd_path);
 		envp->cmd_path = NULL;
+	}
 }
 
 //free envp structure

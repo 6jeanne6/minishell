@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:16:25 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/05 12:32:50 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/09 19:15:23 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,19 @@ void	print_token_list(t_token *list)
 	}
 }
 
-void	print_exec_list(t_exec *exec)
+void	print_exec_list(t_exec *exec, t_shell *gear_5)
 {
 	t_exec	*current;
 
 	current = exec;
-	if (!current)
+	if (!current || gear_5)
 		return ;
+	// if (gear_5->pipe_tab)
+	// 	{
+	// 		printf("Pipe Tab:\n");
+	// 		for (int i = 0; gear_5->pipe_tab[i] != NULL; i++)
+	// 			printf("  Pipe %d: [%d, %d]\n", i, gear_5->pipe_tab[i][0], gear_5->pipe_tab[i][1]);
+	// 	}
 	while (current != NULL)
 	{
 		printf("ID: %d\n", current->id);
@@ -87,12 +93,6 @@ void	print_exec_list(t_exec *exec)
 		printf("Outer Single Quote: %d\n", current->outer_single_quote);
 		printf("FD In: %d\n", current->fd_in);
 		printf("FD Out: %d\n", current->fd_out);
-		if (current->pipe_tab)
-		{
-			printf("Pipe Tab:\n");
-			for (int i = 0; current->pipe_tab[i] != NULL; i++)
-				printf("  Pipe %d: [%d, %d]\n", i, current->pipe_tab[i][0], current->pipe_tab[i][1]);
-		}
 		printf("Command Name: %s\n", current->cmd_name ? current->cmd_name : "NULL");
 		printf("Binary Path: %s\n", current->bin ? current->bin : "NULL");
 		if (current->args)

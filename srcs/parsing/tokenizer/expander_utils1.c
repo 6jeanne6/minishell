@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_outer_double_quote.c                        :+:      :+:    :+:   */
+/*   expander_utils1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:31:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/11 14:55:45 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/09 18:36:46 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ void	expand_content(t_token *list, t_env *envp)
 		if (check_valid_name(token->word) == FAILURE)
 			return ;
 		total += compute_substitution(token->word, envp);
-		printf("total: %d\n", total);
 		token = token->next;
 	}
 	expanded_content = create_new_word(list, envp, total);
