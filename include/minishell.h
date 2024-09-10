@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/10 13:15:44 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/10 15:35:16 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ typedef struct s_exec
 	int				outer_single_quote;
 	int				fd_in;
 	int				fd_out;
+	int				pipe_in;
+	int				pipe_out;
 
 	int				**pipe_tab;
 
@@ -311,7 +313,6 @@ void	super_free_token_list(t_token *head);
 void	filename_error(char *name, char *message, t_shell *gear_5, int flag);
 void	clean_exec(t_exec *exec);
 void	execve_clean_all(t_exec *exec, t_env *envp, t_shell *gear_5);
-void	end_gear_5(t_shell *gear_5, t_exec *exec, t_env *envp);
 
 /* debug */
 

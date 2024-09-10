@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/10 13:16:23 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/10 18:24:49 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 		if (execute_gear_5(gear_5, envp, exec) == FAILURE)
 			continue ;
 	}
-	end_gear_5(gear_5, exec, envp);
+	execve_clean_all(exec, envp, gear_5);
 	return (gear_5->exit_status);
 }
 
