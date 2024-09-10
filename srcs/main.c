@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/09 19:13:02 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/10 13:16:23 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 	exec = NULL;
 	while (true)
 	{
-		clean_exec(exec, gear_5);
+		clean_exec(exec);
 		free_exec(exec);
 		exec = NULL;
 		gear_5->input = readline(WHITE"Super Gear 5 $> "RESET);

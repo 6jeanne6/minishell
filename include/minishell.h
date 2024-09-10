@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/09 19:14:58 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/10 13:15:44 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,7 +309,7 @@ void	free_t_exec(t_token *token, t_env *envp);
 void	free_args_tab(char **argv);
 void	super_free_token_list(t_token *head);
 void	filename_error(char *name, char *message, t_shell *gear_5, int flag);
-void	clean_exec(t_exec *exec, t_shell *gear_5);
+void	clean_exec(t_exec *exec);
 void	execve_clean_all(t_exec *exec, t_env *envp, t_shell *gear_5);
 void	end_gear_5(t_shell *gear_5, t_exec *exec, t_env *envp);
 

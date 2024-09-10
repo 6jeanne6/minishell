@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:18:07 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/09 19:17:11 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/10 13:26:03 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ static void	do_fork(t_shell *gear_5, t_exec *exec, t_env *envp, int cmd)
 	i = -1;
 	while (++i < cmd)
 	{
-		// close(gear_5->pipe_tab[i][READ_END]);
-		// close(gear_5->pipe_tab[i][WRITE_END]);
 		close(exec->pipe_tab[i][READ_END]);
 		close(exec->pipe_tab[i][WRITE_END]);
 	}
@@ -47,7 +45,6 @@ static void	init_tab_pipe(t_shell *gear_5, t_exec *exec, int cmd)
 	if (!exec || !gear_5)
 		return ;
 	exec->pipe_tab = ft_calloc(cmd, sizeof(int *));
-	//gear_5->pipe_tab = ft_calloc(1, sizeof(int *));
 	if (!exec->pipe_tab)
 	{
 		update_exit_status(gear_5, 1, NULL);
@@ -55,30 +52,23 @@ static void	init_tab_pipe(t_shell *gear_5, t_exec *exec, int cmd)
 	}
 	while (++i < cmd)
 	{
-		// gear_5->pipe_tab[i] = ft_calloc(2, sizeof(int));
-		// if (!gear_5->pipe_tab[i])
-		// 	clean_exec(exec, gear_5);
-		// if (pipe(gear_5->pipe_tab[i]) == -1)
-		// 	clean_exec(exec, gear_5);
 		exec->pipe_tab[i] = ft_calloc(2, sizeof(int));
 		if (!exec->pipe_tab[i])
-			clean_exec(exec, gear_5);
+			clean_exec(exec);
 		if (pipe(exec->pipe_tab[i]) == -1)
-			clean_exec(exec, gear_5);
+			clean_exec(exec);
 	}
 }
 
 //creates pid into a tab
-static void	init_tab_pid(t_shell *gear_5, t_exec *exec, int cmd)
+static void	init_tab_pid(t_shell *gear_5, t_exec *exec)
 {
 	if (!gear_5 || !exec)
 		return ;
-	(void)cmd;
-	//exec->pid_tab = ft_calloc(cmd, sizeof(pid_t));
 	exec->pid_tab = ft_calloc(1, sizeof(pid_t));
 	if (!exec->pid_tab)
 	{
-		clean_exec(exec, gear_5);
+		clean_exec(exec);
 		update_exit_status(gear_5, 1, NULL);
 		return ;
 	}
@@ -113,12 +103,11 @@ int	init_fork(t_shell *gear_5, t_env *envp, t_exec *exec)
 	start = exec;
 	commands = how_many_process(start);
 	exec->nb_cmd = commands;
-	//init_tab_pid(gear_5, exec, commands);
 	init_tab_pipe(gear_5, exec, commands);
 	gear_5->j = 0;
 	while (current_process)
 	{
-		init_tab_pid(gear_5, current_process, commands);
+		init_tab_pid(gear_5, current_process);
 		do_fork(gear_5, current_process, envp, commands);
 		current_process = current_process->next;
 		gear_5->j++;

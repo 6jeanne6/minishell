@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:38:41 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/09 19:16:17 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/10 13:28:04 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static void	first_dup(t_exec *exec, t_shell *gear_5)
 		return ;
 	}
 	dup2(exec->fd_in, STDIN_FILENO);
-	// dup2(gear_5->pipe_tab[gear_5->j][WRITE_END], STDOUT_FILENO);
 	dup2(exec->pipe_tab[gear_5->j][WRITE_END], STDOUT_FILENO);
 }
 
@@ -33,9 +32,6 @@ static void	first_dup(t_exec *exec, t_shell *gear_5)
 // → use current pipe as STDOUT
 static void	middle_dup(t_exec *exec, t_shell *gear_5)
 {
-	(void)exec;
-	// dup2(gear_5->pipe_tab[gear_5->j - 1][READ_END], STDIN_FILENO);
-	// dup2(gear_5->pipe_tab[gear_5->j][WRITE_END], STDOUT_FILENO);
 	dup2(exec->pipe_tab[gear_5->j - 1][READ_END], STDIN_FILENO);
 	dup2(exec->pipe_tab[gear_5->j][WRITE_END], STDOUT_FILENO);
 }
@@ -45,7 +41,6 @@ static void	middle_dup(t_exec *exec, t_shell *gear_5)
 // → use outfile as STDOUT
 static void	last_dup(t_exec *exec, t_shell *gear_5)
 {
-	// dup2(gear_5->pipe_tab[gear_5->j - 1][READ_END], STDIN_FILENO);
 	dup2(exec->pipe_tab[gear_5->j - 1][READ_END], STDIN_FILENO);
 	dup2(exec->fd_out, STDOUT_FILENO);
 }
@@ -68,8 +63,6 @@ void	child_process(t_exec *exec, t_shell *gear_5, t_env *envp, int cmd)
 	}
 	while (++i < cmd)
 	{
-		// close(gear_5->pipe_tab[i][READ_END]);
-		// close(gear_5->pipe_tab[i][WRITE_END]);
 		close(exec->pipe_tab[i][READ_END]);
 		close(exec->pipe_tab[i][WRITE_END]);
 	}
