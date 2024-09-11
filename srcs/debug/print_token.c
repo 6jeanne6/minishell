@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:16:25 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/09 19:15:23 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/11 16:00:38 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,13 @@ void	print_exec_list(t_exec *exec, t_shell *gear_5)
 	while (current != NULL)
 	{
 		printf("ID: %d\n", current->id);
-		if (current->pid_tab)
-		{
-			printf("PID Tab: ");
-			for (int i = 0; current->pid_tab[i] != -1; i++) // On suppose que -1 termine pid_tab
-				printf("%d ", current->pid_tab[i]);
-			printf("\n");
-		}
+		// if (current->pid_tab)
+		// {
+		// 	printf("PID Tab: ");
+		// 	for (int i = 0; current->pid_tab[i] != -1; i++) // On suppose que -1 termine pid_tab
+		// 		printf("%d ", current->pid_tab[i]);
+		// 	printf("\n");
+		// }
 		printf("In Double Quote: %d\n", current->in_double_quote);
 		printf("Outer Double Quote: %d\n", current->outer_double_quote);
 		printf("Outer Single Quote: %d\n", current->outer_single_quote);

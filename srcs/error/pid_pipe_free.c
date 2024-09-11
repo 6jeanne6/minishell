@@ -6,11 +6,22 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:36:25 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/10 18:33:38 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/11 16:15:08 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//close all pipes
+void	error_shell_exec(t_shell *gear_5, t_env *envp, t_exec *exec)
+{
+	if (!envp || !gear_5 || !exec)
+		return ;
+	clean_env(envp);
+	clean_exec(exec, gear_5);
+	free_exec(exec);
+	exit(EXIT_FAILURE);
+}
 
 //when execve succeed, clean everything and process can terminate
 void	execve_clean_all(t_exec *exec, t_env *envp, t_shell *gear_5)
@@ -18,34 +29,34 @@ void	execve_clean_all(t_exec *exec, t_env *envp, t_shell *gear_5)
 	if (!envp || !gear_5)
 		return ;
 	clean_env(envp);
-	clean_exec(exec);
+	clean_exec(exec, gear_5);
 	free_exec(exec);
 }
 
-//free stuff in t_exec
-void	clean_exec(t_exec *exec)
+//free stuff in t_exec, and in gear_5 pid and pipe tab
+void	clean_exec(t_exec *exec, t_shell *gear_5)
 {
 	t_exec	*current;
 	int		i;
 
-	if (!exec)
+	if (!exec || !gear_5)
 		return ;
 	current = exec;
 	i = -1;
+	if (gear_5->pid_tab)
+		free(gear_5->pid_tab);
+	if (gear_5->pipe_tab)
+	{
+		while (++i < current->nb_cmd - 1)
+			free(gear_5->pipe_tab[i]);
+		free(gear_5->pipe_tab);
+	}
 	while (current)
 	{
 		if (current->cmd_name)
 			free(current->cmd_name);
-		if (current->pid_tab)
-			free(current->pid_tab);
 		if (current->bin)
 			free(current->bin);
-		if (current->pipe_tab)
-		{
-			while (++i < current->nb_cmd - 1)
-				free(current->pipe_tab[i]);
-			free(current->pipe_tab);
-		}
 		current = current->next;
 	}
 }

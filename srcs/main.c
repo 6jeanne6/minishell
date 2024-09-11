@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/10 18:24:49 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/11 16:05:26 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
 	if (!gear_5 || !envp || !exec)
 		return (FAILURE);
-	printf(GREEN"PARENT: BEFORE INIT FORK\n");
-	printf(RESET"\n");
+	// printf(GREEN"PARENT: BEFORE INIT FORK\n");
+	// printf(RESET"\n");
 	if (init_fork(gear_5, envp, exec) == FAILURE)
 		return (FAILURE);
-	printf(RESET"\n");
-	printf(GREEN"PARENT: FORK WORKED\n");
-	printf(RESET"\n");
+	// printf(RESET"\n");
+	// printf(GREEN"PARENT: FORK WORKED\n");
+	// printf(RESET"\n");
 	return (SUCCESS);
 }
 
@@ -83,7 +83,7 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 	exec = NULL;
 	while (true)
 	{
-		clean_exec(exec);
+		clean_exec(exec, gear_5);
 		free_exec(exec);
 		exec = NULL;
 		gear_5->input = readline(WHITE"Super Gear 5 $> "RESET);

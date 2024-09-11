@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/10 15:35:16 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/11 15:50:15 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@
 //execution structure
 typedef struct s_exec
 {
-	pid_t			*pid_tab;
+	//pid_t			*pid_tab;
 
 	struct s_exec	*prev;
 	struct s_exec	*next;
@@ -85,10 +85,8 @@ typedef struct s_exec
 	int				outer_single_quote;
 	int				fd_in;
 	int				fd_out;
-	int				pipe_in;
-	int				pipe_out;
 
-	int				**pipe_tab;
+	//int				**pipe_tab;
 
 	char			*cmd_name;
 	char			*bin;
@@ -174,7 +172,9 @@ typedef struct s_shell
 	int		exit_status;
 	int		j;
 
-	//int		**pipe_tab;
+	int		**pipe_tab;
+
+	pid_t	*pid_tab;
 
 }				t_shell;
 
@@ -311,8 +311,9 @@ void	free_t_exec(t_token *token, t_env *envp);
 void	free_args_tab(char **argv);
 void	super_free_token_list(t_token *head);
 void	filename_error(char *name, char *message, t_shell *gear_5, int flag);
-void	clean_exec(t_exec *exec);
+void	clean_exec(t_exec *exec, t_shell *gear_5);
 void	execve_clean_all(t_exec *exec, t_env *envp, t_shell *gear_5);
+void	error_shell_exec(t_shell *gear_5, t_env *envp, t_exec *exec);
 
 /* debug */
 
