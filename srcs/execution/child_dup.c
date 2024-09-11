@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:38:41 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/10 16:05:34 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/11 14:36:05 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,16 @@
 // → use current pipe as STDOUT
 static void	first_dup(t_exec *exec, t_shell *gear_5)
 {
-	// if (exec->fd_in < 0)
-	// {
-	// 	close(exec->fd_out);
-	// 	update_exit_status(gear_5, 1, NULL);
-	// 	return ;
-	// }
 	if (exec->fd_in >= 0)
-		dup2(exec->fd_in, STDIN_FILENO);
-	// dup2(exec->fd_in, STDIN_FILENO);
-	//dup2(exec->pipe_tab[gear_5->j][WRITE_END], STDOUT_FILENO);
-	dup2(exec->pipe_out, STDOUT_FILENO);
+	{
+		if (dup2(exec->fd_in, STDIN_FILENO) == -1)
+		{
+			update_exit_status(gear_5, 1, NULL);
+			perror("dup2 failed on fd_in\n");
+			return ;
+		}
+	}
+	dup2(exec->pipe_tab[gear_5->j][WRITE_END], STDOUT_FILENO);
 }
 
 //middle commands:
@@ -35,10 +34,8 @@ static void	first_dup(t_exec *exec, t_shell *gear_5)
 // → use current pipe as STDOUT
 static void	middle_dup(t_exec *exec, t_shell *gear_5)
 {
-	// dup2(exec->pipe_tab[gear_5->j - 1][READ_END], STDIN_FILENO);
-	// dup2(exec->pipe_tab[gear_5->j][WRITE_END], STDOUT_FILENO);
-	dup2(exec->pipe_in, STDIN_FILENO);
-	dup2(exec->pipe_out, STDOUT_FILENO);
+	dup2(exec->pipe_tab[gear_5->j - 1][READ_END], STDIN_FILENO);
+	dup2(exec->pipe_tab[gear_5->j][WRITE_END], STDOUT_FILENO);
 }
 
 // last command:
@@ -46,9 +43,16 @@ static void	middle_dup(t_exec *exec, t_shell *gear_5)
 // → use outfile as STDOUT
 static void	last_dup(t_exec *exec, t_shell *gear_5)
 {
-	//dup2(exec->pipe_tab[gear_5->j - 1][READ_END], STDIN_FILENO);
-	dup2(exec->pipe_in, STDIN_FILENO);
-	dup2(exec->fd_out, STDOUT_FILENO);
+	dup2(exec->pipe_tab[gear_5->j - 1][READ_END], STDIN_FILENO);
+	if (exec->fd_out >= 0)
+	{
+		if (dup2(exec->fd_out, STDOUT_FILENO) == -1)
+		{
+			update_exit_status(gear_5, 1, NULL);
+			perror("dup2 failed on fd_out\n");
+			return ;
+		}
+	}
 }
 
 //child process when PID is equal to 0
@@ -58,10 +62,6 @@ void	child_process(t_exec *exec, t_shell *gear_5, t_env *envp, int cmd)
 	int	i;
 
 	i = -1;
-	if (gear_5->j > 0)
-		exec->pipe_in = exec->pipe_tab[gear_5->j - 1][READ_END];
-	if (gear_5->j < cmd - 1)
-		exec->pipe_out = exec->pipe_tab[gear_5->j][WRITE_END];
 	if (basic_fd(exec) == false || cmd > 1)
 	{
 		if (gear_5->j == 0)
@@ -73,6 +73,8 @@ void	child_process(t_exec *exec, t_shell *gear_5, t_env *envp, int cmd)
 	}
 	while (++i < cmd - 1)
 	{
+		// if (i == gear_5->j)
+		// 	continue ;
 		close(exec->pipe_tab[i][READ_END]);
 		close(exec->pipe_tab[i][WRITE_END]);
 	}

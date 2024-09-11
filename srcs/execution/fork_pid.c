@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:18:07 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/10 18:20:07 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/11 14:35:49 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 //handle multi-pipes and dup2 with previous fd
 static void	do_fork(t_shell *gear_5, t_exec *exec, t_env *envp, int cmd)
 {
-	int	i;
+	// int	i;
 
-	i = -1;
+	// i = -1;
 	exec->pid_tab[gear_5->j] = fork();
 	if (exec->pid_tab[gear_5->j] == -1)
 	{
@@ -26,11 +26,16 @@ static void	do_fork(t_shell *gear_5, t_exec *exec, t_env *envp, int cmd)
 	}
 	else if (exec->pid_tab[gear_5->j] == 0)
 		child_process(exec, gear_5, envp, cmd);
-	i = -1;
-	while (++i < cmd - 1)
+	// i = -1;
+	// while (++i < cmd - 1)
+	// {
+	// 	close(exec->pipe_tab[i][READ_END]);
+	// 	close(exec->pipe_tab[i][WRITE_END]);
+	// }
+	if (gear_5->j > 0)
 	{
-		close(exec->pipe_tab[i][READ_END]);
-		close(exec->pipe_tab[i][WRITE_END]);
+		close(exec->pipe_tab[gear_5->j - 1][READ_END]);
+		close(exec->pipe_tab[gear_5->j - 1][WRITE_END]);
 	}
 	waitpid(exec->pid_tab[gear_5->j], 0, 0);
 }
