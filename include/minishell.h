@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/12 16:55:18 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/12 18:55:19 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,6 +290,7 @@ bool	token_is_redirection(t_token *token);
 bool	basic_fd(t_exec *exec);
 
 void	set_arg_tab(t_exec *exec, t_token *token, t_env *envp, int arg_count);
+void	fail_set_fd_clean(t_exec *exec);
 void	child_process(t_exec *exec, t_shell *gear_5, t_env *envp, int cmd);
 void	execve_all(t_shell *gear_5, t_env *envp, t_exec *exec);
 

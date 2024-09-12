@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 15:41:43 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/09 17:43:35 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/12 18:48:12 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,22 @@ static int	update_exit_status_exec(t_shell *gear_5, int flag, char *name)
 	return (gear_5->exit_status);
 }
 
+//exit status 1
+static void	exit_one(t_shell *gear_5, char *name)
+{
+	if (!gear_5)
+		return ;
+	if (name)
+	{
+		error(name);
+		error(": ");
+		error("permission denied\n");
+	}
+	else
+		error("Error : check your input\n");
+	gear_5->exit_status = 1;
+}
+
 //function to update exit status of the parsing according to flag
 int	update_exit_status(t_shell *gear_5, int flag, char *name)
 {
@@ -42,10 +58,7 @@ int	update_exit_status(t_shell *gear_5, int flag, char *name)
 		gear_5->exit_status = 2;
 	}
 	else if (flag == 1)
-	{
-		error("Error : check your input\n");
-		gear_5->exit_status = 1;
-	}
+		exit_one(gear_5, name);
 	else if (flag == 126 || flag == 127)
 	{
 		if (update_exit_status_exec(gear_5, flag, name) == FAILURE)

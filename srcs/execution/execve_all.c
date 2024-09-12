@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:39:54 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/12 17:42:22 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/12 19:03:25 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static void	execve_bin(t_shell *gear_5, t_env *envp, t_exec *exec)
 		}
 	}
 	execve_clean_all(exec, envp, gear_5);
-	exit(SUCCESS);
 }
 
 //if builtin execute this

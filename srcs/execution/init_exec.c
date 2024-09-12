@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:00:38 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/12 17:01:10 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/12 18:55:58 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static t_exec	*process_tokenn(t_shell *gear_5, t_token **head, t_env *envp)
 	else
 		return (NULL);
 	if (set_fd(gear_5, exec, *head, envp) == FAILURE)
-		return (free_args_tab(exec->args), free(exec), NULL);
+		return (fail_set_fd_clean(exec), NULL);
 	while (*head)
 	{
 		if ((*head)->token_type == TOKEN_PIPE)

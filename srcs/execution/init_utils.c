@@ -6,11 +6,21 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:12:05 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/09 17:52:01 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/12 18:55:41 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//if function set_fd fails, clean exec
+void	fail_set_fd_clean(t_exec *exec)
+{
+	if (!exec)
+		return ;
+	free_args_tab(exec->args);
+	free(exec->cmd_name);
+	free(exec);
+}
 
 //check if token is a redirection > >> < << or |
 bool	token_is_redirection(t_token *token)

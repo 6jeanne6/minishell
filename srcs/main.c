@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/12 17:42:43 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/12 18:56:55 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ t_exec **exec)
 		if (!*exec)
 		{
 			free_t_exec(list, envp);
-			update_exit_status(gear_5, 1, NULL);
 			return (FAILURE);
 		}
 		//print_exec_list(*exec, gear_5);

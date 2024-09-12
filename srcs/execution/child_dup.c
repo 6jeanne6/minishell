@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:38:41 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/12 17:40:30 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/12 19:10:58 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	child_process(t_exec *exec, t_shell *gear_5, t_env *envp, int cmd)
 		else
 			last_dup(exec, gear_5);
 	}
+	close_files(exec);
 	while (++i < cmd - 1)
 	{
 		close(gear_5->pipe_tab[i][READ_END]);

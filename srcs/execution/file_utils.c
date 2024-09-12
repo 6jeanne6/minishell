@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:21:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/09 18:33:04 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/12 18:41:19 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,7 @@ static void	write_permission(t_shell *gear_5, char *file)
 	if (!gear_5 || !file)
 		return ;
 	if (access(file, W_OK) == -1)
-	{
-		gear_5->exit_status = 1;
-		ft_putstr_fd(YELLOW"file: ", STDERR_FILENO);
-		error("permission denied\n");
-	}
+		update_exit_status(gear_5, 1, file);
 }
 
 //check rights for outfile file in > and >>
@@ -87,9 +83,6 @@ int	file_outfile(t_shell *gear_5, t_exec *exec, t_token *token)
 	exec->fd_out = open(token->next->word, flags, 0644);
 	write_permission(gear_5, token->next->word);
 	if (exec->fd_out < 0)
-	{
-		perror("Failed to open file");
 		return (FAILURE);
-	}
 	return (SUCCESS);
 }
