@@ -65,6 +65,7 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/error/error_utils.c \
 				${SRCDIR}/error/free_utils.c \
 				${SRCDIR}/error/pid_pipe_free.c \
+				${SRCDIR}/error/close_files.c \
 				${SRCDIR}/builtins/exec_builtin.c \
 				${SRCDIR}/builtins/builtins_tool.c \
 				${SRCDIR}/builtins/cd.c \

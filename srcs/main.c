@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/11 16:05:26 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/12 17:42:43 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,9 @@ static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
 	if (!gear_5 || !envp || !exec)
 		return (FAILURE);
-	// printf(GREEN"PARENT: BEFORE INIT FORK\n");
-	// printf(RESET"\n");
 	if (init_fork(gear_5, envp, exec) == FAILURE)
 		return (FAILURE);
-	// printf(RESET"\n");
-	// printf(GREEN"PARENT: FORK WORKED\n");
-	// printf(RESET"\n");
+	close_files(exec);
 	return (SUCCESS);
 }
 
@@ -51,7 +47,7 @@ t_exec **exec)
 		if (!list)
 			return (update_exit_status(gear_5, 1, NULL));
 		get_token_type(envp, list);
-		//print_token_list(list, gear_5);
+		//print_token_list(list);
 		if (token_order(gear_5, list) == FAILURE)
 			return (wrong_token_order(list, envp, gear_5), FAILURE);
 		expander(list, envp);
@@ -62,7 +58,7 @@ t_exec **exec)
 			update_exit_status(gear_5, 1, NULL);
 			return (FAILURE);
 		}
-		//print_exec_list(*exec);
+		//print_exec_list(*exec, gear_5);
 		super_free_token_list(list);
 		return (SUCCESS);
 	}

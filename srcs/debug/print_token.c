@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:16:25 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/11 16:00:38 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/12 16:55:12 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	print_exec_list(t_exec *exec, t_shell *gear_5)
 	t_exec	*current;
 
 	current = exec;
-	if (!current || gear_5)
+	if (!current || !gear_5)
 		return ;
 	// if (gear_5->pipe_tab)
 	// 	{
