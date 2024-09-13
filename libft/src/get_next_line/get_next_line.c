@@ -6,11 +6,12 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 13:53:51 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/09 16:03:57 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/13 14:31:54 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/get_next_line.h"
+
 static char	*clean_stash(char *stash)
 {
 	char	*new_stash;
@@ -108,6 +109,7 @@ char	*get_next_line(int fd)
 	if (fd == -42)
 	{
 		free(stash);
+		stash = NULL;
 		return (NULL);
 	}
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)

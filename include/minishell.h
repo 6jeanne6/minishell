@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/12 18:55:19 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/13 15:02:08 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,7 +281,7 @@ int		is_in_list(t_env *envp, char *variable);
 t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp);
 
 int		file_outfile(t_shell *gear_5, t_exec *exec, t_token *token);
-int		file_input(t_exec *exec, t_token *token);
+int		file_input(t_shell *gear_5, t_exec *exec, t_token *token);
 int		set_fd(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp);
 int		create_heredoc(t_exec *exec, t_token *token);
 int		init_fork(t_shell *gear_5, t_env *envp, t_exec *exec);

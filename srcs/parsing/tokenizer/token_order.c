@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 16:20:27 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/05 15:51:42 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/13 15:30:17 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,14 @@ static int	input_order(t_token *token, t_shell *gear_5)
 		return (FAILURE);
 	if (token->token_type == TOKEN_INPUT)
 	{
-		if (token->previous)
+		if (!token->previous)
 		{
-			if (token->previous->token_type != TOKEN_CMD
-				&& token->previous->token_type != TOKEN_BUILTIN)
-				return (FAILURE);
+			update_exit_status(gear_5, 2, NULL);
+			return (FAILURE);
 		}
 		if (!token->next)
 		{
 			filename_error(token->word, "Error: insert a file", gear_5, 2);
-			return (FAILURE);
-		}
-		if (is_file(token->next->word) == FAILURE)
-		{
-			filename_error(token->next->word,
-				"Error: inexistant file", gear_5, 1);
 			return (FAILURE);
 		}
 	}

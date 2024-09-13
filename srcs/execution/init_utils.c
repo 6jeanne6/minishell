@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:12:05 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/12 18:55:41 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/13 15:01:33 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	set_fd(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp)
 	else if (token->token_type == TOKEN_INPUT
 		|| token->token_type == TOKEN_HEREDOC)
 	{
-		if (file_input(exec, token) == FAILURE)
+		if (file_input(gear_5, exec, token) == FAILURE)
 			return (FAILURE);
 	}
 	return (SUCCESS);
