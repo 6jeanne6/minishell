@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:24:09 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/13 14:32:50 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/13 15:55:44 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	create_heredoc(t_exec *exec, t_token *token)
 		exec->fd_in = open(".here_doc", O_RDWR, 0644);
 		if (exec->fd_in < 0)
 			return (free(delimiter), FAILURE);
-		//close(exec->fd_in);
 		unlink(".here_doc");
 		free(delimiter);
 	}

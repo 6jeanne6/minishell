@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/13 14:32:41 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/13 16:32:12 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_exec **exec)
 			free_t_exec(list, envp);
 			return (FAILURE);
 		}
-		//print_exec_list(*exec, gear_5);
+		print_exec_list(*exec, gear_5);
 		super_free_token_list(list);
 		return (SUCCESS);
 	}
