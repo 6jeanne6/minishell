@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_order.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 16:20:27 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/13 15:30:17 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/16 15:31:37 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	convert_to_file(t_token *token)
 {
 	if ((token->token_type == TOKEN_OUTPUT || token->token_type == TOKEN_APPEND
 			|| token->token_type == TOKEN_INPUT) && (token->next))
-	token->next->token_type = TOKEN_FILE;
+		token->next->token_type = TOKEN_FILE;
 }
 /* Change arg to file if we are in an redirection operator */
 

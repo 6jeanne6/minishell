@@ -31,6 +31,8 @@ SRCDIR 		= srcs
 SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/env/init_env.c \
 				${SRCDIR}/env/env_utils.c \
+				${SRCDIR}/env/find_var_name.c \
+				${SRCDIR}/env/get_env_value.c \
 				${SRCDIR}/env_var/init_var.c \
 				${SRCDIR}/env_var/var_tools.c \
 				${SRCDIR}/lexer/delimitor.c \
@@ -72,6 +74,9 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/builtins/env.c \
 				${SRCDIR}/builtins/exit.c \
 				${SRCDIR}/builtins/pwd.c \
+				${SRCDIR}/builtins/unset.c \
+				${SRCDIR}/builtins/echo.c \
+				${SRCDIR}/builtins/export.c \
 				${SRCDIR}/debug/print_token.c \
 				${SRCDIR}/status_code/update_status_code.c
 

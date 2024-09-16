@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/16 15:27:34 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/16 16:12:04 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,10 +180,7 @@ extern int	g_signal_status;
 
 /****** FUNCTIONS ******/
 
-/* init minishell */
-
 /* environment */
-
 void	init_env(t_env *envp, char **env);
 void	fetch_path(t_env *envp);
 
@@ -199,17 +196,23 @@ int		update_exit_status(t_shell *gear_5, int flag, char *name);
 /* builtins */
 int		is_builtin(char *word);
 void	exec_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
-char	*get_current_path(void);
-int		cd(t_env *envp, t_exec *exec, t_shell *gear_5);
 
-//void		pwd(t_shell *gear_5);
-//void		exit(t_shell *gear_5, t_exec *execution);
-//void  	env(t_shell *gear_5, t_env *envp);
+int		unset(t_shell *gear_5, t_env *envp, t_exec *exec);
+void	exit_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		export(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		pwd(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		unset(t_shell *gear_5, t_env *envp, t_exec *exec);
+void	env(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		cd(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		echo(t_shell *gear_5, t_exec *exec);
+int		is_valid_identifier(char *name, t_shell *gear_5, int code);
+char	*get_last_path(t_env *env);
+char	*get_current_path(void);
 
 /* environnement variable */
-
 t_var	*init_env_variable(char *name, char *value);
 
+char	*malloc_strcpy(char *origin);
 char	*malloc_substr_and_cpy(const char *original_str, int start, int end);
 char	*get_variable_name(char *variable);
 char	*get_variable_value(char *variable);
@@ -218,8 +221,13 @@ void	init_chained_var(t_env *env, char **envp);
 void	add_variable_to_the_list(t_env *env, t_var *var);
 void	free_var_list(t_env *env);
 
+t_var	*get_first_env_var(t_env *env);
+char	*get_env_var_value_with_name(t_env *env, char *name);
+t_var	*find_variable_value_by_name(t_env *env, char *name);
+t_var	*find_variable_by_name(t_env *env, char *name);
+void	change_env_var_value(t_var *var, char *new_value);
+void	change_env_var_value_with_name(t_env *env, char *name, char *value);
 /* lexing */
-
 int		check_redirection(char *input);
 int		check_pipe(char *input);
 int		i_am_delimitor(char c);
@@ -254,7 +262,6 @@ void	handle_quotes(t_parsing *state);
 void	process_token(t_parsing *state, int word_length);
 
 /* linked list management */
-
 void	add_to_list(t_token **head, t_parsing *state,
 			const char *word, int word_length);
 void	appendright(t_token **head, t_token *new);
@@ -277,7 +284,6 @@ int		is_in_list(t_env *envp, char *variable);
 //t_token	init_struct(t_token *list, t_env *envp);
 
 /* execution */
-
 t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp);
 
 int		file_outfile(t_shell *gear_5, t_exec *exec, t_token *token);
@@ -297,7 +303,6 @@ void	execve_all(t_shell *gear_5, t_env *envp, t_exec *exec);
 //void	link_exec(t_exec *prev_exec, t_exec *exec);
 
 /* error & free */
-
 void	error(char	*message);
 void	clean_env(t_env *envp);
 void	free_token_list(t_token *head);
@@ -315,7 +320,6 @@ void	close_files(t_exec *exec);
 void	error_close_files(t_exec *exec);
 
 /* debug */
-
 void	print_token_list(t_token *list);
 void	print_token(t_token *token, int index);
 void	print_exec_list(t_exec *exec, t_shell *gear_5);	
