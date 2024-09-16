@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:18:07 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/12 14:58:10 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/16 18:30:14 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,19 @@ static void	do_fork(t_shell *gear_5, t_exec *exec, t_env *envp, int cmd)
 {
 	int		i;
 	t_exec	*current;
+	t_exec	*head;
 
 	i = -1;
 	current = exec;
+	head = exec;
 	gear_5->j = 0;
 	while (++i < cmd)
 	{
 		gear_5->pid_tab[i] = fork();
 		if (gear_5->pid_tab[i] == -1)
-			error_shell_exec(gear_5, envp, current);
+			error_shell_exec(gear_5, envp, head);
 		else if (gear_5->pid_tab[i] == 0)
-			child_process(current, gear_5, envp, cmd);
+			child_process(current, gear_5, envp, head);
 		current = current->next;
 		gear_5->j++;
 	}
@@ -105,6 +107,7 @@ int	init_fork(t_shell *gear_5, t_env *envp, t_exec *exec)
 		return (FAILURE);
 	commands = how_many_process(exec);
 	exec->nb_cmd = commands;
+	gear_5->number_of_cmds = commands;
 	init_tab_pid(gear_5, exec, envp, commands);
 	init_tab_pipe(gear_5, exec, envp, commands);
 	do_fork(gear_5, exec, envp, commands);

@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:38:41 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/12 19:10:58 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/16 18:28:26 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,22 +73,22 @@ static void	last_dup(t_exec *exec, t_shell *gear_5)
 
 //child process when PID is equal to 0
 //• read input from a file (pipefd[0]) and sent it to the pipe
-void	child_process(t_exec *exec, t_shell *gear_5, t_env *envp, int cmd)
+void	child_process(t_exec *exec, t_shell *gear_5, t_env *envp, t_exec *head)
 {
 	int	i;
 
 	i = -1;
-	if (basic_fd(exec) == false || cmd > 1)
+	if (basic_fd(exec) == false || gear_5->number_of_cmds > 1)
 	{
 		if (gear_5->j == 0)
-			first_dup(exec, gear_5, envp, cmd);
-		else if (gear_5->j < cmd - 1)
+			first_dup(exec, gear_5, envp, gear_5->number_of_cmds);
+		else if (gear_5->j < gear_5->number_of_cmds - 1)
 			middle_dup(exec, gear_5);
 		else
 			last_dup(exec, gear_5);
 	}
-	close_files(exec);
-	while (++i < cmd - 1)
+	close_files(head);
+	while (++i < gear_5->number_of_cmds - 1)
 	{
 		close(gear_5->pipe_tab[i][READ_END]);
 		close(gear_5->pipe_tab[i][WRITE_END]);

@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:20 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/16 15:47:15 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/16 18:45:44 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	error_close_files(t_exec *exec)
 			close(current->fd_out);
 		else if (current->fd_out >= 0)
 			close(current->fd_out);
+		if (current->heredoc_here == true)
+			unlink(current->heredoc_file);
 		close(STDIN_FILENO);
 		close(STDOUT_FILENO);
 		close(STDERR_FILENO);
@@ -51,6 +53,11 @@ void	close_files(t_exec *exec)
 			close(current->fd_in);
 		if (current->fd_out >= 3)
 			close(current->fd_out);
+		if (current->heredoc_here == true)
+		{
+			close(current->fd_in);
+			unlink(current->heredoc_file);
+		}
 		current = current->next;
 	}
 }

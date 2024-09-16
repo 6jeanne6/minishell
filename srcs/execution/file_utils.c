@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:21:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/16 15:07:22 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/16 17:30:46 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ int	file_outfile(t_shell *gear_5, t_exec *exec, t_token *token)
 
 	if (!exec || !token || token->next->token_type != TOKEN_FILE)
 		return (FAILURE);
+	if (exec->fd_out >= 3)
+		close(exec->fd_out);
 	if (token->token_type == TOKEN_OUTPUT)
 		flags = O_WRONLY | O_CREAT | O_TRUNC;
 	else if (token->token_type == TOKEN_APPEND)
