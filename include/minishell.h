@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/13 15:02:08 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/16 15:27:34 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,6 +312,7 @@ void	clean_exec(t_exec *exec, t_shell *gear_5);
 void	execve_clean_all(t_exec *exec, t_env *envp, t_shell *gear_5);
 void	error_shell_exec(t_shell *gear_5, t_env *envp, t_exec *exec);
 void	close_files(t_exec *exec);
+void	error_close_files(t_exec *exec);
 
 /* debug */
 

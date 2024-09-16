@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:36:25 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/12 18:26:24 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/16 15:29:44 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	execve_clean_all(t_exec *exec, t_env *envp, t_shell *gear_5)
 	if (!envp || !gear_5)
 		return ;
 	clean_env(envp);
+	close_files(exec);
 	clean_exec(exec, gear_5);
 	free_exec(exec);
 }

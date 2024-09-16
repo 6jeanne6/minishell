@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:39:54 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/12 19:03:25 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/16 15:29:54 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	execve_bin(t_shell *gear_5, t_env *envp, t_exec *exec)
 		if (execve(exec->bin, exec->args, envp->env) <= -1)
 		{
 			update_exit_status(gear_5, 126, exec->cmd_name);
+			error_close_files(exec);
 			execve_clean_all(exec, envp, gear_5);
 			exit(126);
 		}
@@ -33,6 +34,7 @@ static void	execve_bin(t_shell *gear_5, t_env *envp, t_exec *exec)
 		if (execve(exec->bin, exec->args, envp->env) < 0)
 		{
 			update_exit_status(gear_5, 126, exec->cmd_name);
+			error_close_files(exec);
 			execve_clean_all(exec, envp, gear_5);
 			exit(126);
 		}
@@ -62,6 +64,7 @@ void	execve_all(t_shell *gear_5, t_env *envp, t_exec *exec)
 	else
 	{
 		update_exit_status(gear_5, 127, exec->cmd_name);
+		error_close_files(exec);
 		execve_clean_all(exec, envp, gear_5);
 		exit(127);
 	}
