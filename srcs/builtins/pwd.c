@@ -3,29 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:07:52 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/11 18:18:29 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/16 14:52:07 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void    pwd(t_shell *gear_5)
-// {
-//     char    *buffer;
+/* print current working directory */
+int	pwd(t_shell *gear_5, t_env *envp, t_exec *exec)
+{
+	char	*path;
 
-//     if (!gear_5)
-//         return ;
-//     buffer = getcwd(NULL, 0);
-//     if (buffer)
-//     {
-//         ft_putstr_fd(1, &buffer, ft_strlen(buffer));
-//         free(buffer);
-//     }
-//     else
-//         perror("pwd");
-// }
-//print current working directory
-//pwd with no options, arguments ok
+	(void) envp;
+	path = get_current_path();
+	ft_putstr_fd(path, exec->fd_out);
+	ft_putstr_fd("\n", exec->fd_out);
+	free(path);
+	gear_5->exit_status = 0;
+	return (0);
+}
