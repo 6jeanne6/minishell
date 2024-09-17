@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:10:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/23 15:34:12 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/17 12:23:02 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int	valid_path(char *path)
 }
 
 //check for cd if it's a path
+
 static int	cd_ok(t_shell *gear_5, t_token *token, t_env *envp)
 {
 	t_token	*arg;
@@ -40,23 +41,23 @@ static int	cd_ok(t_shell *gear_5, t_token *token, t_env *envp)
 	}
 	if ((arg->token_type != TOKEN_ARG) || (valid_path(arg->word) == FAILURE))
 	{
-		if ((ft_strcmp(arg->word, ".") != 0) && (ft_strcmp(arg->word, "..") != 0))
+		if ((ft_strcmp(arg->word, ".") != 0)
+			&& (ft_strcmp(arg->word, "..") != 0))
 		{
-			gear_5->exit_status = 1;
-			error("cd: check your path\n");
+			update_exit_status(gear_5, 1, NULL);
 			return (FAILURE);
 		}
 	}
 	if (arg->next)
 	{
-		gear_5->exit_status = 1;
-		error("cd: too many arguments\n");
+		update_exit_status(gear_5, 1, NULL);
 		return (FAILURE);
 	}
 	return (SUCCESS);
 }
 
 //cd [path] (absolute or relative)
+
 static int	echo_ok(t_shell *gear_5, t_token *token, t_env *envp)
 {
 	t_token	*arg;
@@ -76,16 +77,18 @@ static int	echo_ok(t_shell *gear_5, t_token *token, t_env *envp)
 	}
 	if (arg && (arg == token->next))
 	{
-		gear_5->exit_status = 1;
-		error("echo: parse error\n");
+		update_exit_status(gear_5, 1, NULL);
 		return (FAILURE);
 	}
 	return (SUCCESS);
 }
 
 // echo -n -nnnnnnn ARG ARG ARG
+
 static int	check_builtin(t_shell *gear_5, t_token *token, t_env *envp)
 {
+	if (!gear_5 || !token || !envp)
+		return (FAILURE);
 	if (ft_strcmp(token->word, "echo") == 0)
 		return (echo_ok(gear_5, token, envp));
 	if (ft_strcmp(token->word, "cd") == 0)
@@ -104,6 +107,7 @@ static int	check_builtin(t_shell *gear_5, t_token *token, t_env *envp)
 }
 
 //which builtin are we on?
+
 int	builtin_order(t_shell *gear_5, t_token *token, t_env *envp)
 {
 	t_token	*head;
@@ -116,10 +120,7 @@ int	builtin_order(t_shell *gear_5, t_token *token, t_env *envp)
 		if (head->token_type == TOKEN_BUILTIN)
 		{
 			if (check_builtin(gear_5, head, envp) == SUCCESS)
-			{
-				printf("congrats\n");
 				return (SUCCESS);
-			}
 		}
 		head = head->next;
 	}

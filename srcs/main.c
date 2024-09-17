@@ -6,34 +6,26 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/23 15:32:44 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/17 11:43:46 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list)
+//proceed to execution of Super_Gear_5 shell
+// • execution:
+//		→ pid
+//		→ fork
+//		→ waitpid
+//		→ close fds and pipes
+static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
-	if (lexing_gear_5(gear_5) == SUCCESS)
-	{
-		free_token_list(list);
-		list = NULL;
-		extract_words(gear_5->input, &list);
-		get_token_type(envp, list);
-		token_order(envp, list, gear_5);
-		if (list->token_type == TOKEN_BUILTIN)
-		{
-			if (builtin_order(gear_5, list, envp) == FAILURE)
-			{
-				free_token_list(list);
-				return (FAILURE);
-			}
-		}
-		expander(list, envp);
-		free_token_list(list);
-		return (SUCCESS);
-	}
-	return (FAILURE);
+	if (!gear_5 || !envp || !exec)
+		return (FAILURE);
+	if (init_fork(gear_5, envp, exec) == FAILURE)
+		return (FAILURE);
+	close_files(exec);
+	return (SUCCESS);
 }
 
 //• lexer
@@ -42,22 +34,34 @@ static int	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list)
 //		→ Extract words
 //		→ Add to linked list
 //		→ Tokenizer
-static int	init_minishell(t_shell *gear_5, t_env *envp)
+//		→ Token order
+//		→ Init t_exec structure with tab **args and redirections
+static int	parse_gear_5(t_shell *gear_5, t_env *envp, t_token *list,
+t_exec **exec)
 {
-	t_token	*list;
-
-	list = NULL;
-	while (true)
+	if (lexing_gear_5(gear_5) == SUCCESS)
 	{
-		gear_5->input = readline("Super Gear 5 $> ");
-		add_history(gear_5->input);
-		if (gear_5->input == NULL)
-			break ;
-		if (parse_gear_5(gear_5, envp, list) == FAILURE)
-			continue ;
+		free_token_list(list);
+		list = NULL;
+		extract_words(gear_5->input, &list);
+		if (!list)
+			return (update_exit_status(gear_5, 1, NULL));
+		get_token_type(envp, list);
+		//print_token_list(list);
+		if (token_order(gear_5, list) == FAILURE)
+			return (wrong_token_order(list, envp, gear_5), FAILURE);
+		expander(list, envp);
+		*exec = init_exec(gear_5, list, envp);
+		if (!*exec)
+		{
+			free_t_exec(list, envp);
+			return (FAILURE);
+		}
+		print_exec_list(*exec, gear_5);
+		super_free_token_list(list);
+		return (SUCCESS);
 	}
-	clean_env(envp);
-	return (gear_5->exit_status);
+	return (FAILURE);
 }
 
 //Function to initialize minishell
@@ -65,13 +69,33 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 // • lexer
 // • parsing
 // • execution
-static void	init_structures(t_shell	*gear_5, t_env *envp)
+static int	init_minishell(t_shell *gear_5, t_env *envp)
 {
-	ft_bzero(gear_5, sizeof(t_shell));
-	ft_bzero(envp, sizeof(t_env));
+	t_token	*list;
+	t_exec	*exec;
+
+	list = NULL;
+	exec = NULL;
+	while (true)
+	{
+		clean_exec(exec, gear_5);
+		free_exec(exec);
+		exec = NULL;
+		gear_5->input = readline(WHITE"Super Gear 5 $> "RESET);
+		add_history(gear_5->input);
+		if (gear_5->input == NULL)
+			break ;
+		if (update_exit_status_code(gear_5) == SUCCESS)
+			continue ;
+		if (parse_gear_5(gear_5, envp, list, &exec) == FAILURE)
+			continue ;
+		if (execute_gear_5(gear_5, envp, exec) == FAILURE)
+			continue ;
+	}
+	execve_clean_all(exec, envp, gear_5);
+	return (gear_5->exit_status);
 }
 
-//initialize all variables of structures to 0
 int	main(int argc, char **argv, char **env)
 {
 	t_shell		gear_5;
@@ -80,10 +104,11 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (argc > 1)
 	{
-		error("Dont't put arguments\n");
+		error("Error : Too many arguments\n");
 		return (EXIT_FAILURE);
 	}
-	init_structures(&gear_5, &envp);
+	ft_bzero(&gear_5, sizeof(t_shell));
+	ft_bzero(&envp, sizeof(t_env));
 	init_env(&envp, env);
 	gear_5.exit_status = init_minishell(&gear_5, &envp);
 	return (gear_5.exit_status);

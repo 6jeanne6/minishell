@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_pipes.c                                         :+:      :+:    :+:   */
+/*   token_order_tools.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/14 11:49:40 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/02 16:49:48 by jewu             ###   ########.fr       */
+/*   Created: 2024/09/05 11:34:14 by jewu              #+#    #+#             */
+/*   Updated: 2024/09/05 12:35:41 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_pipe(char *input)
+//when file does not exist display an error message
+void	filename_error(char *name, char *message, t_shell *gear_5, int flag)
 {
-	int	i;
-
-	i = 0;
-	while (input[i] != '\0')
+	if (!message)
+		return ;
+	if (flag == 1)
 	{
-		if (input[i] == '|' && input[i + 1] == '|')
-			return (FAILURE);
-		else if (input[i] == '|')
-			return (SUCCESS);
-		i++;
+		error(name);
+		error(": ");
+		error(message);
+		error("\n");
+		gear_5->exit_status = 1;
 	}
-	return (SUCCESS);
+	else if (flag == 2)
+	{
+		error(message);
+		error("\n");
+		gear_5->exit_status = 2;
+	}
 }

@@ -3,15 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   var_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:37:05 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/07 14:07:47 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/16 15:33:05 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* Copy and malloc a new string */
+char	*malloc_strcpy(char *origin)
+{
+	size_t	i;
+	char	*str;
+
+	str = malloc(sizeof(char) * (ft_strlen(origin) + 1));
+	i = 0;
+	while (origin[i])
+	{
+		str[i] = origin[i];
+		i++;
+	}
+	str[i] = 0;
+	return (str);
+}
+
+/* Malloc a new variable into environment list */
 char	*malloc_substr_and_cpy(const char *original_str, int start, int end)
 {
 	char	*new_str;
@@ -31,8 +49,8 @@ char	*malloc_substr_and_cpy(const char *original_str, int start, int end)
 	new_str[i] = '\0';
 	return (new_str);
 }
-//malloc a new variable into environment list
 
+/* Free all variable in environment*/
 void	free_var_list(t_env *env)
 {
 	t_var	*current_var;
@@ -49,4 +67,3 @@ void	free_var_list(t_env *env)
 	}
 	env->first_variable = NULL;
 }
-//free all variable in environment

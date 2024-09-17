@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:35:21 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/07 14:20:21 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/02 16:49:56 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,9 @@ int	check_special_characters(char *input)
 		if (input[i] == '\\' || input[i] == ';')
 		{
 			if (input[i] == '\\')
-			{
-				error("'\\' is not interpreted!\n");
 				return (FAILURE);
-			}
 			if (input[i] == ';')
-			{
-				error("';' is not interpreted!\n");
 				return (FAILURE);
-			}
 		}
 		i++;
 	}
@@ -61,10 +55,7 @@ int	check_pipe(char *input)
 	while (input[i] != '\0')
 	{
 		if (input[i] == '|' && input[i + 1] == '|')
-		{
-			error("Error: '||' is not interpreted!\n");
 			return (FAILURE);
-		}
 		else if (input[i] == '|')
 			return (SUCCESS);
 		i++;

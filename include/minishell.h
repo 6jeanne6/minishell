@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/24 09:36:01 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/17 11:40:29 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,21 @@
 # define FAILURE 	-1
 # define SUCCESS 	0
 
+//pipe[0] and pipe[1]
+# define READ_END	0
+# define WRITE_END	1
+
 /****** COLORS ********/
+
+# define BLACK		"\033[0;30m"
+# define RED		"\033[0;31m"
+# define GREEN		"\033[0;32m"
+# define YELLOW 	"\033[0;33m"
+# define BLUE 		"\033[0;34m"
+# define PURPLE 	"\033[0;35m"
+# define CYAN 		"\033[0;36m"
+# define RESET 		"\033[0m"
+# define WHITE      "\033[0;37m"
 
 /***** TOKEN TYPE *******/
 
@@ -56,59 +70,52 @@
 
 /****** STRUCTURES ******/
 
-typedef struct s_file
+//execution structure
+typedef struct s_exec
 {
-	char	*name;
-	int		fd;
-}				t_file;
+	struct s_exec	*prev;
+	struct s_exec	*next;
 
-typedef struct s_redir
-{
-	int		fd_in;
-	int		fd_out;
-	int		type;
-	char	*content;
-}				t_redir;
-
-typedef struct s_arg
-{
-	char			*content;
 	int				id;
-	int				index;
-	struct s_arg	*next;
-	struct s_arg	*prev;
-}				t_arg;
+	int				nb_cmd;
+	int				in_double_quote;
+	int				outer_double_quote;
+	int				outer_single_quote;
+	int				fd_in;
+	int				fd_out;
 
-typedef struct s_cmd
-{
-	int		id;
-	char	*cmd_name;
-	int		in_double_quote;
-	int		outer_double_quote;
-	int		outer_single_quote;
-	char	**args;
-	char	bin;
-	int		fd_in;
-	int		fd_out;
-	int		pid;
-	t_arg	first_arg;
-}			t_cmd;
+	char			*cmd_name;
+	char			*bin;
+	char			*heredoc_file;
 
+	bool			heredoc_here;
+
+	char			**args;
+
+}			t_exec;
+
+//token
 typedef struct s_token
 {
+	bool			has_heredoc;
+
 	void			*class;
-	int				token_type;
+
 	char			*word;
 	char			*cmd_path;
 
 	struct s_token	*previous;
 	struct s_token	*next;
+
+	int				token_type;
 	int				in_double_quote;
 	int				outer_double_quote;
 	int				outer_single_quote;
+
 	int				*index;
 }				t_token;
 
+//parsing state
 typedef struct s_parsing
 {
 	char	*line;
@@ -124,6 +131,7 @@ typedef struct s_parsing
 	t_token	**token_list;
 }				t_parsing;
 
+//environment variable $
 typedef struct s_var
 {
 	char			*variable_name;
@@ -133,6 +141,7 @@ typedef struct s_var
 
 }				t_var;
 
+//quotes ' or "
 typedef struct s_quotes
 {
 	int		nbofsingle;
@@ -141,6 +150,7 @@ typedef struct s_quotes
 	int		inside_single_quotes;
 }				t_quotes;
 
+//set environment or create env
 typedef struct s_env
 {
 	char	**env;
@@ -153,10 +163,18 @@ typedef struct s_env
 	t_var	*first_variable;
 }				t_env;
 
+//shell with readline input and exit status
 typedef struct s_shell
 {
 	char	*input;
 	int		exit_status;
+	int		j;
+	int		number_of_cmds;
+
+	int		**pipe_tab;
+
+	pid_t	*pid_tab;
+
 }				t_shell;
 
 /****** GLOBAL ******/
@@ -164,8 +182,6 @@ typedef struct s_shell
 extern int	g_signal_status;
 
 /****** FUNCTIONS ******/
-
-/* init minishell */
 
 /* environment */
 
@@ -176,23 +192,46 @@ char	**copy_path(t_env *envp);
 char	**split_path(t_env *envp, char *str);
 char	**find_path(t_env *envp, char **str);
 
+/* exit status */
+
+int		update_exit_status_code(t_shell *gear_5);
+int		is_dollar_question_mark_input(t_shell *gear_5);
+int		update_exit_status(t_shell *gear_5, int flag, char *name);
+
 /* builtins */
+
+int		is_builtin(char *word);
+void	exec_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
+
+int		unset(t_shell *gear_5, t_env *envp, t_exec *exec);
+void	exit_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		export(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		pwd(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		unset(t_shell *gear_5, t_env *envp, t_exec *exec);
+void	env(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		cd(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		echo(t_shell *gear_5, t_exec *exec);
+int		is_valid_identifier(char *name, t_shell *gear_5, int code);
+char	*get_last_path(t_env *env);
 char	*get_current_path(void);
-
-//int		cd(t_env *envp);
-
-//void		pwd(t_shell *gear_5);
-//void		exit(t_shell *gear_5, t_exec *execution);
-//void  	env(t_shell *gear_5, t_env *envp);
 
 /* environnement variable */
 t_var	*init_env_variable(char *name, char *value);
+
+char	*malloc_strcpy(char *origin);
 char	*malloc_substr_and_cpy(const char *original_str, int start, int end);
 char	*get_variable_name(char *variable);
 char	*get_variable_value(char *variable);
 void	init_chained_var(t_env *env, char **envp);
 void	add_variable_to_the_list(t_env *env, t_var *var);
 void	free_var_list(t_env *env);
+
+t_var	*get_first_env_var(t_env *env);
+char	*get_env_var_value_with_name(t_env *env, char *name);
+t_var	*find_variable_value_by_name(t_env *env, char *name);
+t_var	*find_variable_by_name(t_env *env, char *name);
+void	change_env_var_value(t_var *var, char *new_value);
+void	change_env_var_value_with_name(t_env *env, char *name, char *value);
 
 /* lexing */
 int		check_redirection(char *input);
@@ -211,7 +250,7 @@ int		get_token_type(t_env *envp, t_token *token);
 int		check_path(t_env *envp, t_token *token);
 int		is_variable(const char *input);
 int		is_variable_declaration(const char *input);
-int		token_order(t_env *envp, t_token *token, t_shell *gear_5);
+int		token_order(t_shell *gear_5, t_token *token);
 int		builtin_order(t_shell *gear_5, t_token *token, t_env *envp);
 int		how_many_dollar(char *str);
 int		pwd_ok(t_shell *gear_5, t_token *token, t_env *envp);
@@ -219,6 +258,7 @@ int		env_ok(t_shell *gear_5, t_token *token, t_env *envp);
 int		export_ok(t_shell *gear_5, t_token *token, t_env *envp);
 int		unset_ok(t_shell *gear_5, t_token *token, t_env *envp);
 int		exit_ok(t_shell *gear_5, t_token *token, t_env *envp);
+int		is_file(char *file);
 
 void	extract_words(const char *line, t_token **head);
 void	handle_characters(t_parsing *state, int word_length);
@@ -232,6 +272,7 @@ void	process_token(t_parsing *state, int word_length);
 void	add_to_list(t_token **head, t_parsing *state,
 			const char *word, int word_length);
 void	appendright(t_token **head, t_token *new);
+
 t_token	*ft_double_lstlast(t_token *lst);
 
 /* expander $ */
@@ -248,13 +289,46 @@ int		treatment(char *word, t_env *envp, char *new_word, int j);
 int		get_var_value(t_env *envp, char *variable, char *new_word, int j);
 int		is_in_list(t_env *envp, char *variable);
 
+//t_token	init_struct(t_token *list, t_env *envp);
+
+/* execution */
+
+t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp);
+
+int		file_outfile(t_shell *gear_5, t_exec *exec, t_token *token);
+int		file_input(t_shell *gear_5, t_exec *exec, t_token *token);
+int		set_fd(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp);
+int		create_heredoc(t_exec *exec, t_token *token);
+int		init_fork(t_shell *gear_5, t_env *envp, t_exec *exec);
+
+bool	token_is_redirection(t_token *token);
+bool	basic_fd(t_exec *exec);
+
+void	set_arg_tab(t_exec *exec, t_token *token, t_env *envp, int arg_count);
+void	fail_set_fd_clean(t_exec *exec);
+void	child_process(t_exec *exec, t_shell *gear_5, t_env *envp, t_exec *head);
+void	execve_all(t_shell *gear_5, t_env *envp, t_exec *exec);
+
 /* error & free */
 void	error(char	*message);
 void	clean_env(t_env *envp);
 void	free_token_list(t_token *head);
+void	free_exec(t_exec *exec);
+void	wrong_token_order(t_token *token, t_env *envp, t_shell *gear_5);
+void	free_envp_path(t_env *envp);
+void	free_t_exec(t_token *token, t_env *envp);
+void	free_args_tab(char **argv);
+void	super_free_token_list(t_token *head);
+void	filename_error(char *name, char *message, t_shell *gear_5, int flag);
+void	clean_exec(t_exec *exec, t_shell *gear_5);
+void	execve_clean_all(t_exec *exec, t_env *envp, t_shell *gear_5);
+void	error_shell_exec(t_shell *gear_5, t_env *envp, t_exec *exec);
+void	close_files(t_exec *exec);
+void	error_close_files(t_exec *exec);
 
 /* debug */
 void	print_token_list(t_token *list);
 void	print_token(t_token *token, int index);
+void	print_exec_list(t_exec *exec, t_shell *gear_5);	
 
 #endif

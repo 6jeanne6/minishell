@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:04:43 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/01 15:00:57 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/12 16:11:43 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,15 @@ static void	free_paths(char *tmp_path, char *cmd_path)
 	if (!tmp_path || !cmd_path)
 		return ;
 	if (tmp_path)
+	{
 		free(tmp_path);
+		tmp_path = NULL;
+	}
 	if (cmd_path)
+	{
 		free(cmd_path);
+		cmd_path = NULL;
+	}
 }
 /* Free tmp_path and cmd_path */
 
@@ -34,8 +40,8 @@ static int	join_paths(t_env *envp, t_token *token, int i)
 	if ((access(envp->cmd_path, F_OK) == 0)
 		&& (access(envp->cmd_path, X_OK) == 0))
 	{
-		token->cmd_path = envp->cmd_path;
-		free_paths(envp->tmp_path, envp->cmd_path);
+		token->cmd_path = ft_strdup(envp->cmd_path);
+		free(envp->tmp_path);
 		return (SUCCESS);
 	}
 	free_paths(envp->tmp_path, envp->cmd_path);
@@ -57,6 +63,7 @@ int	check_path(t_env *envp, t_token *token)
 	{
 		if (join_paths(envp, token, i) == SUCCESS)
 		{
+			free(envp->cmd_path);
 			envp->cmd_path = NULL;
 			return (SUCCESS);
 		}

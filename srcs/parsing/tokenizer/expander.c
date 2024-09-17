@@ -3,50 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:38:40 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/21 15:56:01 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/17 12:18:48 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-static void	print_var_list(t_var *var) 
-{
-	int index = 0;
-    while (var != NULL) {
-        printf("Variable %d:\n", index);
-        printf("  Name: %s\n", var->variable_name);
-        printf("  Value: %s\n", var->variable_value);
-        var = var->next;
-        index++;
-    }
-}
-//DEBUG FUNCTION
-*/
-/*
-static void print_last_var(t_var *var) 
-{
-    // Parcourir la liste pour trouver le dernier élément
-    t_var *last = var;
-    if (last == NULL) {
-        // Liste vide, rien à imprimer
-        printf("No variables to display.\n");
-        return;
-    }
-    
-    while (last->next != NULL) {
-        last = last->next;
-    }
-
-    // Afficher le dernier élément
-    printf(" New var on the list :\n");
-    printf("  Name: %s\n", last->variable_name);
-    printf("  Value: %s\n", last->variable_value);
-	printf("\n");
-}
-*/
 
 static void	create_node(t_env *envp, char *word)
 {
@@ -76,6 +40,7 @@ static void	create_node(t_env *envp, char *word)
 
 // • variable assignation name=value
 //		→ add variable at the end of variable list
+
 static void	create_or_update(t_token *token, t_env *envp)
 {
 	t_var	*current_var;
@@ -108,6 +73,7 @@ void	empty_string(t_token *list)
 }
 
 //if variable does not exist, display empty string
+
 static void	variable_substitution(t_token *current_token, t_env *envp)
 {
 	t_var	*current_var;
@@ -147,20 +113,21 @@ void	expander(t_token *list, t_env *envp)
 		return ;
 	while (current != NULL)
 	{
-		if (current->token_type == TOKEN_VARIABLE)
-			variable_substitution(current, envp);
-		if (current->token_type == TOKEN_VARIABLEASSIGNATION
-			&& (current->previous == NULL
-				|| current->previous->token_type == TOKEN_VARIABLEASSIGNATION))
+		if (list_token->token_type == TOKEN_VARIABLE)
+			variable_substitution(list_token, envp);
+		if (list_token->token_type == TOKEN_VARIABLEASSIGNATION
+			&& (list_token->previous == NULL
+				|| list_token->previous->token_type
+				== TOKEN_VARIABLEASSIGNATION))
 		{
-			if (ft_strchr(current->word, '$')
-				&& current->outer_single_quote == 0)
-				expand_content(current, envp);
-			create_or_update(current, envp);
+			if (ft_strchr(list_token->word, '$')
+				&& list_token->outer_single_quote == 0)
+				expand_content(list_token, envp);
+			create_or_update(list_token, envp);
 		}
-		if (current->token_type == TOKEN_ARG
-			&& current->outer_single_quote == 0)
-			expand_content(current, envp);
-		current = current->next;
+		if (list_token->token_type == TOKEN_ARG
+			&& list_token->outer_single_quote == 0)
+			expand_content(list_token, envp);
+		list_token = list_token->next;
 	}
 }
