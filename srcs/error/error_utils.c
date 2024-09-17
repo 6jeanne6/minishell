@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:43:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/10 12:38:01 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/17 12:35:46 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ void	error(char	*message)
 {
 	if (!message)
 		return ;
+	ft_putstr_fd(RED, STDERR_FILENO);
 	ft_putstr_fd(message, STDERR_FILENO);
+	ft_putstr_fd(RESET, STDERR_FILENO);
 }
 
 //free tmp path and cmd path
