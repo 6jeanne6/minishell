@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/16 18:49:52 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/17 15:18:51 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_exec *exec)
 		return (FAILURE);
 	if (init_fork(gear_5, envp, exec) == FAILURE)
 		return (FAILURE);
+	gear_5->exit_status = child_status_code(gear_5);
 	close_files(exec);
 	return (SUCCESS);
 }
@@ -57,7 +58,7 @@ t_exec **exec)
 			free_t_exec(list, envp);
 			return (FAILURE);
 		}
-		print_exec_list(*exec, gear_5);
+		//print_exec_list(*exec, gear_5);
 		super_free_token_list(list);
 		return (SUCCESS);
 	}

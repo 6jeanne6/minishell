@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 15:41:43 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/12 18:48:12 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/17 14:16:27 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ static int	update_exit_status_exec(t_shell *gear_5, int flag, char *name)
 		error(": ");
 		error("permission denied\n");
 		gear_5->exit_status = 126;
+	}
+	else if (flag == 127 && name[0] == '/')
+	{
+		error(name);
+		error(": ");
+		error("no such file or directory\n");
+		gear_5->exit_status = 127;
 	}
 	else if (flag == 127)
 	{

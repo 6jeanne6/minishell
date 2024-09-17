@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:39:54 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/16 18:39:01 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/17 14:13:28 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ static void	execve_bin(t_shell *gear_5, t_env *envp, t_exec *exec)
 		execve(exec->bin, exec->args, envp->env);
 		if (execve(exec->bin, exec->args, envp->env) <= -1)
 		{
-			update_exit_status(gear_5, 126, exec->cmd_name);
+			update_exit_status(gear_5, 127, exec->cmd_name);
 			error_close_files(exec);
 			execve_clean_all(exec, envp, gear_5);
-			exit(126);
+			exit(127);
 		}
 	}
 	else

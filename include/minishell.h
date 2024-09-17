@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/16 18:29:30 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/17 15:16:29 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ typedef struct s_shell
 	char	*input;
 
 	int		exit_status;
+	int		status_code;
 	int		j;
 	int		number_of_cmds;
 
@@ -296,8 +297,6 @@ int		treatment(char *word, t_env *envp, char *new_word, int j);
 int		get_var_value(t_env *envp, char *variable, char *new_word, int j);
 int		is_in_list(t_env *envp, char *variable);
 
-//t_token	init_struct(t_token *list, t_env *envp);
-
 /* execution */
 
 t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp);
@@ -307,6 +306,8 @@ int		file_input(t_shell *gear_5, t_exec *exec, t_token *token);
 int		set_fd(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp);
 int		create_heredoc(t_exec *exec, t_token *token);
 int		init_fork(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		get_status_code(t_shell *gear_5, int cmd);
+int		child_status_code(t_shell *gear_5);
 
 bool	token_is_redirection(t_token *token);
 bool	basic_fd(t_exec *exec);
@@ -315,6 +316,7 @@ void	set_arg_tab(t_exec *exec, t_token *token, t_env *envp, int arg_count);
 void	fail_set_fd_clean(t_exec *exec);
 void	child_process(t_exec *exec, t_shell *gear_5, t_env *envp, t_exec *head);
 void	execve_all(t_shell *gear_5, t_env *envp, t_exec *exec);
+void	close_pipe_tab(t_shell *gear_5, int cmd);
 
 /* error & free */
 
