@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/18 12:44:06 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/18 15:02:13 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_exec
 	char			*heredoc_file;
 
 	bool			heredoc_here;
+	bool			has_pipe;
 
 	char			**args;
 
@@ -202,7 +203,9 @@ int		update_exit_status(t_shell *gear_5, int flag, char *name);
 /* builtins */
 
 int		is_builtin(char *word);
-void	exec_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		exec_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
+
+//void	exec_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
 
 int		unset(t_shell *gear_5, t_env *envp, t_exec *exec);
 void	exit_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);

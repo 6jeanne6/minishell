@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:18:07 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/17 15:08:59 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/18 16:13:03 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,11 @@ int	init_fork(t_shell *gear_5, t_env *envp, t_exec *exec)
 	commands = how_many_process(exec);
 	exec->nb_cmd = commands;
 	gear_5->number_of_cmds = commands;
+	if (is_builtin(exec->cmd_name) == SUCCESS && exec->has_pipe == false)
+	{
+		if (exec_builtin(gear_5, envp, exec) == SUCCESS)
+			return (SUCCESS);
+	}
 	init_tab_pid(gear_5, exec, envp, commands);
 	init_tab_pipe(gear_5, exec, envp, commands);
 	gear_5->status_code = do_fork(gear_5, exec, envp, commands);
