@@ -6,12 +6,12 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:51:02 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/16 15:42:58 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/18 19:06:08 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/**
 typedef struct s_expand
 {
 	int			i;
@@ -25,7 +25,8 @@ typedef struct s_expand
 
 
 /* Function to extract variable name*/
-static char *extract_variable_name(const char *line, int start, int end) 
+/*
+static char	*extract_variable_name(const char *line, int start, int end) 
 {
 	char	*var_name;
 	
@@ -35,10 +36,11 @@ static char *extract_variable_name(const char *line, int start, int end)
 	ft_strncpy(var_name, &line[start], end - start);
 	var_name[end - start] = '\0';
 	return (var_name);
-}
+} */
 
 /* Function to check if the var is in the list */
-static char *check_in_the_list(char *name, t_env *env)
+/*
+static char	*check_in_the_list(char *name, t_env *env)
 {
 	t_var	*current_var;
 
@@ -50,9 +52,11 @@ static char *check_in_the_list(char *name, t_env *env)
 		current_var = current_var->next;
 	}
 	return (NULL);
-}
+} */
 
+/*
 /*Expand variables*/
+/*
 static void expand_variable(t_expand *expand)
 {
 	int		start;
@@ -75,7 +79,10 @@ static void expand_variable(t_expand *expand)
 		free(var_name);
 	}
 }
-static void handle_q(t_expand *expand)
+*/
+
+/*
+static void	handle_q(t_expand *expand)
 {
 	if (expand->line[expand->i] == '"')
 	{
@@ -86,10 +93,12 @@ static void handle_q(t_expand *expand)
 		expand->inside_single_quotes = !expand->inside_single_quotes;
 	}
 	expand->expanded_line[expand->j++] = expand->line[expand->i++];
-}
+} */
+
 
 /* Function to calculate the new length of the expanded line */
-static int count_new_len(const char *line, t_env *env)
+/*
+static int	count_new_len(const char *line, t_env *env)
 {
 	int i = 0;
 	int len = 0;
@@ -121,7 +130,9 @@ static int count_new_len(const char *line, t_env *env)
 		}
 	}
 	return (len + 1);
-}
+} */
+
+/*
 char	*expander_test(t_env *env, const char *line)
 {
 	t_expand	expand;
@@ -147,3 +158,4 @@ char	*expander_test(t_env *env, const char *line)
 
 	return (expand.expanded_line);
 }
+*/

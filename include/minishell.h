@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/17 15:16:29 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/18 19:01:25 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,40 +202,36 @@ int		update_exit_status(t_shell *gear_5, int flag, char *name);
 
 /* builtins */
 
+int		echo(t_shell *gear_5, t_exec *exec);
+int		cd(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		pwd(t_shell *gear_5, t_env *envp, t_exec *exec);
+void	env(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		export(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		unset(t_shell *gear_5, t_env *envp, t_exec *exec);
 int		is_builtin(char *word);
 void	exec_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
-
-int		unset(t_shell *gear_5, t_env *envp, t_exec *exec);
 void	exit_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
-int		export(t_shell *gear_5, t_env *envp, t_exec *exec);
-int		pwd(t_shell *gear_5, t_env *envp, t_exec *exec);
-int		unset(t_shell *gear_5, t_env *envp, t_exec *exec);
-void	env(t_shell *gear_5, t_env *envp, t_exec *exec);
-int		cd(t_shell *gear_5, t_env *envp, t_exec *exec);
-int		echo(t_shell *gear_5, t_exec *exec);
-int		is_valid_identifier(char *name, t_shell *gear_5, int code);
-char	*get_last_path(t_env *env);
 char	*get_current_path(void);
+t_var	*find_variable_value_by_name(t_env *env,char *name);
+t_var	*find_variable_by_name(t_env *env,char *name);
+void	change_env_var_value_with_name(t_env *env, char *name, char *value);
+char	*get_env_var_value_with_name(t_env *env, char *name);
+void	change_env_var_value(t_var *var, char *new_value);
+t_var	*get_first_env_var(t_env *env);
+char	*get_last_path(t_env *env);
+int		is_valid_identifier(char *name, t_shell *gear_5, int code);
 
 /* environnement variable */
 
 t_var	*init_env_variable(char *name, char *value);
 
-char	*malloc_strcpy(char *origin);
 char	*malloc_substr_and_cpy(const char *original_str, int start, int end);
 char	*get_variable_name(char *variable);
 char	*get_variable_value(char *variable);
-
+char	*malloc_strcpy(char *origin);
 void	init_chained_var(t_env *env, char **envp);
 void	add_variable_to_the_list(t_env *env, t_var *var);
 void	free_var_list(t_env *env);
-
-t_var	*get_first_env_var(t_env *env);
-char	*get_env_var_value_with_name(t_env *env, char *name);
-t_var	*find_variable_value_by_name(t_env *env, char *name);
-t_var	*find_variable_by_name(t_env *env, char *name);
-void	change_env_var_value(t_var *var, char *new_value);
-void	change_env_var_value_with_name(t_env *env, char *name, char *value);
 
 /* lexing */
 
