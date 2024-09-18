@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:38:40 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/18 12:46:29 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/18 12:52:26 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,12 @@ static void	variable_substitution(t_token *current_token, t_env *envp)
 // 		→ inexistant = display an empty string
 void	expander(t_token *list, t_env *envp)
 {
-	t_token	*current;
+	t_token	*list_token;
 
-	current = list;
-	if (current == NULL)
+	list_token = list;
+	if (list_token == NULL)
 		return ;
-	while (current != NULL)
+	while (list_token != NULL)
 	{
 		if (list_token->token_type == TOKEN_VARIABLE)
 			variable_substitution(list_token, envp);
