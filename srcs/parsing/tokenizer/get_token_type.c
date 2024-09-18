@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   get_token_type.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 14:43:23 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/21 16:02:35 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/18 12:46:50 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* check if it's a BUILTIN */
-static int	is_builtin(char *word)
+int	is_builtin(char *word)
 {
 	if (ft_strcmp(word, "echo") == 0)
 		return (SUCCESS);
@@ -51,6 +51,11 @@ static int	is_redirection(char *word)
 /* Check if it's a binary or an executable */
 static int	is_cmd(t_env *envp, t_token *token)
 {
+	if (token->word[0] == '/')
+	{
+		token->cmd_path = ft_strdup(token->word);
+		return (SUCCESS);
+	}
 	if ((access(token->word, F_OK) == 0)
 		&& (access(token->word, X_OK) == 0))
 		return (SUCCESS);
@@ -59,7 +64,7 @@ static int	is_cmd(t_env *envp, t_token *token)
 	return (FAILURE);
 }
 
-/* Check if it's a binary or an executable */
+/* Determine token type*/
 static int	determine_token_type(t_env *envp, t_token *token)
 {
 	if (is_redirection(token->word) >= 0)
@@ -72,25 +77,22 @@ static int	determine_token_type(t_env *envp, t_token *token)
 		return (TOKEN_BUILTIN);
 	else if (is_cmd(envp, token) == SUCCESS)
 		return (TOKEN_CMD);
+	else if (is_file(token->word) == SUCCESS)
+		return (TOKEN_FILE);
 	else
 		return (TOKEN_ARG);
 }
 
-/* Determine token type*/
 int	get_token_type(t_env *envp, t_token *token)
 {
 	while (token)
 	{
 		if (token->outer_double_quote == 0 && token->outer_single_quote == 0)
-		{
 			token->token_type = determine_token_type(envp, token);
-		}
 		else if ((is_variable_declaration(token->word) == SUCCESS)
 			&& (token->outer_double_quote == 1
 				|| token->outer_single_quote == 1))
-		{
 			token->token_type = determine_token_type(envp, token);
-		}
 		else if (is_variable(token->word) == SUCCESS
 			&& token->outer_double_quote == 1)
 		{

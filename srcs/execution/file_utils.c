@@ -6,55 +6,85 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:21:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/21 16:23:56 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/17 16:00:51 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//handle <<
-// static int	handle_heredoc(t_exec *exec, t_token *token)
-// {
-// 	if (!exec || !token)
-// 		return (FAILURE);
-// }
-
-// //handle <
-// static int	handle_input(t_exec *exec, t_token *token)
-// {
-// 	if (!exec || !token)
-// 		return (FAILURE);
-// }
-
-//check rights for input file in <
-int	file_input(t_exec *exec, t_token *token)
+//check if fd is STDIN, STDOUT or STDERR or not
+bool	basic_fd(t_exec *exec)
 {
-	if (!exec || !token)
+	if (!exec)
+		return (false);
+	if (exec->fd_in > 2 || exec->fd_out > 2)
+		return (false);
+	else
+		return (true);
+}
+
+//handle < : 1st token is command
+static int	infile_cmd_execution(t_shell *gear_5, t_token *token)
+{
+	if (!gear_5 || !token)
 		return (FAILURE);
-	if (token->token_type == TOKEN_INPUT)
+	if (token->previous)
 	{
-		//if (handle_input(exec, token) == FAILURE)
+		if (!token->previous->cmd_path
+			&& token->previous->token_type != TOKEN_FILE)
+		{
+			update_exit_status(gear_5, 127, token->previous->word);
 			return (FAILURE);
+		}
+		else if ((access(token->previous->cmd_path, F_OK) == 0)
+			&& (access(token->previous->cmd_path, X_OK) == 0))
+			return (SUCCESS);
 	}
-	else if (token->token_type == TOKEN_HEREDOC)
+	return (FAILURE);
+}
+
+//handle <
+static int	handle_input(t_shell *gear_5, t_exec *exec, t_token *token)
+{
+	if (token->next)
 	{
-		//if (handle_heredoc(exec, token) == FAILURE)
+		if ((access(token->next->word, F_OK) == -1)
+			|| (access(token->next->word, R_OK) == -1))
+		{
+			filename_error(token->next->word,
+				"no such file or directory", gear_5, 1);
+			return (FAILURE);
+		}
+		exec->fd_in = open(token->next->word, O_RDONLY);
+		if (exec->fd_in < 0)
 			return (FAILURE);
 	}
 	return (SUCCESS);
 }
 
-//check if we can write into the file
-static void	write_permission(t_shell *gear_5, char *file)
+//check rights for input file in <
+int	file_input(t_shell *gear_5, t_exec *exec, t_token *token)
 {
-	if (!gear_5 || !file)
-		return ;
-	if (access(file, W_OK) == -1)
+	if (!gear_5 || !exec || !token)
+		return (FAILURE);
+	if (exec->fd_in >= 3)
+		close(exec->fd_in);
+	if (gear_5->j == 0 && token->token_type == TOKEN_INPUT)
 	{
-		gear_5->exit_status = 1;
-		ft_putstr_fd(YELLOW"file: ", STDERR_FILENO);
-		error("permission denied\n");
+		if (infile_cmd_execution(gear_5, token) == FAILURE)
+			return (FAILURE);
 	}
+	else if (token->token_type == TOKEN_INPUT)
+	{
+		if (handle_input(gear_5, exec, token) == FAILURE)
+			return (FAILURE);
+	}
+	else if (token->token_type == TOKEN_HEREDOC)
+	{
+		if (create_heredoc(exec, token) == FAILURE)
+			return (FAILURE);
+	}
+	return (SUCCESS);
 }
 
 //check rights for outfile file in > and >>
@@ -67,6 +97,8 @@ int	file_outfile(t_shell *gear_5, t_exec *exec, t_token *token)
 
 	if (!exec || !token || token->next->token_type != TOKEN_FILE)
 		return (FAILURE);
+	if (exec->fd_out >= 3)
+		close(exec->fd_out);
 	if (token->token_type == TOKEN_OUTPUT)
 		flags = O_WRONLY | O_CREAT | O_TRUNC;
 	else if (token->token_type == TOKEN_APPEND)
@@ -74,11 +106,11 @@ int	file_outfile(t_shell *gear_5, t_exec *exec, t_token *token)
 	else
 		return (FAILURE);
 	exec->fd_out = open(token->next->word, flags, 0644);
-	write_permission(gear_5, token->next->word);
+	if (access(token->next->word, W_OK) == -1)
+		update_exit_status(gear_5, 1, token->next->word);
+	if (access(token->next->word, W_OK) == -1)
+		update_exit_status(gear_5, 1, token->next->word);
 	if (exec->fd_out < 0)
-	{
-		perror("Failed to open file");
 		return (FAILURE);
-	}
 	return (SUCCESS);
 }

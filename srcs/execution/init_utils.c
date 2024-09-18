@@ -6,11 +6,21 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:12:05 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/22 14:59:12 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/16 14:53:29 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//if function set_fd fails, clean exec
+void	fail_set_fd_clean(t_exec *exec)
+{
+	if (!exec)
+		return ;
+	free_args_tab(exec->args);
+	free(exec->cmd_name);
+	free(exec);
+}
 
 //check if token is a redirection > >> < << or |
 bool	token_is_redirection(t_token *token)
@@ -22,7 +32,11 @@ bool	token_is_redirection(t_token *token)
 		|| token->token_type == TOKEN_HEREDOC
 		|| token->token_type == TOKEN_INPUT
 		|| token->token_type == TOKEN_PIPE)
+	{
+		if (token->token_type == TOKEN_HEREDOC)
+			token->has_heredoc = true;
 		return (true);
+	}
 	return (false);
 }
 
@@ -41,6 +55,8 @@ int arg_count)
 	arg_count--;
 	while (arg_count >= 0)
 	{
+		if (j == 0)
+			exec->cmd_name = ft_strdup(tmp->word);
 		exec->args[j] = ft_strdup(tmp->word);
 		arg_count--;
 		j++;
@@ -51,20 +67,28 @@ int arg_count)
 //set fd_in or fd_out for t_structure
 int	set_fd(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp)
 {
+	t_token	*head;
+
 	if (!exec || !token || !envp)
 		return (FAILURE);
-	exec->fd_in = STDIN_FILENO;
-	exec->fd_out = STDOUT_FILENO;
-	printf("content of token: %s\n", token->word);
-	if (token->token_type == TOKEN_OUTPUT || token->token_type == TOKEN_APPEND)
+	head = token;
+	gear_5->j = 0;
+	while (head && head->token_type != TOKEN_PIPE)
 	{
-		if (file_outfile(gear_5, exec, token) == FAILURE)
-			return (FAILURE);
+		if (head->token_type == TOKEN_OUTPUT
+			|| head->token_type == TOKEN_APPEND)
+		{
+			if (file_outfile(gear_5, exec, head) == FAILURE)
+				return (FAILURE);
+		}
+		else if (head->token_type == TOKEN_INPUT
+			|| head->token_type == TOKEN_HEREDOC)
+		{
+			if (file_input(gear_5, exec, head) == FAILURE)
+				return (FAILURE);
+		}
+		head = head->next;
+		gear_5->j++;
 	}
-	// else if (token->token_type == TOKEN_INPUT || token->token_type == TOKEN_HEREDOC)
-	// {
-	// 	if (file_input(exec, token) == FAILURE)
-	// 		return (FAILURE);
-	// }
 	return (SUCCESS);
 }

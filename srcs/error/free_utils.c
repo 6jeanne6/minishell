@@ -6,14 +6,13 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 22:35:16 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/23 12:05:35 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/09 17:06:10 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //free each node in token linked list + free cmd_path
-//to avoid syscall in execve
 void	super_free_token_list(t_token *head)
 {
 	t_token	*temp;
@@ -59,8 +58,9 @@ void	free_t_exec(t_token *token, t_env *envp)
 }
 
 //free token list when token order is wrong
-void	wrong_token_order(t_token *token, t_env *envp)
+void	wrong_token_order(t_token *token, t_env *envp, t_shell *gear_5)
 {
+	(void)gear_5;
 	if (!token || !envp)
 		return ;
 	super_free_token_list(token);

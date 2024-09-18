@@ -6,34 +6,11 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:52:41 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/23 16:04:30 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/18 12:45:42 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	handle_variable(t_parsing *state, int word_length)
-{
-	if (state->j > 0)
-	{
-		state->current_word[state->j] = '\0';
-		add_to_list(state->token_list, state, state->current_word, word_length);
-		state->j = 0;
-		state->outer_double_quote = 0;
-		state->outer_single_quote = 0;
-	}
-	state->current_word[state->j++] = state->line[state->i++];
-	while (ft_ispace(state->line[state->i] == FAILURE)
-		&& state->line[state->i] != '\0'
-		&& !is_special_char(state->line[state->i]))
-		state->current_word[state->j++] = state->line[state->i++];
-	state->current_word[state->j] = '\0';
-	add_to_list(state->token_list, state, state->current_word, word_length);
-	state->j = 0;
-	state->outer_double_quote = 0;
-	state->outer_single_quote = 0;
-}
-//Copy $name as long as no blank or \0
 
 static void	handle_double_quotes(t_parsing *state)
 {
@@ -81,6 +58,29 @@ void	handle_quotes(t_parsing *state)
 // 		→ Ignore exterior quotes
 // • Single quotes
 // 		→ Ignore exterior quotes
+
+void	handle_variable(t_parsing *state, int word_length)
+{
+	state->current_word[state->j++] = state->line[state->i++];
+	while (state->line[state->i] != '\0'
+		&& (ft_ispace(state->line[state->i]) == FAILURE)
+		&& !is_special_char(state->line[state->i]))
+	{
+		if (state->line[state->i] == '"')
+			handle_double_quotes(state);
+		else if (state->line[state->i] == '\'')
+			handle_single_quotes(state);
+		else
+			state->current_word[state->j++] = state->line[state->i++];
+	}
+	if (ft_ispace(state->line[state->i]) != FAILURE)
+	{
+		process_token(state, word_length);
+		state->i++;
+	}
+	if (state->line[state->i] == '\0')
+		process_token(state, word_length);
+}
 
 void	handle_characters(t_parsing *state, int word_length)
 {

@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 18:04:18 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/23 15:53:41 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/18 12:45:07 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ void	extract_words(const char *line, t_token **head)
 	t_parsing	state;
 	int			word_length;
 
-	if (!line || ft_strlen(line) == 0)
-		return ;
 	ft_bzero(&state, sizeof(t_parsing));
 	word_length = ft_strlen(line);
 	state.current_word = ft_calloc(word_length + 1, sizeof(t_parsing));
@@ -47,9 +45,7 @@ void	extract_words(const char *line, t_token **head)
 		add_to_list(state.token_list, &state, state.current_word, word_length);
 	}
 	else if (state.j == 0 && check_special_input(line))
-	{
 		add_to_list(state.token_list, &state, "", 0);
-	}
 	free(state.current_word);
 }
 //begin where are seperator characters and extract words

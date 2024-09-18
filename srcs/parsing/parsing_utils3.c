@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 14:37:25 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/21 16:20:59 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/18 12:45:49 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	handle_special_char(t_parsing *state, int word_length)
 }
 
 //Copy special char such as > or >> or < or <<
+
 void	process_token(t_parsing *state, int word_length)
 {
 	if (state->j > 0)

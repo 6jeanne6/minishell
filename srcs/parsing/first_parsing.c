@@ -6,25 +6,51 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:43:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/23 13:07:54 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/05 12:21:25 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	lexing_again(char *input, char c, bool *has_quotes)
+static int	check_special_chars(t_shell *gear_5, int i)
 {
-	if ((c == '\'') || (c == '"'))
+	if (gear_5->input[i] == '>' || gear_5->input[i] == '<')
+	{
+		if (check_redirection(gear_5->input) == FAILURE)
+		{
+			update_exit_status(gear_5, 2, NULL);
+			return (FAILURE);
+		}
+	}
+	else if (gear_5->input[i] == '|')
+	{
+		if (check_pipe(gear_5->input) == FAILURE)
+		{
+			update_exit_status(gear_5, 2, NULL);
+			return (FAILURE);
+		}
+	}
+	return (SUCCESS);
+}
+
+static int	lexing_again(char *input, char c, bool *has_quotes, t_shell *gear_5)
+{
+	if (c == '\'' || c == '"')
 	{
 		if (check_quotes(input) == FAILURE)
+		{
+			update_exit_status(gear_5, 2, NULL);
 			return (FAILURE);
+		}
 		*has_quotes = true;
 	}
 	else if (check_special_characters(input) == FAILURE)
+	{
+		update_exit_status(gear_5, 2, NULL);
 		return (FAILURE);
+	}
 	return (SUCCESS);
 }
-//continuation of lexing_gear_5 function
 
 int	lexing_gear_5(t_shell *gear_5)
 {
@@ -34,23 +60,17 @@ int	lexing_gear_5(t_shell *gear_5)
 	i = -1;
 	has_quotes = false;
 	if (!gear_5)
-		error("Gear 5 is empty!\n");
+	{
+		update_exit_status(NULL, 1, NULL);
+		return (FAILURE);
+	}
 	while (gear_5->input[++i])
 	{
-		if (gear_5->input[i] == '>' || gear_5->input[i] == '<')
-		{
-			if (check_redirection(gear_5->input) == FAILURE)
-				gear_5->exit_status = update_exit(gear_5->exit_status, 2);
-		}
-		else if (gear_5->input[i] == '|')
-		{
-			if (check_pipe(gear_5->input) == FAILURE)
-				return (FAILURE);
-		}
-		else if (lexing_again(gear_5->input, gear_5->input[i], &has_quotes)
-			== FAILURE)
+		if (check_special_chars(gear_5, i) == FAILURE)
+			return (FAILURE);
+		if (lexing_again(gear_5->input, gear_5->input[i],
+				&has_quotes, gear_5) == FAILURE)
 			return (FAILURE);
 	}
-	return (SUCCESS);
+	return (gear_5->exit_status);
 }
-//1st check lexical syntax for pre-parsing

@@ -6,23 +6,11 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 21:33:09 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/07/17 18:02:31 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/16 15:23:29 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-static void display_variables(t_var *var) 
-{
-    while (var != NULL) 
-	{
-        printf("Variable Name: %s\n", var->variable_name);
-        printf("Variable Value: %s\n", var->variable_value);
-		var = var->next;
-	}
-}
-*/
 
 void	init_chained_var(t_env *env, char **envp)
 {

@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:10:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/23 16:07:07 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/18 12:47:03 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int	valid_path(char *path)
 }
 
 //check for cd if it's a path
+
 static int	cd_ok(t_shell *gear_5, t_token *token, t_env *envp)
 {
 	t_token	*arg;
@@ -35,7 +36,7 @@ static int	cd_ok(t_shell *gear_5, t_token *token, t_env *envp)
 	arg = token->next;
 	if (!arg)
 	{
-		gear_5->exit_status = update_exit(gear_5->exit_status, 2);
+		gear_5->exit_status = 1;
 		return (FAILURE);
 	}
 	if ((arg->token_type != TOKEN_ARG) || (valid_path(arg->word) == FAILURE))
@@ -43,19 +44,20 @@ static int	cd_ok(t_shell *gear_5, t_token *token, t_env *envp)
 		if ((ft_strcmp(arg->word, ".") != 0)
 			&& (ft_strcmp(arg->word, "..") != 0))
 		{
-			gear_5->exit_status = update_exit(gear_5->exit_status, 2);
+			update_exit_status(gear_5, 1, NULL);
 			return (FAILURE);
 		}
 	}
 	if (arg->next)
 	{
-		gear_5->exit_status = update_exit(gear_5->exit_status, 2);
+		update_exit_status(gear_5, 1, NULL);
 		return (FAILURE);
 	}
 	return (SUCCESS);
 }
 
 //cd [path] (absolute or relative)
+
 static int	echo_ok(t_shell *gear_5, t_token *token, t_env *envp)
 {
 	t_token	*arg;
@@ -75,15 +77,18 @@ static int	echo_ok(t_shell *gear_5, t_token *token, t_env *envp)
 	}
 	if (arg && (arg == token->next))
 	{
-		gear_5->exit_status = update_exit(gear_5->exit_status, 2);
+		update_exit_status(gear_5, 1, NULL);
 		return (FAILURE);
 	}
 	return (SUCCESS);
 }
 
 // echo -n -nnnnnnn ARG ARG ARG
+
 static int	check_builtin(t_shell *gear_5, t_token *token, t_env *envp)
 {
+	if (!gear_5 || !token || !envp)
+		return (FAILURE);
 	if (ft_strcmp(token->word, "echo") == 0)
 		return (echo_ok(gear_5, token, envp));
 	if (ft_strcmp(token->word, "cd") == 0)

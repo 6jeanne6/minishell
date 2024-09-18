@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:33:49 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/08/21 16:27:20 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/18 12:46:11 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ int	get_var_value(t_env *envp, char *variable, char *new_word, int j)
 		if (ft_strcmp(variable, begin_list->variable_name) == 0)
 		{
 			while (begin_list->variable_value[i])
-			{
 				new_word[j++] = begin_list->variable_value[i++];
-			}
 			break ;
 		}
 		begin_list = begin_list->next;
@@ -67,26 +65,6 @@ int	treatment(char *word, t_env *envp, char *new_word, int j)
 	return (j);
 }
 
-// Fonction pour traiter les variables d'environnement
-int	handle_environment_variable(char *word, t_env *envp, char *new_word, int j)
-{
-	int	i;
-
-	i = 0;
-	if (word[i] == '$')
-	{
-		j = treatment(&word[i], envp, new_word, j);
-		while (word[i] && word[i] != ' ' && word[i] != '"')
-		{
-			i++;
-			if (word[i] == '$')
-				break ;
-		}
-	}
-	return (i);
-}
-
-// Fonction principale refactorée
 char	*create_new_word(t_token *list, t_env *envp, int len)
 {
 	int		i;
@@ -102,7 +80,13 @@ char	*create_new_word(t_token *list, t_env *envp, int len)
 	{
 		if (list->word[i] == '$')
 		{
-			i += handle_environment_variable(&list->word[i], envp, new_word, j);
+			j = treatment(&list->word[i], envp, new_word, j);
+			while (list->word[i] && list->word[i] != ' '
+				&& list->word[i] != '"')
+			{
+				if (list->word[i++] == '$')
+					break ;
+			}
 		}
 		else
 			new_word[j++] = list->word[i++];

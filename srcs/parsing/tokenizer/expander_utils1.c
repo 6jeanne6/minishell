@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_outer_double_quote.c                        :+:      :+:    :+:   */
+/*   expander_utils1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:31:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/11 14:55:45 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/18 12:46:02 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,11 @@ static int	syntax_variable(char *str, int dollar_count)
 
 	i = -1;
 	found = 0;
+	if (!str)
+		return (FAILURE);
 	while (str[++i])
 	{
-		if (str[i] == '$')
+		if (str[i] == '$' && str[i + 1])
 		{
 			i += 1;
 			if (ft_isalpha(str[i]) || str[i] == '_')
@@ -105,7 +107,6 @@ void	expand_content(t_token *list, t_env *envp)
 		if (check_valid_name(token->word) == FAILURE)
 			return ;
 		total += compute_substitution(token->word, envp);
-		printf("total: %d\n", total);
 		token = token->next;
 	}
 	expanded_content = create_new_word(list, envp, total);

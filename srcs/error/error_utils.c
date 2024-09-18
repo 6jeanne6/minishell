@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:43:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/23 15:52:56 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/18 12:44:47 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	error(char	*message)
 {
 	if (!message)
 		return ;
-	ft_putstr_fd(CYAN, STDERR_FILENO);
+	ft_putstr_fd(RED, STDERR_FILENO);
 	ft_putstr_fd(message, STDERR_FILENO);
 	ft_putstr_fd(RESET, STDERR_FILENO);
 }
@@ -56,7 +56,10 @@ void	free_envp_path(t_env *envp)
 	if (!envp)
 		return ;
 	if (envp->cmd_path)
+	{
+		free(envp->cmd_path);
 		envp->cmd_path = NULL;
+	}
 }
 
 //free envp structure

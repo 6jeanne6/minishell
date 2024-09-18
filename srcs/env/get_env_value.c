@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   get_env_value.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/11 17:07:52 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/16 14:52:07 by lnjoh-tc         ###   ########.fr       */
+/*   Created: 2024/09/11 10:40:25 by lnjoh-tc          #+#    #+#             */
+/*   Updated: 2024/09/16 15:34:42 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* print current working directory */
-int	pwd(t_shell *gear_5, t_env *envp, t_exec *exec)
+void	change_env_var_value_with_name(t_env *env, char *name, char *value)
 {
-	char	*path;
+	t_var	*var;
 
-	(void) envp;
-	path = get_current_path();
-	ft_putstr_fd(path, exec->fd_out);
-	ft_putstr_fd("\n", exec->fd_out);
-	free(path);
-	gear_5->exit_status = 0;
-	return (0);
+	var = find_variable_value_by_name(env, name);
+	if (!var)
+		return ;
+	change_env_var_value(var, value);
+}
+
+void	change_env_var_value(t_var *var, char *new_value)
+{
+	if (var->variable_value != NULL)
+	{
+		free(var->variable_value);
+	}
+	var->variable_value = ft_strdup(new_value);
 }

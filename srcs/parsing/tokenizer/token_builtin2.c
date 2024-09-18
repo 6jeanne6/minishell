@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 21:15:23 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/23 16:09:20 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/18 12:47:12 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ int	exit_ok(t_shell *gear_5, t_token *token, t_env *envp)
 {
 	t_token	*arg;
 
-	if (!gear_5 || !token || !envp)
-		return (FAILURE);
 	arg = token;
+	(void)envp;
 	if (!arg->next)
 		return (SUCCESS);
 	else
@@ -28,12 +27,12 @@ int	exit_ok(t_shell *gear_5, t_token *token, t_env *envp)
 		{
 			if (arg->token_type != TOKEN_ARG)
 			{
-				gear_5->exit_status = update_exit(gear_5->exit_status, 2);
+				update_exit_status(gear_5, 1, NULL);
 				return (FAILURE);
 			}
 			if (arg->next)
 			{
-				gear_5->exit_status = update_exit(gear_5->exit_status, 2);
+				update_exit_status(gear_5, 1, NULL);
 				return (FAILURE);
 			}
 			break ;
@@ -44,8 +43,9 @@ int	exit_ok(t_shell *gear_5, t_token *token, t_env *envp)
 
 //exit no options
 //it means NUMBERS are OK like exit(42)
-//it seems exit arg works (just one arg), 
-// so handle only number or arguments too?
+//it seems exit arg works (just one arg),
+//so handle only number or arguments too?
+
 int	unset_ok(t_shell *gear_5, t_token *token, t_env *envp)
 {
 	t_token	*arg;
@@ -55,7 +55,7 @@ int	unset_ok(t_shell *gear_5, t_token *token, t_env *envp)
 	arg = token;
 	if (!arg->next)
 	{
-		gear_5->exit_status = 1;
+		update_exit_status(gear_5, 1, NULL);
 		return (FAILURE);
 	}
 	else
@@ -65,7 +65,7 @@ int	unset_ok(t_shell *gear_5, t_token *token, t_env *envp)
 		{
 			if (arg->token_type != TOKEN_ARG)
 			{
-				gear_5->exit_status = update_exit(gear_5->exit_status, 1);
+				update_exit_status(gear_5, 1, NULL);
 				return (FAILURE);
 			}
 			arg = arg->next;
@@ -76,6 +76,7 @@ int	unset_ok(t_shell *gear_5, t_token *token, t_env *envp)
 
 //unset no options
 //unset VARIABLE_NAME VAR2 VAR3 ...
+
 int	export_ok(t_shell *gear_5, t_token *token, t_env *envp)
 {
 	t_token	*arg;
@@ -92,7 +93,7 @@ int	export_ok(t_shell *gear_5, t_token *token, t_env *envp)
 			if (arg->token_type != TOKEN_VARIABLEASSIGNATION
 				&& arg->token_type != TOKEN_ARG)
 			{
-				gear_5->exit_status = update_exit(gear_5->exit_status, 1);
+				update_exit_status(gear_5, 1, NULL);
 				return (FAILURE);
 			}
 			arg = arg->next;
@@ -105,6 +106,7 @@ int	export_ok(t_shell *gear_5, t_token *token, t_env *envp)
 //export NAME=VALUE
 //LOL=42 -------> export LOL
 //export --------> displays environment variable 
+
 int	env_ok(t_shell *gear_5, t_token *token, t_env *envp)
 {
 	t_token	*arg;
@@ -116,12 +118,13 @@ int	env_ok(t_shell *gear_5, t_token *token, t_env *envp)
 		return (SUCCESS);
 	else
 	{
-		gear_5->exit_status = update_exit(gear_5->exit_status, 1);
+		update_exit_status(gear_5, 1, NULL);
 		return (FAILURE);
 	}
 }
 
 //env no options no arguments
+
 int	pwd_ok(t_shell *gear_5, t_token *token, t_env *envp)
 {
 	t_token	*arg;
@@ -133,8 +136,7 @@ int	pwd_ok(t_shell *gear_5, t_token *token, t_env *envp)
 		return (SUCCESS);
 	else
 	{
-		gear_5->exit_status = 1;
-		error("pwd: too many arguments\n");
+		update_exit_status(gear_5, 1, NULL);
 		return (FAILURE);
 	}
 }
