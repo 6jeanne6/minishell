@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:38:41 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/18 15:16:49 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/19 15:41:54 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 //first command:
 // → use infile as STDIN
 // → use current pipe as STDOUT
-static void	first_dup(t_exec *exec, t_shell *gear_5, t_env *envp, int cmd)
+// → invalid fd_in = free envp, exec and EXIT FAILURE
+static void	first_dup(t_exec *exec, t_shell *gear_5, t_env *envp)
 {
 	if (exec->fd_in < 0)
 	{
-		close(exec->fd_out);
 		error_shell_exec(gear_5, envp, exec);
+		return ;
 	}
-	if (cmd == 1 && exec->fd_out >= 0)
+	if (gear_5->number_of_cmds == 1 && exec->fd_out >= 0)
 	{
 		if (dup2(exec->fd_out, STDOUT_FILENO) == -1)
 		{
@@ -31,7 +32,7 @@ static void	first_dup(t_exec *exec, t_shell *gear_5, t_env *envp, int cmd)
 			return ;
 		}
 	}
-	if (cmd > 1)
+	if (gear_5->number_of_cmds > 1)
 		dup2(gear_5->pipe_tab[gear_5->j][WRITE_END], STDOUT_FILENO);
 	if (exec->fd_in >= 0)
 	{
@@ -81,7 +82,7 @@ void	child_process(t_exec *exec, t_shell *gear_5, t_env *envp, t_exec *head)
 	if (basic_fd(exec) == false || gear_5->number_of_cmds > 1)
 	{
 		if (gear_5->j == 0)
-			first_dup(exec, gear_5, envp, gear_5->number_of_cmds);
+			first_dup(exec, gear_5, envp);
 		else if (gear_5->j < gear_5->number_of_cmds - 1)
 			middle_dup(exec, gear_5);
 		else
