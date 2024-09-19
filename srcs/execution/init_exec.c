@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:00:38 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/16 14:16:55 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/19 16:18:29 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static t_exec	*link_exec_nodes(t_exec *prev_exec, t_exec *exec)
 	{
 		prev_exec->next = exec;
 		exec->prev = prev_exec;
+		if (exec->prev->has_pipe == true)
+			exec->has_pipe = true;
 	}
 	else
 		exec->prev = NULL;
@@ -87,7 +89,12 @@ static t_exec	*process_tokenn(t_shell *gear_5, t_token **head, t_env *envp)
 	}
 	else
 		return (NULL);
-	if (set_fd(gear_5, exec, start, envp) == FAILURE)
+	if (*head)
+	{
+		if ((*head)->previous->token_type == TOKEN_PIPE)
+			exec->has_pipe = true;
+	}
+	if (set_fd(gear_5, exec, start, envp) == FAILURE && exec->has_pipe == false)
 		return (fail_set_fd_clean(exec), NULL);
 	return (exec);
 }

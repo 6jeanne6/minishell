@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/18 19:01:25 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:21:33 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_exec
 	char			*heredoc_file;
 
 	bool			heredoc_here;
+	bool			has_pipe;
 
 	char			**args;
 
@@ -209,7 +210,7 @@ void	env(t_shell *gear_5, t_env *envp, t_exec *exec);
 int		export(t_shell *gear_5, t_env *envp, t_exec *exec);
 int		unset(t_shell *gear_5, t_env *envp, t_exec *exec);
 int		is_builtin(char *word);
-void	exec_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
+//void	exec_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
 void	exit_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
 char	*get_current_path(void);
 t_var	*find_variable_value_by_name(t_env *env,char *name);
@@ -220,6 +221,7 @@ void	change_env_var_value(t_var *var, char *new_value);
 t_var	*get_first_env_var(t_env *env);
 char	*get_last_path(t_env *env);
 int		is_valid_identifier(char *name, t_shell *gear_5, int code);
+int		exec_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
 
 /* environnement variable */
 

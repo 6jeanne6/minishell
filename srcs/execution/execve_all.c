@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:39:54 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/17 14:13:28 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/19 16:28:08 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,18 @@ static void	execve_builtin(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
 	if (!gear_5 || !envp || !exec)
 		return ;
-	exec_builtin(gear_5, envp, exec);
-	execve_clean_all(exec, envp, gear_5);
-	exit(SUCCESS);
+	if (exec_builtin(gear_5, envp, exec) == SUCCESS)
+	{
+		execve_clean_all(exec, envp, gear_5);
+		exit(SUCCESS);
+	}
+	else
+	{
+		update_exit_status(gear_5, 1, exec->cmd_name);
+		error_close_files(exec);
+		execve_clean_all(exec, envp, gear_5);
+		exit(1);
+	}
 }
 
 //execute

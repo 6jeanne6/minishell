@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:36:25 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/16 15:29:44 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/19 16:42:35 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,46 @@ void	execve_clean_all(t_exec *exec, t_env *envp, t_shell *gear_5)
 	free_exec(exec);
 }
 
+//close both end of pipe and free it
+static void	close_and_free_pipe_tab(t_shell *gear_5)
+{
+	int	i;
+
+	if (!gear_5)
+		return ;
+	i = -1;
+	while (++i < gear_5->number_of_cmds - 1)
+	{
+		close(gear_5->pipe_tab[i][READ_END]);
+		close(gear_5->pipe_tab[i][WRITE_END]);
+		free(gear_5->pipe_tab[i]);
+	}
+	free(gear_5->pipe_tab);
+	gear_5->pipe_tab = NULL;
+}
+
+//free pid tab
+static void	free_pid_tab(t_shell *gear_5)
+{
+	if (!gear_5)
+		return ;
+	if (gear_5->pid_tab)
+	{
+		free(gear_5->pid_tab);
+		gear_5->pid_tab = NULL;
+	}
+}
+
 //free stuff in t_exec, and in gear_5 pid and pipe tab
 void	clean_exec(t_exec *exec, t_shell *gear_5)
 {
 	t_exec	*current;
-	int		i;
 
 	if (!exec || !gear_5)
 		return ;
 	current = exec;
-	i = -1;
-	if (gear_5->pid_tab)
-		free(gear_5->pid_tab);
-	if (gear_5->pipe_tab)
-	{
-		while (++i < current->nb_cmd - 1)
-			free(gear_5->pipe_tab[i]);
-		free(gear_5->pipe_tab);
-	}
+	free_pid_tab(gear_5);
+	close_and_free_pipe_tab(gear_5);
 	while (current)
 	{
 		if (current->cmd_name)
