@@ -6,7 +6,7 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 10:40:25 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/18 18:59:38 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/11 10:43:19 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ void	change_env_var_value(t_var *var, char *new_value)
 	{
 		free(var->variable_value);
 	}
-	var->variable_value = ft_strdup(new_value);
+	var->variable_value = ft_strdup(new_value); 
 }

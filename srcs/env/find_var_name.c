@@ -6,7 +6,7 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 10:40:27 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/18 19:03:07 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/11 10:41:49 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_var	*find_variable_by_name(t_env *env, char *name)
 {
-	t_var	*current;
+	t_var *current;
 
 	current = env->first_variable;
 	while (current != NULL)
@@ -25,12 +25,13 @@ t_var	*find_variable_by_name(t_env *env, char *name)
 		}
 		current = current->next;
 	}
+
 	return (NULL);
 }
 
 t_var	*find_variable_value_by_name(t_env *env, char *name)
 {
-	t_var	*current;
+	t_var *current;
 
 	current = env->first_variable;
 	while (current != NULL)
@@ -41,9 +42,9 @@ t_var	*find_variable_value_by_name(t_env *env, char *name)
 		}
 		current = current->next;
 	}
+
 	return (NULL);
 }
-
 char	*get_env_var_value_with_name(t_env *env, char *name)
 {
 	t_var	*var;
@@ -61,7 +62,6 @@ char	*get_env_var_value_with_name(t_env *env, char *name)
 	}
 	return (NULL);
 }
-
 t_var	*get_first_env_var(t_env *env)
 {
 	if (env->first_variable)

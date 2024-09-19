@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:40:22 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/18 19:02:10 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:19:21 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* Initialize pwd environment variable. */
-static void	init_pwd(t_env *envp)
+static void init_pwd(t_env *envp)
 {
-	t_var	*variable;
-	char	*current_path;
+    t_var *variable;
+    char *current_path;
 
-	current_path = get_current_path();
-	variable = init_env_variable("pwd", current_path);
-	add_variable_to_the_list(envp, variable);
+    current_path = get_current_path();
+    variable = init_env_variable("pwd", current_path);
+    add_variable_to_the_list(envp, variable);
 }
 
 /* Setup the environment variable */

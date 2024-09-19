@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 09:43:09 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/18 18:59:26 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/05 14:29:52 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,6 @@ void	exec_builtin(t_shell *gear_5, t_env *envp, t_exec *exec)
 		unset(gear_5, envp, exec);
 	if (ft_strcmp(exec->args[0], "exit") == 0)
 		exit_builtin(gear_5, envp, exec);
+
 }
+

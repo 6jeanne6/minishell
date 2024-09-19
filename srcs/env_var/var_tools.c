@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:37:05 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/16 15:33:05 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:07:47 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ char	*malloc_strcpy(char *origin)
 	str[i] = 0;
 	return (str);
 }
-
 /* Malloc a new variable into environment list */
 char	*malloc_substr_and_cpy(const char *original_str, int start, int end)
 {
@@ -50,7 +49,7 @@ char	*malloc_substr_and_cpy(const char *original_str, int start, int end)
 	return (new_str);
 }
 
-/* Free all variable in environment*/
+/* Free all variable in environment */
 void	free_var_list(t_env *env)
 {
 	t_var	*current_var;
