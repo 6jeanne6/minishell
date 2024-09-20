@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 16:20:27 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/18 12:47:33 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/20 15:55:47 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static int	input_order(t_token *token, t_shell *gear_5)
 		}
 		if (token->next)
 		{
-
 			if (token->next->token_type == TOKEN_PIPE)
 			{
 				update_exit_status(gear_5, 2, NULL);

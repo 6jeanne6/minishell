@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_var_name.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 10:40:27 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/16 15:34:22 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/20 14:21:21 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_var	*find_variable_by_name(t_env *env, char *name)
 	current = env->first_variable;
 	while (current != NULL)
 	{
-		if (strcmp(current->variable_name, name) == 0)
+		if (ft_strcmp(current->variable_name, name) == 0)
 		{
 			return (current);
 		}
