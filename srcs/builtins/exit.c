@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:08:26 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/16 15:24:50 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/20 11:27:16 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static int	is_digital(int digit)
 		return (0);
 	return (1);
 }
+
 
 /* Handles the case where `exit` has exactly two arguments. */
 static void	handle_two_arg(t_shell *gear_5, t_exec *execution, t_env *envp)
@@ -76,6 +77,7 @@ void	exit_builtin(t_shell *gear_5, t_env *envp, t_exec *exec)
 
 	if (!exec || !gear_5)
 		return ;
+
 	i = 0;
 	while (exec->args[i])
 		i++;

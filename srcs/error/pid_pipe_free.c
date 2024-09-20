@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:36:25 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/19 15:14:48 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/20 13:17:09 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ void	error_shell_exec(t_shell *gear_5, t_env *envp, t_exec *exec)
 	clean_env(envp);
 	clean_exec(exec, gear_5);
 	free_exec(exec);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
 	exit(EXIT_FAILURE);
 }
 

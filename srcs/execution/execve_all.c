@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:39:54 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/19 12:04:25 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/20 13:34:31 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,25 @@ static void	execve_bin(t_shell *gear_5, t_env *envp, t_exec *exec)
 }
 
 //if builtin execute this
-static void	execve_builtin(t_shell *gear_5, t_env *envp, t_exec *exec)
+static void	execve_builtin(t_shell *gear_5, t_env *envp, t_exec *exec,
+t_exec *head)
 {
 	if (!gear_5 || !envp || !exec)
 		return ;
 	if (exec_builtin(gear_5, envp, exec) == SUCCESS)
 	{
-		execve_clean_all(exec, envp, gear_5);
+		close_files(exec);
+		close(STDIN_FILENO);
+		close(STDOUT_FILENO);
+		close(STDERR_FILENO);
+		execve_clean_all(head, envp, gear_5);
 		exit(SUCCESS);
 	}
 	else
 	{
 		update_exit_status(gear_5, 1, exec->cmd_name);
 		error_close_files(exec);
-		execve_clean_all(exec, envp, gear_5);
+		execve_clean_all(head, envp, gear_5);
 		exit(1);
 	}
 }
@@ -81,12 +86,12 @@ static void	execve_builtin(t_shell *gear_5, t_env *envp, t_exec *exec)
 //	→ builtin: echo, unset...
 //	→ binary command : ls, wc...
 //  → executable program : ./minishell...
-void	execve_all(t_shell *gear_5, t_env *envp, t_exec *exec)
+void	execve_all(t_shell *gear_5, t_env *envp, t_exec *exec, t_exec *head)
 {
-	if (!exec)
+	if (!exec || !head)
 		return ;
 	if (is_builtin(exec->cmd_name) == SUCCESS)
-		execve_builtin(gear_5, envp, exec);
+		execve_builtin(gear_5, envp, exec, head);
 	if (exec->bin)
 		execve_bin(gear_5, envp, exec);
 	if (access(exec->cmd_name, X_OK) == 0)

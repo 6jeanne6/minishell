@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/19 15:19:39 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/20 13:24:43 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,7 +311,7 @@ bool	basic_fd(t_exec *exec);
 void	set_arg_tab(t_exec *exec, t_token *token, t_env *envp, int arg_count);
 void	fail_set_fd_clean(t_exec *exec);
 void	child_process(t_exec *exec, t_shell *gear_5, t_env *envp, t_exec *head);
-void	execve_all(t_shell *gear_5, t_env *envp, t_exec *exec);
+void	execve_all(t_shell *gear_5, t_env *envp, t_exec *exec, t_exec *head);
 void	close_pipe_tab(t_shell *gear_5, int cmd);
 
 /* error & free */

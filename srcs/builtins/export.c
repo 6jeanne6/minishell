@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 10:02:33 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/16 15:37:13 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/20 11:32:32 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	change_env_var_valuee(t_env *env, char *var_name, char *new_value)
 	return (0);
 }
 
-/* Check if the variable is in the list */
+// Check if the variable is in the list
 static int	variable_exist(t_env *env, char *variable_name)
 {
 	t_var	*var;
@@ -47,7 +47,6 @@ static int	variable_exist(t_env *env, char *variable_name)
 	return (0);
 }
 
-/* Change or create variable */
 static void	change_or_create_var(t_env *env, char *name, char *value)
 {
 	t_var	*variable;
@@ -64,7 +63,7 @@ static void	change_or_create_var(t_env *env, char *name, char *value)
 	}
 }
 
-/* Print all environment variables */
+// Print all environment variables
 static void	print_all_env_var(t_env *env, int fd_out)
 {
 	t_var	*var;
@@ -81,9 +80,10 @@ static void	print_all_env_var(t_env *env, int fd_out)
 	}
 }
 
-// Print all variable values if it's only export 
+// Print all variable values if it's only export
 // ELSE check if the variable exists, 
-// if the variable exists change else add to the list
+// if the variable exists change
+// else add to the list
 int	export(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
 	char	*name;

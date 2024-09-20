@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 23:08:04 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/16 15:37:18 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/20 11:12:34 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	execute_cd(t_shell *gear_5, t_exec *exec)
 		gear_5->exit_status = 1;
 		return ;
 	}
-	if (i == 1)
+	if (i == 1) 
 	{
 		error("cd: missing arguments\n");
 		gear_5->exit_status = 1;

@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 10:14:54 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/18 13:43:08 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/20 11:38:55 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static void	free_env_var(t_var *var)
 	}
 }
 
-/* Disconnect variable from the list and reconnect the list */
+/* Disconnect variable from the list and
+reconnect the list (like that no holes in the variable list) */
 static void	disconnect_env_var(t_env *env, t_var *var)
 {
 	t_var	*var_prev;

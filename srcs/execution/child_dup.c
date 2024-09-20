@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:38:41 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/19 15:41:54 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/20 13:24:25 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@
 static void	first_dup(t_exec *exec, t_shell *gear_5, t_env *envp)
 {
 	if (exec->fd_in < 0)
-	{
 		error_shell_exec(gear_5, envp, exec);
-		return ;
-	}
 	if (gear_5->number_of_cmds == 1 && exec->fd_out >= 0)
 	{
 		if (dup2(exec->fd_out, STDOUT_FILENO) == -1)
@@ -94,6 +91,6 @@ void	child_process(t_exec *exec, t_shell *gear_5, t_env *envp, t_exec *head)
 		close(gear_5->pipe_tab[i][READ_END]);
 		close(gear_5->pipe_tab[i][WRITE_END]);
 	}
-	execve_all(gear_5, envp, exec);
+	execve_all(gear_5, envp, exec, head);
 	exit(SUCCESS);
 }
