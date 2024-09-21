@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 14:37:25 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/17 12:16:57 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/05 13:51:21 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	handle_space(t_parsing *state, int word_length)
 		state->outer_single_quote = 0;
 	}
 }
-
 //Blank = separator so we extract word
+
 void	handle_special_char(t_parsing *state, int word_length)
 {
 	if (state->j > 0)
@@ -51,7 +51,6 @@ void	handle_special_char(t_parsing *state, int word_length)
 	}
 	add_to_list(state->token_list, state, state->current_word, word_length);
 }
-
 //Copy special char such as > or >> or < or <<
 
 void	process_token(t_parsing *state, int word_length)

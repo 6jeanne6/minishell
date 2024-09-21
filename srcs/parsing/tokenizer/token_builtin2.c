@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 21:15:23 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/17 12:23:17 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/05 14:11:43 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	exit_ok(t_shell *gear_5, t_token *token, t_env *envp)
 	}
 	return (SUCCESS);
 }
-
 //exit no options
 //it means NUMBERS are OK like exit(42)
 //it seems exit arg works (just one arg),
@@ -73,7 +72,6 @@ int	unset_ok(t_shell *gear_5, t_token *token, t_env *envp)
 	}
 	return (SUCCESS);
 }
-
 //unset no options
 //unset VARIABLE_NAME VAR2 VAR3 ...
 
@@ -101,7 +99,6 @@ int	export_ok(t_shell *gear_5, t_token *token, t_env *envp)
 	}
 	return (SUCCESS);
 }
-
 //export no options
 //export NAME=VALUE
 //LOL=42 -------> export LOL
@@ -122,7 +119,6 @@ int	env_ok(t_shell *gear_5, t_token *token, t_env *envp)
 		return (FAILURE);
 	}
 }
-
 //env no options no arguments
 
 int	pwd_ok(t_shell *gear_5, t_token *token, t_env *envp)

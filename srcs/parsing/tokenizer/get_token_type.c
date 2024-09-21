@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 14:43:23 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/17 12:21:55 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/12 17:04:11 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,9 @@ int	get_token_type(t_env *envp, t_token *token)
 			token->token_type = determine_token_type(envp, token);
 		else if (is_variable(token->word) == SUCCESS
 			&& token->outer_double_quote == 1)
-		{
 			token->token_type = TOKEN_VARIABLE;
-		}
 		else
-		{
 			token->token_type = TOKEN_ARG;
-		}
 		token = token->next;
 	}
 	return (SUCCESS);

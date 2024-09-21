@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:21:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/16 17:30:46 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/19 16:58:16 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@ static int	handle_input(t_shell *gear_5, t_exec *exec, t_token *token)
 		if ((access(token->next->word, F_OK) == -1)
 			|| (access(token->next->word, R_OK) == -1))
 		{
-			filename_error(token->next->word, "unknown file", gear_5, 1);
-			return (FAILURE);
+			filename_error(token->next->word,
+				"no such file or directory", gear_5, 1);
+			if (exec->has_pipe == false)
+				return (FAILURE);
 		}
 		exec->fd_in = open(token->next->word, O_RDONLY);
 		if (exec->fd_in < 0)

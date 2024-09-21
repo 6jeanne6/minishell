@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/17 11:43:46 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/21 18:00:44 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,16 @@
 //		→ close fds and pipes
 static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
+	int	flag;
+
+	flag = 0;
 	if (!gear_5 || !envp || !exec)
 		return (FAILURE);
-	if (init_fork(gear_5, envp, exec) == FAILURE)
+	flag = init_fork(gear_5, envp, exec);
+	if (flag == FAILURE)
 		return (FAILURE);
+	if (flag != 3)
+		gear_5->exit_status = child_status_code(gear_5);
 	close_files(exec);
 	return (SUCCESS);
 }
@@ -43,11 +49,10 @@ t_exec **exec)
 	{
 		free_token_list(list);
 		list = NULL;
-		extract_words(gear_5->input, &list);
+		extract_words(gear_5->input, &list, envp, gear_5);
 		if (!list)
-			return (update_exit_status(gear_5, 1, NULL));
+			return (update_exit_status(gear_5, 127, ""), FAILURE);
 		get_token_type(envp, list);
-		//print_token_list(list);
 		if (token_order(gear_5, list) == FAILURE)
 			return (wrong_token_order(list, envp, gear_5), FAILURE);
 		expander(list, envp);
@@ -57,7 +62,6 @@ t_exec **exec)
 			free_t_exec(list, envp);
 			return (FAILURE);
 		}
-		print_exec_list(*exec, gear_5);
 		super_free_token_list(list);
 		return (SUCCESS);
 	}
@@ -85,8 +89,7 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 		add_history(gear_5->input);
 		if (gear_5->input == NULL)
 			break ;
-		if (update_exit_status_code(gear_5) == SUCCESS)
-			continue ;
+		is_dollar_question_mark_input(gear_5);
 		if (parse_gear_5(gear_5, envp, list, &exec) == FAILURE)
 			continue ;
 		if (execute_gear_5(gear_5, envp, exec) == FAILURE)

@@ -6,13 +6,14 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:07:52 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/16 14:52:07 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/20 15:38:50 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* print current working directory */
+//print current working directory
+//pwd with no options, arguments ok
 int	pwd(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
 	char	*path;

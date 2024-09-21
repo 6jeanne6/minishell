@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander_utils1.c                                  :+:      :+:    :+:   */
+/*   expand_outer_double_quote.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:31:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/09 18:36:46 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/05 14:17:29 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static void	increment_i_k(int *i, int *k)
 	(*i)++;
 	(*k)++;
 }
-
 //increment i and k LOL
+
 static int	compute_substitution(char *word, t_env *envp)
 {
 	int		i;
@@ -47,8 +47,8 @@ static int	compute_substitution(char *word, t_env *envp)
 	}
 	return (total + k);
 }
-
 //compute how many alloc needed after subsitution of $
+
 static int	syntax_variable(char *str, int dollar_count)
 {
 	int	i;
@@ -56,11 +56,9 @@ static int	syntax_variable(char *str, int dollar_count)
 
 	i = -1;
 	found = 0;
-	if (!str)
-		return (FAILURE);
 	while (str[++i])
 	{
-		if (str[i] == '$' && str[i + 1])
+		if (str[i] == '$')
 		{
 			i += 1;
 			if (ft_isalpha(str[i]) || str[i] == '_')
@@ -92,7 +90,7 @@ static int	check_valid_name(char *str)
 }
 //check syntax of variable name, must be a letter after $
 
-void	expand_content(t_token *list, t_env *envp)
+void	expand_double_quotes(t_token *list, t_env *envp)
 {
 	int		total;
 	t_token	*token;
@@ -104,9 +102,12 @@ void	expand_content(t_token *list, t_env *envp)
 	token = list;
 	while (token)
 	{
-		if (check_valid_name(token->word) == FAILURE)
-			return ;
-		total += compute_substitution(token->word, envp);
+		if (token->token_type == TOKEN_ARG && token->outer_double_quote == 1)
+		{
+			if (check_valid_name(token->word) == FAILURE)
+				return ;
+			total += compute_substitution(token->word, envp);
+		}
 		token = token->next;
 	}
 	expanded_content = create_new_word(list, envp, total);

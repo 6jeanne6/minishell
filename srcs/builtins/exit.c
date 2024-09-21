@@ -6,44 +6,51 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:08:26 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/16 15:24:50 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/21 17:55:55 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* Check digit */
-static int	is_digital(int digit)
-{
-	if (digit < 0 || digit > 2147483646)
-		return (0);
-	return (1);
-}
-
-/* Handles the case where `exit` has exactly two arguments. */
-static void	handle_two_arg(t_shell *gear_5, t_exec *execution, t_env *envp)
+static int	status_generator(char *str)
 {
 	int	status;
 
-	status = ft_atoi(execution->args[1]);
-	if (is_digital(status) == 0)
+	status = ft_atoi(str);
+	if (status >= 0 && status <= 255)
+	{
+		return (status);
+	}
+	else
+	{
+		status = status % 256;
+		if (status < 0)
+			status += 256;
+		return (status);
+	}
+}
+
+/* Handles the case where `exit` has exactly two arguments. */
+static void	handle_two_arg(t_shell *gear_5, t_exec *execution,
+			t_env *envp, t_exec *exec)
+{
+	int	status;
+
+	status = status_generator(execution->args[1]);
+	if (status >= 0 && status <= 255)
 	{
 		ft_putstr_fd("exit", 2);
 		ft_putstr_fd("\n", 2);
-		error("bash: exit: ");
-		error(execution->args[1]);
-		error(": positive numeric argument required");
-		gear_5->exit_status = 2;
-		clean_env(envp);
-		free_exec(execution);
-		exit(2);
+		gear_5->exit_status = status;
+		execve_clean_all(exec, envp, gear_5);
+		exit(status);
 	}
 	else
 	{
 		ft_putstr_fd("exit", 2);
 		ft_putstr_fd("\n", 2);
-		clean_env(envp);
-		free_exec(execution);
+		execve_clean_all(exec, envp, gear_5);
 		exit(status);
 	}
 }
@@ -54,8 +61,7 @@ static void	handle_one_arg(t_shell *gear_5, t_env *envp, t_exec *exec)
 	gear_5->exit_status = 0;
 	ft_putstr_fd("exit", 2);
 	ft_putstr_fd("\n", 2);
-	clean_env(envp);
-	free_exec(exec);
+	execve_clean_all(exec, envp, gear_5);
 	exit(0);
 }
 
@@ -65,7 +71,7 @@ static void	handle_multiple_args(t_shell *gear_5)
 	gear_5->exit_status = 1;
 	ft_putstr_fd("exit", 2);
 	ft_putstr_fd("\n", 2);
-	error("bash: exit: too many arguments");
+	ft_putstr_fd("exit: too many arguments", 2);
 	ft_putstr_fd("\n", 2);
 }
 
@@ -87,5 +93,8 @@ void	exit_builtin(t_shell *gear_5, t_env *envp, t_exec *exec)
 	else if (i == 1)
 		handle_one_arg(gear_5, envp, exec);
 	else if (i == 2)
-		handle_two_arg(gear_5, exec, envp);
+	{
+		quit_if_exit_arg_is_not_numeric(exec->args[1], gear_5, envp, exec);
+		handle_two_arg(gear_5, exec, envp, exec);
+	}
 }

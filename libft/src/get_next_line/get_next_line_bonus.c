@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 16:13:10 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/13 14:15:11 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/20 16:28:47 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ static char	*read_and_join(int fd, char *buffer, char *stash)
 /* Reads BUFFER_SIZE bytes, puts BUFFER_SIZE characters to buffer,
  * and stash is joined with buffer in the while loop.
  * */
-#include <stdio.h>
 char	*get_next_line_bonus(int fd)
 {
 	static char	*stash[1024];
@@ -108,7 +107,6 @@ char	*get_next_line_bonus(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-
 	buf = ft_calloc_gnl(BUFFER_SIZE + 1, sizeof(char));
 	if (!buf)
 		return (NULL);

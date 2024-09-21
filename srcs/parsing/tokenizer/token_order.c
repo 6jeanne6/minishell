@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_order.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 16:20:27 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/16 15:31:37 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:25:51 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,18 @@ static void	convert_to_file(t_token *token)
 {
 	if ((token->token_type == TOKEN_OUTPUT || token->token_type == TOKEN_APPEND
 			|| token->token_type == TOKEN_INPUT) && (token->next))
-		token->next->token_type = TOKEN_FILE;
+	{
+		if (token->next)
+		{
+			if (token->next->token_type != TOKEN_PIPE)
+				token->next->token_type = TOKEN_FILE;
+		}
+	}
 }
 /* Change arg to file if we are in an redirection operator */
 
 static int	input_order(t_token *token, t_shell *gear_5)
 {
-	if (!token || !gear_5)
-		return (FAILURE);
 	if (token->token_type == TOKEN_INPUT)
 	{
 		if (!token->previous)
@@ -51,6 +55,14 @@ static int	input_order(t_token *token, t_shell *gear_5)
 		{
 			filename_error(token->word, "Error: insert a file", gear_5, 2);
 			return (FAILURE);
+		}
+		if (token->next)
+		{
+			if (token->next->token_type == TOKEN_PIPE)
+			{
+				update_exit_status(gear_5, 2, NULL);
+				return (FAILURE);
+			}
 		}
 	}
 	convert_to_file(token);
@@ -84,7 +96,7 @@ static int	output_append_order(t_token *token)
 
 int	token_order(t_shell *gear_5, t_token *token)
 {
-	if (!token)
+	if (!token || !gear_5)
 		return (FAILURE);
 	while (token)
 	{

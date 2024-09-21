@@ -6,7 +6,7 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 21:33:09 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/16 15:23:29 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/20 15:32:01 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	add_variable_to_the_list(t_env *env, t_var *var)
 		while (current_var->next)
 			current_var = current_var->next;
 		current_var->next = var;
+		var->prev = current_var;
 	}
 	var->next = NULL;
 }

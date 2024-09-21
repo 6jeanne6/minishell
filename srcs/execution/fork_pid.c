@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   fork_pid.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:18:07 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/16 18:30:14 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/21 17:44:47 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //handle multi-pipes and dup2 with previous fd
-static void	do_fork(t_shell *gear_5, t_exec *exec, t_env *envp, int cmd)
+static int	do_fork(t_shell *gear_5, t_exec *exec, t_env *envp, int cmd)
 {
 	int		i;
+	int		status_code;
 	t_exec	*current;
 	t_exec	*head;
 
@@ -33,15 +34,9 @@ static void	do_fork(t_shell *gear_5, t_exec *exec, t_env *envp, int cmd)
 		current = current->next;
 		gear_5->j++;
 	}
-	i = -1;
-	while (++i < cmd - 1)
-	{
-		close(gear_5->pipe_tab[i][READ_END]);
-		close(gear_5->pipe_tab[i][WRITE_END]);
-	}
-	i = -1;
-	while (++i < cmd)
-		waitpid(gear_5->pid_tab[i], 0, 0);
+	close_pipe_tab(gear_5, cmd);
+	status_code = get_status_code(gear_5, cmd);
+	return (status_code);
 }
 
 //pipe tab initialization
@@ -108,8 +103,13 @@ int	init_fork(t_shell *gear_5, t_env *envp, t_exec *exec)
 	commands = how_many_process(exec);
 	exec->nb_cmd = commands;
 	gear_5->number_of_cmds = commands;
+	if (is_builtin(exec->cmd_name) == SUCCESS && exec->has_pipe == false)
+	{
+		if (exec_builtin(gear_5, envp, exec) == SUCCESS)
+			return (3);
+	}
 	init_tab_pid(gear_5, exec, envp, commands);
 	init_tab_pipe(gear_5, exec, envp, commands);
-	do_fork(gear_5, exec, envp, commands);
+	gear_5->status_code = do_fork(gear_5, exec, envp, commands);
 	return (SUCCESS);
 }

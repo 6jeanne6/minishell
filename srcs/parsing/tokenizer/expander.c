@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:38:40 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/17 12:32:11 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/05 14:15:34 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void	create_node(t_env *envp, char *word)
 		new_var->prev = current_var;
 	}
 }
-
 // • variable assignation name=value
 //		→ add variable at the end of variable list
 
@@ -62,8 +61,9 @@ static void	create_or_update(t_token *token, t_env *envp)
 	create_node(envp, token->word);
 	free(tmp_word);
 }
-
 // • variable assignation name=value
+//		→ which variables ? a reflechir et voir au fur et a mesure
+
 void	empty_string(t_token *list)
 {
 	free(list->word);
@@ -71,7 +71,6 @@ void	empty_string(t_token *list)
 	if (!list->word)
 		return ;
 }
-
 //if variable does not exist, display empty string
 
 static void	variable_substitution(t_token *current_token, t_env *envp)
@@ -104,6 +103,7 @@ static void	variable_substitution(t_token *current_token, t_env *envp)
 // • variable $
 //		→ exist = substitute with new value
 // 		→ inexistant = display an empty string
+
 void	expander(t_token *list, t_env *envp)
 {
 	t_token	*list_token;
