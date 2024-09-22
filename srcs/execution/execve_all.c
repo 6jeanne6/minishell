@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:39:54 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/22 17:38:04 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/22 21:10:04 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_exec *exec)
 		execve_clean_all(exec, envp, gear_5);
 		exit(126);
 	}
+	printf("LE PROGRAMME MARCGE\n");
 	execve_clean_all(exec, envp, gear_5);
 	exit(SUCCESS);
 }

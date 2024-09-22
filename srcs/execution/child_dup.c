@@ -6,11 +6,37 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:38:41 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/22 19:04:41 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/22 21:12:13 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//check before 
+static int is_valid_command(t_exec *exec, t_shell *gear_5, t_env *envp, t_exec *head)
+{
+	if (!exec || !gear_5 || !envp || !head)
+		return (FAILURE);
+	if (exec->bin)
+	{
+		if (access(exec->bin, X_OK) == 0)
+			return (SUCCESS);
+	}
+	if (is_builtin(exec->cmd_name) == SUCCESS)
+		return (SUCCESS);
+	if (ft_strlen(exec->cmd_name) > 2)
+	{
+		if (exec->cmd_name[0] == '.' && exec->cmd_name[1] == '/')
+		{
+			if (access(exec->cmd_name, X_OK) == 0)
+				return (SUCCESS);
+		}
+	}
+	update_exit_status(gear_5, 127, exec->cmd_name);
+	error_shell_exec(gear_5, envp, head);
+	exit(127);
+	return (FAILURE);
+}
 
 //first command:
 // → use infile as STDIN
@@ -82,21 +108,24 @@ void	child_process(t_exec *exec, t_shell *gear_5, t_env *envp, t_exec *head)
 	int	i;
 
 	i = -1;
-	if (basic_fd(exec) == false || gear_5->number_of_cmds > 1)
+	if (is_valid_command(exec, gear_5, envp, head) == SUCCESS)
 	{
-		if (gear_5->j == 0)
-			first_dup(exec, gear_5, envp);
-		else if (gear_5->j < gear_5->number_of_cmds - 1)
-			middle_dup(exec, gear_5);
-		else
-			last_dup(exec, gear_5);
+		if (basic_fd(exec) == false || gear_5->number_of_cmds > 1)
+		{
+			if (gear_5->j == 0)
+				first_dup(exec, gear_5, envp);
+			else if (gear_5->j < gear_5->number_of_cmds - 1)
+				middle_dup(exec, gear_5);
+			else
+				last_dup(exec, gear_5);
+		}
+		close_files(head);
+		while (++i < gear_5->number_of_cmds - 1)
+		{
+			close(gear_5->pipe_tab[i][READ_END]);
+			close(gear_5->pipe_tab[i][WRITE_END]);
+		}
+		execve_all(gear_5, envp, exec, head);
+		exit(SUCCESS);
 	}
-	close_files(head);
-	while (++i < gear_5->number_of_cmds - 1)
-	{
-		close(gear_5->pipe_tab[i][READ_END]);
-		close(gear_5->pipe_tab[i][WRITE_END]);
-	}
-	execve_all(gear_5, envp, exec, head);
-	exit(SUCCESS);
 }
