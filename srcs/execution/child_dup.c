@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_dup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:38:41 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/20 15:30:50 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/22 19:04:41 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,13 @@ static void	first_dup(t_exec *exec, t_shell *gear_5, t_env *envp)
 		}
 	}
 	if (gear_5->number_of_cmds > 1)
-		dup2(gear_5->pipe_tab[gear_5->j][WRITE_END], STDOUT_FILENO);
+	{
+		if (dup2(gear_5->pipe_tab[gear_5->j][WRITE_END], STDOUT_FILENO) == -1)
+		{
+			perror("dup2 failed\n");
+			return ;
+		}
+	}
 	if (exec->fd_in >= 0)
 	{
 		if (dup2(exec->fd_in, STDIN_FILENO) == -1)

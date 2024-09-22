@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_all.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:39:54 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/20 15:29:27 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/22 17:38:04 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_exec *exec)
 		execve_clean_all(exec, envp, gear_5);
 		exit(126);
 	}
+	execve_clean_all(exec, envp, gear_5);
+	exit(SUCCESS);
 }
 
 //if bin execute absolute path and bin command

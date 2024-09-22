@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/21 17:53:29 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/09/22 16:58:15 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,6 +274,7 @@ int		export_ok(t_shell *gear_5, t_token *token, t_env *envp);
 int		unset_ok(t_shell *gear_5, t_token *token, t_env *envp);
 int		exit_ok(t_shell *gear_5, t_token *token, t_env *envp);
 int		is_file(char *file);
+int		pipe_order(t_token *token, t_shell *gear_5);
 
 void	extract_words(const char *line, t_token **head,
 			t_env *envp, t_shell *gear_5);

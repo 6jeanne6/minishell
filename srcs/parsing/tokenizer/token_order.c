@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 16:20:27 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/19 16:25:51 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/22 17:02:07 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,24 +70,23 @@ static int	input_order(t_token *token, t_shell *gear_5)
 }
 /* Change arg to file if we are in an redirection operator */
 
-static int	output_append_order(t_token *token)
+static int	output_append_order(t_token *token, t_shell *gear_5)
 {
-	if (!token)
+	if (!token || !gear_5)
 		return (FAILURE);
 	if ((token->token_type == TOKEN_OUTPUT
 			|| token->token_type == TOKEN_APPEND))
 	{
 		if (!token->next)
 		{
+			update_exit_status(gear_5, 2, NULL);
 			return (FAILURE);
 		}
 		if (token->next->token_type != TOKEN_ARG
 			&& token->next->token_type != TOKEN_BUILTIN
 			&& token->next->token_type != TOKEN_CMD
 			&& token->next->token_type != TOKEN_FILE)
-		{
 			return (FAILURE);
-		}
 	}
 	convert_to_file(token);
 	return (SUCCESS);
@@ -100,18 +99,11 @@ int	token_order(t_shell *gear_5, t_token *token)
 		return (FAILURE);
 	while (token)
 	{
-		if ((output_append_order(token) == FAILURE)
+		if ((output_append_order(token, gear_5) == FAILURE)
 			|| (input_order(token, gear_5) == FAILURE)
-			|| (heredoc_order(token, gear_5) == FAILURE))
+			|| (heredoc_order(token, gear_5) == FAILURE)
+			|| (pipe_order(token, gear_5) == FAILURE))
 			return (FAILURE);
-		if (token->next)
-		{
-			if (token->token_type == TOKEN_PIPE
-				&& token->next->token_type == TOKEN_PIPE)
-			{
-				return (FAILURE);
-			}
-		}
 		token = token->next;
 	}
 	return (SUCCESS);
