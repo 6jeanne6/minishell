@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:37:05 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/18 13:40:56 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/23 11:39:31 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*malloc_substr_and_cpy(const char *original_str, int start, int end)
 	return (new_str);
 }
 
-/* Free all variable in environment*/
+/* Free all variable in environment */
 void	free_var_list(t_env *env)
 {
 	t_var	*current_var;

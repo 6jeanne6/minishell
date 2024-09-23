@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 18:04:18 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/18 12:45:07 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/23 11:51:07 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,21 @@ static int	check_special_input(const char *line)
 	return (0);
 }
 
-void	extract_words(const char *line, t_token **head)
+/* Begin where are seperator characters and extract words */
+void	extract_words(const char *line, t_token **head,
+		t_env *envp, t_shell *gear_5)
 {
 	t_parsing	state;
 	int			word_length;
+	char		*linee;
 
 	ft_bzero(&state, sizeof(t_parsing));
-	word_length = ft_strlen(line);
+	linee = expander_test(envp, line, gear_5);
+	word_length = ft_strlen(linee);
 	state.current_word = ft_calloc(word_length + 1, sizeof(t_parsing));
 	if (!state.current_word)
 		return ;
-	state.line = (char *)line;
+	state.line = (char *)linee;
 	state.token_list = head;
 	while (state.line[state.i] != '\0')
 		handle_characters(&state, word_length);
@@ -46,6 +50,6 @@ void	extract_words(const char *line, t_token **head)
 	}
 	else if (state.j == 0 && check_special_input(line))
 		add_to_list(state.token_list, &state, "", 0);
+	free(linee);
 	free(state.current_word);
 }
-//begin where are seperator characters and extract words

@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:39:54 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/20 13:34:31 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/23 11:45:10 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_exec *exec)
 		execve_clean_all(exec, envp, gear_5);
 		exit(126);
 	}
+	execve_clean_all(exec, envp, gear_5);
+	exit(SUCCESS);
 }
 
 //if bin execute absolute path and bin command

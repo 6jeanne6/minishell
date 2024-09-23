@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/20 14:15:13 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/23 11:23:53 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ typedef struct s_env
 typedef struct s_shell
 {
 	char	*input;
+
 	int		exit_status;
 	int		status_code;
 	int		j;
@@ -178,6 +179,18 @@ typedef struct s_shell
 	pid_t	*pid_tab;
 
 }				t_shell;
+
+//struct to handle expand
+typedef struct s_expand
+{
+	int			i;
+	int			j;
+	int			inside_double_quotes;
+	int			inside_single_quotes;
+	char		*expanded_line;
+	t_env		*env;
+	const char	*line;
+}				t_expand;
 
 /****** GLOBAL ******/
 
@@ -196,48 +209,45 @@ char	**find_path(t_env *envp, char **str);
 
 /* exit status */
 
-int		update_exit_status_code(t_shell *gear_5);
 int		is_dollar_question_mark_input(t_shell *gear_5);
 int		update_exit_status(t_shell *gear_5, int flag, char *name);
 
 /* builtins */
 
-int		is_builtin(char *word);
-int		exec_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
-
-//void	exec_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
-
-int		unset(t_shell *gear_5, t_env *envp, t_exec *exec);
-void	exit_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
-int		export(t_shell *gear_5, t_env *envp, t_exec *exec);
-int		pwd(t_shell *gear_5, t_env *envp, t_exec *exec);
-int		unset(t_shell *gear_5, t_env *envp, t_exec *exec);
-void	env(t_shell *gear_5, t_env *envp, t_exec *exec);
-int		cd(t_shell *gear_5, t_env *envp, t_exec *exec);
 int		echo(t_shell *gear_5, t_exec *exec);
-int		is_valid_identifier(char *name, t_shell *gear_5, int code);
-char	*get_last_path(t_env *env);
+int		cd(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		pwd(t_shell *gear_5, t_env *envp, t_exec *exec);
+void	env(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		export(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		unset(t_shell *gear_5, t_env *envp, t_exec *exec);
+int		is_builtin(char *word);
+void	exit_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
 char	*get_current_path(void);
-
+t_var	*find_variable_value_by_name(t_env *env, char *name);
+t_var	*find_variable_by_name(t_env *env, char *name);
+void	change_env_var_value_with_name(t_env *env, char *name, char *value);
+char	*get_env_var_value_with_name(t_env *env, char *name);
+void	change_env_var_value(t_var *var, char *new_value);
+t_var	*get_first_env_var(t_env *env);
+char	*get_last_path(t_env *env);
+int		is_valid_identifier(char *name, t_shell *gear_5, int code);
+int		exec_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
+void	quit_if_exit_arg_is_not_numeric(char *str, t_shell *gear_5,
+			t_env *envp, t_exec *exec);
 /* environnement variable */
+
 t_var	*init_env_variable(char *name, char *value);
 
-char	*malloc_strcpy(char *origin);
 char	*malloc_substr_and_cpy(const char *original_str, int start, int end);
 char	*get_variable_name(char *variable);
 char	*get_variable_value(char *variable);
+char	*malloc_strcpy(char *origin);
 void	init_chained_var(t_env *env, char **envp);
 void	add_variable_to_the_list(t_env *env, t_var *var);
 void	free_var_list(t_env *env);
 
-t_var	*get_first_env_var(t_env *env);
-char	*get_env_var_value_with_name(t_env *env, char *name);
-t_var	*find_variable_value_by_name(t_env *env, char *name);
-t_var	*find_variable_by_name(t_env *env, char *name);
-void	change_env_var_value(t_var *var, char *new_value);
-void	change_env_var_value_with_name(t_env *env, char *name, char *value);
-
 /* lexing */
+
 int		check_redirection(char *input);
 int		check_pipe(char *input);
 int		i_am_delimitor(char c);
@@ -249,6 +259,7 @@ int		ft_ispace(char c);
 char	is_special_char(char c);
 
 /* parsing */
+
 int		lexing_gear_5(t_shell *gear_5);
 int		get_token_type(t_env *envp, t_token *token);
 int		check_path(t_env *envp, t_token *token);
@@ -263,8 +274,10 @@ int		export_ok(t_shell *gear_5, t_token *token, t_env *envp);
 int		unset_ok(t_shell *gear_5, t_token *token, t_env *envp);
 int		exit_ok(t_shell *gear_5, t_token *token, t_env *envp);
 int		is_file(char *file);
+int		pipe_order(t_token *token, t_shell *gear_5);
 
-void	extract_words(const char *line, t_token **head);
+void	extract_words(const char *line, t_token **head,
+			t_env *envp, t_shell *gear_5);
 void	handle_characters(t_parsing *state, int word_length);
 void	handle_variable(t_parsing *state, int word_length);
 void	handle_special_char(t_parsing *state, int word_length);
@@ -273,6 +286,7 @@ void	handle_quotes(t_parsing *state);
 void	process_token(t_parsing *state, int word_length);
 
 /* linked list management */
+
 void	add_to_list(t_token **head, t_parsing *state,
 			const char *word, int word_length);
 void	appendright(t_token **head, t_token *new);
@@ -280,6 +294,7 @@ void	appendright(t_token **head, t_token *new);
 t_token	*ft_double_lstlast(t_token *lst);
 
 /* expander $ */
+
 void	expander(t_token *list, t_env *envp);
 void	empty_string(t_token *list);
 void	expand_content(t_token *list, t_env *envp);
@@ -315,6 +330,7 @@ void	execve_all(t_shell *gear_5, t_env *envp, t_exec *exec, t_exec *head);
 void	close_pipe_tab(t_shell *gear_5, int cmd);
 
 /* error & free */
+
 void	error(char	*message);
 void	clean_env(t_env *envp);
 void	free_token_list(t_token *head);
@@ -332,8 +348,10 @@ void	close_files(t_exec *exec);
 void	error_close_files(t_exec *exec);
 
 /* debug */
+
 void	print_token_list(t_token *list);
 void	print_token(t_token *token, int index);
 void	print_exec_list(t_exec *exec, t_shell *gear_5);	
+char	*expander_test(t_env *env, const char *line, t_shell *shell);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 10:02:33 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/20 11:32:32 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/23 11:34:19 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,9 @@ static void	print_all_env_var(t_env *env, int fd_out)
 	}
 }
 
-// Print all variable values if it's only export
+// Print all variable values if it's only export 
 // ELSE check if the variable exists, 
-// if the variable exists change
-// else add to the list
+// if the variable exists change else add to the list
 int	export(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
 	char	*name;

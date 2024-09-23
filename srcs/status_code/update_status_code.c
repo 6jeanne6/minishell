@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 15:41:43 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/17 14:16:27 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/23 12:04:55 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,22 @@ int	is_dollar_question_mark_input(t_shell *gear_5)
 {
 	if (ft_strcmp(gear_5->input, "$?") == 0)
 	{
-		printf("%d\n", gear_5->exit_status);
+		printf("%d :", gear_5->exit_status);
+		if (gear_5->exit_status == 130)
+			printf(" command not found\n");
+		if (gear_5->exit_status == 131)
+			printf(" command not found\n");
+		if (gear_5->exit_status == 127)
+			printf(" command not found\n");
+		if (gear_5->exit_status == 126)
+			printf(" permission denied\n");
+		if (gear_5->exit_status == 2)
+			printf(" syntax error\n");
+		if (gear_5->exit_status == 1)
+			printf(" command not found or invalid syntax\n");
+		if (gear_5->exit_status == 0)
+			printf(" command not found\n");
 		return (SUCCESS);
 	}
-	return (FAILURE);
-}
-
-int	update_exit_status_code(t_shell *gear_5)
-{
-	if (is_dollar_question_mark_input(gear_5) == SUCCESS)
-		return (SUCCESS);
-	else
-		gear_5->exit_status = 0;
 	return (FAILURE);
 }

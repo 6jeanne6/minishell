@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:10:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/18 12:47:03 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/23 12:00:12 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static int	valid_path(char *path)
 		return (SUCCESS);
 	return (FAILURE);
 }
-
 //check for cd if it's a path
 
 static int	cd_ok(t_shell *gear_5, t_token *token, t_env *envp)
@@ -55,7 +54,6 @@ static int	cd_ok(t_shell *gear_5, t_token *token, t_env *envp)
 	}
 	return (SUCCESS);
 }
-
 //cd [path] (absolute or relative)
 
 static int	echo_ok(t_shell *gear_5, t_token *token, t_env *envp)
@@ -85,6 +83,7 @@ static int	echo_ok(t_shell *gear_5, t_token *token, t_env *envp)
 
 // echo -n -nnnnnnn ARG ARG ARG
 
+
 static int	check_builtin(t_shell *gear_5, t_token *token, t_env *envp)
 {
 	if (!gear_5 || !token || !envp)
@@ -105,7 +104,6 @@ static int	check_builtin(t_shell *gear_5, t_token *token, t_env *envp)
 		return (exit_ok(gear_5, token, envp));
 	return (FAILURE);
 }
-
 //which builtin are we on?
 
 int	builtin_order(t_shell *gear_5, t_token *token, t_env *envp)

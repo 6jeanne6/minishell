@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/25 14:37:25 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/18 12:45:49 by jewu             ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/09/23 11:55:11 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -23,8 +24,8 @@ void	handle_space(t_parsing *state, int word_length)
 		state->outer_single_quote = 0;
 	}
 }
-
 //Blank = separator so we extract word
+
 void	handle_special_char(t_parsing *state, int word_length)
 {
 	if (state->j > 0)

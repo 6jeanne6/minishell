@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 13:53:51 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/18 12:44:17 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/23 11:25:08 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,7 @@ static char	*read_and_join(int fd, char *buffer, char *stash)
 }
 
 /* Reads BUFFER_SIZE bytes, puts BUFFER_SIZE characters to buffer,
- * and stash is joined with buffer in the while loop.
- * */
-
+ * and stash is joined with buffer in the while loop. */
 char	*get_next_line(int fd)
 {
 	static char	*stash;

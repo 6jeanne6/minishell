@@ -29,6 +29,7 @@ LFLAG 		= -L./${LIBFT_PATH} -lft
 SRCDIR 		= srcs
 
 SRC			=	${SRCDIR}/main.c \
+				${SRCDIR}/expand_beta.c \
 				${SRCDIR}/env/init_env.c \
 				${SRCDIR}/env/env_utils.c \
 				${SRCDIR}/env/find_var_name.c \
@@ -71,6 +72,7 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/error/close_files.c \
 				${SRCDIR}/builtins/exec_builtin.c \
 				${SRCDIR}/builtins/builtins_tool.c \
+				${SRCDIR}/builtins/builtins_tool2.c \
 				${SRCDIR}/builtins/cd.c \
 				${SRCDIR}/builtins/env.c \
 				${SRCDIR}/builtins/exit.c \

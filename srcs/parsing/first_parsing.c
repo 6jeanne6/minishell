@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:43:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/05 12:21:25 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/21 17:33:48 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,5 @@ int	lexing_gear_5(t_shell *gear_5)
 				&has_quotes, gear_5) == FAILURE)
 			return (FAILURE);
 	}
-	return (gear_5->exit_status);
+	return (SUCCESS);
 }
