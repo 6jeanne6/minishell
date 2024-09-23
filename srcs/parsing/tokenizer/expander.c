@@ -6,11 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:38:40 by lnjoh-tc          #+#    #+#             */
-<<<<<<<<< Temporary merge branch 1
-/*   Updated: 2024/08/21 15:56:01 by lnjoh-tc         ###   ########.fr       */
-=========
-/*   Updated: 2024/09/05 14:15:34 by jewu             ###   ########.fr       */
->>>>>>>>> Temporary merge branch 2
+/*   Updated: 2024/09/23 12:06:41 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +71,6 @@ void	empty_string(t_token *list)
 	if (!list->word)
 		return ;
 }
-
-<<<<<<<<< Temporary merge branch 1
 //if variable does not exist, display empty string
 
 static void	variable_substitution(t_token *current_token, t_env *envp)

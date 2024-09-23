@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/23 11:16:56 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/23 13:54:38 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ int	main(int argc, char **argv, char **env)
 		error("Error : Too many arguments\n");
 		return (EXIT_FAILURE);
 	}
+	if (write(STDOUT_FILENO, "", 1) == -1)
+		exit(FAILURE);
 	ft_bzero(&gear_5, sizeof(t_shell));
 	ft_bzero(&envp, sizeof(t_env));
 	init_env(&envp, env);
