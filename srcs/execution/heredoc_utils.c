@@ -6,11 +6,13 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:24:09 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/16 18:50:05 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/23 17:31:44 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern volatile int	g_sig_flag;
 
 //while to put line input in here_doc
 static void	gnl_here_doc(t_exec *exec, char *delimiter)
@@ -50,6 +52,7 @@ int	create_heredoc(t_exec *exec, t_token *token)
 		exec->fd_in = open(".here_doc", O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (exec->fd_in < 0)
 			return (free(delimiter), FAILURE);
+		g_sig_flag = IN_HEREDOC;
 		gnl_here_doc(exec, delimiter);
 		exec->fd_in = open(".here_doc", O_RDWR, 0644);
 		if (exec->fd_in < 0)

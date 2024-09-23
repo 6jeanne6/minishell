@@ -6,11 +6,13 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:38:41 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/23 14:04:58 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/23 18:58:39 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern volatile int	g_sig_flag;
 
 //check before 
 static int	is_valid_command(t_exec *exec, t_shell *gear_5, t_env *envp,

@@ -6,11 +6,13 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 14:36:11 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/23 11:49:45 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/23 19:24:37 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern volatile int	g_sig_flag;
 
 //update parent exit status with last child status code
 int	child_status_code(t_shell *gear_5)
@@ -20,6 +22,7 @@ int	child_status_code(t_shell *gear_5)
 	exit = 0;
 	if (!gear_5)
 		return (FAILURE);
+	gear_5->status_code = -64;
 	if (gear_5->status_code == 2)
 		exit = 2;
 	else if (gear_5->status_code == 1)
@@ -45,6 +48,7 @@ int	get_status_code(t_shell *gear_5, int cmd)
 	i = -1;
 	while (++i < cmd)
 	{
+		update_signal_exit(gear_5);
 		waitpid(gear_5->pid_tab[i], &status, 0);
 		if (i == cmd - 1)
 		{

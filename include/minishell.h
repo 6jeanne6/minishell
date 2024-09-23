@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/23 11:23:53 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/23 19:19:49 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,14 @@
 //pipe[0] and pipe[1]
 # define READ_END	0
 # define WRITE_END	1
+
+/****** SIGNALS ********/
+
+# define IN_CHILD		-64
+# define IN_PARENT		-2806
+# define IN_HEREDOC		-2450
+# define CTRL_C			-15
+# define CTRL_BACKSLASH	-999
 
 /****** COLORS ********/
 
@@ -212,6 +220,13 @@ char	**find_path(t_env *envp, char **str);
 int		is_dollar_question_mark_input(t_shell *gear_5);
 int		update_exit_status(t_shell *gear_5, int flag, char *name);
 
+/* signals */
+
+void	handle_signal(void);
+void	update_signal_exit(t_shell *gear_5);
+void	sigint_handler(int sig);
+void	sigquit_handler(int sig);
+
 /* builtins */
 
 int		echo(t_shell *gear_5, t_exec *exec);
@@ -234,6 +249,7 @@ int		is_valid_identifier(char *name, t_shell *gear_5, int code);
 int		exec_builtin(t_shell *gear_5, t_env *envp, t_exec *exec);
 void	quit_if_exit_arg_is_not_numeric(char *str, t_shell *gear_5,
 			t_env *envp, t_exec *exec);
+
 /* environnement variable */
 
 t_var	*init_env_variable(char *name, char *value);

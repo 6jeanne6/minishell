@@ -6,11 +6,13 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/23 13:54:38 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/23 19:32:34 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+volatile int	g_sig_flag = 0;
 
 //proceed to execution of Super_Gear_5 shell
 // • execution:
@@ -25,12 +27,15 @@ static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_exec *exec)
 	flag = 0;
 	if (!gear_5 || !envp || !exec)
 		return (FAILURE);
+	signal(SIGQUIT, sigquit_handler);
+	update_signal_exit(gear_5);
 	flag = init_fork(gear_5, envp, exec);
 	if (flag == FAILURE)
 		return (FAILURE);
 	if (flag != 3)
 		gear_5->exit_status = child_status_code(gear_5);
 	close_files(exec);
+	signal(SIGQUIT, SIG_IGN);
 	return (SUCCESS);
 }
 
@@ -53,7 +58,6 @@ t_exec **exec)
 		if (!list)
 			return (update_exit_status(gear_5, 127, ""), FAILURE);
 		get_token_type(envp, list);
-		//print_token_list(list);
 		if (token_order(gear_5, list) == FAILURE)
 			return (wrong_token_order(list, envp, gear_5), FAILURE);
 		expander(list, envp);
@@ -87,6 +91,7 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 		free_exec(exec);
 		exec = NULL;
 		gear_5->input = readline(WHITE"Super Gear 5 $> "RESET);
+		update_signal_exit(gear_5);
 		add_history(gear_5->input);
 		if (gear_5->input == NULL)
 			break ;
@@ -111,11 +116,14 @@ int	main(int argc, char **argv, char **env)
 		error("Error : Too many arguments\n");
 		return (EXIT_FAILURE);
 	}
-	if (write(STDOUT_FILENO, "", 1) == -1)
+	if (!isatty(STDOUT_FILENO))
 		exit(FAILURE);
 	ft_bzero(&gear_5, sizeof(t_shell));
 	ft_bzero(&envp, sizeof(t_env));
 	init_env(&envp, env);
+	g_sig_flag = IN_PARENT;
+	handle_signal();
+	update_signal_exit(&gear_5);
 	gear_5.exit_status = init_minishell(&gear_5, &envp);
 	return (gear_5.exit_status);
 }

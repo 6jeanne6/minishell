@@ -6,11 +6,13 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:18:07 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/23 11:47:31 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/23 17:34:05 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern volatile int	g_sig_flag;
 
 //handle multi-pipes and dup2 with previous fd
 static int	do_fork(t_shell *gear_5, t_exec *exec, t_env *envp, int cmd)
@@ -30,7 +32,10 @@ static int	do_fork(t_shell *gear_5, t_exec *exec, t_env *envp, int cmd)
 		if (gear_5->pid_tab[i] == -1)
 			error_shell_exec(gear_5, envp, head);
 		else if (gear_5->pid_tab[i] == 0)
+		{
+			g_sig_flag = IN_CHILD;
 			child_process(current, gear_5, envp, head);
+		}
 		current = current->next;
 		gear_5->j++;
 	}
