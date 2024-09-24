@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:18:07 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/23 17:34:05 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/24 14:57:28 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	init_fork(t_shell *gear_5, t_env *envp, t_exec *exec)
 	if (is_builtin(exec->cmd_name) == SUCCESS && exec->has_pipe == false)
 	{
 		if (exec_builtin(gear_5, envp, exec) == SUCCESS)
-			return (3);
+			return (42);
 	}
 	init_tab_pid(gear_5, exec, envp, commands);
 	init_tab_pipe(gear_5, exec, envp, commands);

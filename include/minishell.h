@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/23 19:19:49 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/24 17:30:55 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 # define IN_PARENT		-2806
 # define IN_HEREDOC		-2450
 # define CTRL_C			-15
+# define CTRL_C_HEREDOC	-100
 # define CTRL_BACKSLASH	-999
 
 /****** COLORS ********/
@@ -176,6 +177,7 @@ typedef struct s_env
 typedef struct s_shell
 {
 	char	*input;
+	char	*delimiter;
 
 	int		exit_status;
 	int		status_code;
@@ -329,9 +331,9 @@ int		is_in_list(t_env *envp, char *variable);
 t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp);
 
 int		file_outfile(t_shell *gear_5, t_exec *exec, t_token *token);
-int		file_input(t_shell *gear_5, t_exec *exec, t_token *token);
+int		file_input(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp);
 int		set_fd(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp);
-int		create_heredoc(t_exec *exec, t_token *token);
+int		create_heredoc(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp);
 int		init_fork(t_shell *gear_5, t_env *envp, t_exec *exec);
 int		get_status_code(t_shell *gear_5, int cmd);
 int		child_status_code(t_shell *gear_5);

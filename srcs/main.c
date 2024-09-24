@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/24 11:24:27 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/24 16:03:01 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,13 @@ static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_exec *exec)
 	flag = 0;
 	if (!gear_5 || !envp || !exec)
 		return (FAILURE);
-	signal(SIGQUIT, sigquit_handler);
 	update_signal_exit(gear_5);
 	flag = init_fork(gear_5, envp, exec);
 	if (flag == FAILURE)
 		return (FAILURE);
-	if (flag != 3)
+	if (flag != 42)
 		gear_5->exit_status = child_status_code(gear_5);
 	close_files(exec);
-	signal(SIGQUIT, SIG_IGN);
 	return (SUCCESS);
 }
 
@@ -90,6 +88,7 @@ static int	init_minishell(t_shell *gear_5, t_env *envp)
 		clean_exec(exec, gear_5);
 		free_exec(exec);
 		exec = NULL;
+		g_sig_flag = IN_PARENT;
 		gear_5->input = readline(WHITE"Super Gear 5 $> "RESET);
 		update_signal_exit(gear_5);
 		add_history(gear_5->input);

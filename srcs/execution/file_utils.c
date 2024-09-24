@@ -6,11 +6,13 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:21:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/24 12:38:43 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/24 17:25:47 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern volatile int	g_sig_flag;
 
 //check if fd is STDIN, STDOUT or STDERR or not
 bool	basic_fd(t_exec *exec)
@@ -64,9 +66,9 @@ static int	handle_input(t_shell *gear_5, t_exec *exec, t_token *token)
 }
 
 //check rights for input file in <
-int	file_input(t_shell *gear_5, t_exec *exec, t_token *token)
+int	file_input(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp)
 {
-	if (!gear_5 || !exec || !token)
+	if (!gear_5 || !exec || !token || !envp)
 		return (FAILURE);
 	if (exec->fd_in >= 3)
 		close(exec->fd_in);
@@ -82,14 +84,12 @@ int	file_input(t_shell *gear_5, t_exec *exec, t_token *token)
 	}
 	else if (token->token_type == TOKEN_HEREDOC)
 	{
-		signal(SIGQUIT, SIG_IGN);
-		if (create_heredoc(exec, token) == FAILURE)
+		if (create_heredoc(gear_5, exec, token, envp) == FAILURE)
 		{
-			//signal(SIGQUIT, SIG_IGN);
-			//signal(SIGQUIT, SIG_DFL);
+			g_sig_flag = IN_PARENT;
 			return (FAILURE);
 		}
-		signal(SIGQUIT, SIG_IGN);
+		g_sig_flag = IN_PARENT;
 	}
 	return (SUCCESS);
 }

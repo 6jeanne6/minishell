@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:39:54 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/23 11:45:10 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/24 14:40:21 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ t_exec *exec)
 //if bin execute absolute path and bin command
 static void	execve_bin(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
-	if (!gear_5 || !envp || !exec)
-		return ;
 	if (exec->cmd_name[0] == '/')
 	{
 		execve(exec->bin, exec->args, envp->env);
@@ -57,6 +55,7 @@ static void	execve_bin(t_shell *gear_5, t_env *envp, t_exec *exec)
 			exit(126);
 		}
 	}
+	update_signal_exit(gear_5);
 	execve_clean_all(exec, envp, gear_5);
 }
 
@@ -66,6 +65,7 @@ t_exec *head)
 {
 	if (!gear_5 || !envp || !exec)
 		return ;
+	update_signal_exit(gear_5);
 	if (exec_builtin(gear_5, envp, exec) == SUCCESS)
 	{
 		close_files(exec);
@@ -90,7 +90,7 @@ t_exec *head)
 //  → executable program : ./minishell...
 void	execve_all(t_shell *gear_5, t_env *envp, t_exec *exec, t_exec *head)
 {
-	if (!exec || !head)
+	if (!gear_5 || !envp || !exec || !head)
 		return ;
 	if (is_builtin(exec->cmd_name) == SUCCESS)
 		execve_builtin(gear_5, envp, exec, head);
