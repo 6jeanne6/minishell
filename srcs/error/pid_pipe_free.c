@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:36:25 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/23 11:42:51 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/24 12:50:53 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ void	error_shell_exec(t_shell *gear_5, t_env *envp, t_exec *exec)
 	if (!envp || !gear_5 || !exec)
 		return ;
 	clean_env(envp);
+	if (exec->fd_in > 2)
+		close(exec->fd_in);
+	if (exec->fd_out > 2)
+		close(exec->fd_out);
 	clean_exec(exec, gear_5);
 	free_exec(exec);
 	close(STDIN_FILENO);

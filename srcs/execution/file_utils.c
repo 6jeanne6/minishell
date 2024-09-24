@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:21:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/23 19:16:17 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/24 12:38:43 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,14 @@ int	file_input(t_shell *gear_5, t_exec *exec, t_token *token)
 	}
 	else if (token->token_type == TOKEN_HEREDOC)
 	{
+		signal(SIGQUIT, SIG_IGN);
 		if (create_heredoc(exec, token) == FAILURE)
+		{
+			//signal(SIGQUIT, SIG_IGN);
+			//signal(SIGQUIT, SIG_DFL);
 			return (FAILURE);
+		}
+		signal(SIGQUIT, SIG_IGN);
 	}
 	return (SUCCESS);
 }

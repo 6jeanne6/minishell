@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:38:41 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/23 18:58:39 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/24 12:47:21 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,17 @@ t_exec *head)
 		if (access(exec->bin, X_OK) == 0)
 			return (SUCCESS);
 	}
-	if (is_builtin(exec->cmd_name) == SUCCESS)
-		return (SUCCESS);
-	if (ft_strlen(exec->cmd_name) > 2)
+	if (exec->cmd_name)
 	{
-		if (exec->cmd_name[0] == '.' && exec->cmd_name[1] == '/')
+		if (is_builtin(exec->cmd_name) == SUCCESS)
+			return (SUCCESS);
+		if (ft_strlen(exec->cmd_name) > 2)
 		{
-			if (access(exec->cmd_name, X_OK) == 0)
-				return (SUCCESS);
+			if (exec->cmd_name[0] == '.' && exec->cmd_name[1] == '/')
+			{
+				if (access(exec->cmd_name, X_OK) == 0)
+					return (SUCCESS);
+			}
 		}
 	}
 	update_exit_status(gear_5, 127, exec->cmd_name);
