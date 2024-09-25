@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:45 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/24 18:16:42 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/25 13:52:42 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	sigint_handler(int sig)
 			rl_on_new_line();
 			write(1, "\n", 1);
 			rl_redisplay();
+			close(STDIN_FILENO);
 			g_sig_flag = CTRL_C_HEREDOC;
 		}
 		else

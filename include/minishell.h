@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/24 17:30:55 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/25 13:33:25 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ typedef struct s_shell
 	int		**pipe_tab;
 
 	pid_t	*pid_tab;
+	pid_t	here_doc_pid;
 
 }				t_shell;
 
