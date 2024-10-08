@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:35:21 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/02 16:49:56 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/04 12:44:20 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	is_special_char(char c)
 }
 // > or < or & or |
 
+//returns error if \ or ;
 int	check_special_characters(char *input)
 {
 	int	i;
@@ -45,8 +46,8 @@ int	check_special_characters(char *input)
 	}
 	return (SUCCESS);
 }
-//returns error if \ or ;
 
+//check if only a single pipe |
 int	check_pipe(char *input)
 {
 	int	i;
@@ -62,4 +63,3 @@ int	check_pipe(char *input)
 	}
 	return (FAILURE);
 }
-//check if only a single pipe

@@ -6,12 +6,13 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:33:10 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/16 22:55:11 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/04 12:43:53 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//if even number of quotes then SUCCESS
 static int	is_pair(int number)
 {
 	if (number % 2 == 0)
@@ -19,6 +20,7 @@ static int	is_pair(int number)
 	return (FAILURE);
 }
 
+//check amount of single quotes when not inside double quotes
 static void	handle_single_quote(t_quotes *quotes)
 {
 	if (quotes->inside_double_quotes == 0)
@@ -31,6 +33,7 @@ static void	handle_single_quote(t_quotes *quotes)
 	}
 }
 
+//check amount of double quotes when not inside single quotes
 static void	handle_double_quote(t_quotes *quotes)
 {
 	if (quotes->inside_single_quotes == 0)
@@ -43,6 +46,7 @@ static void	handle_double_quote(t_quotes *quotes)
 	}
 }
 
+//use of t_quotes structure
 static void	count_quotes(char *input, int *nbofsingle, int *nbofdouble)
 {
 	int			i;
@@ -65,6 +69,8 @@ static void	count_quotes(char *input, int *nbofsingle, int *nbofdouble)
 	*nbofdouble = quotes.nbofdouble;
 }
 
+//check amount of single or double quotes
+//if quotes not close then ERROR
 int	check_quotes(char *input)
 {
 	int	nbofsingle;
@@ -74,10 +80,7 @@ int	check_quotes(char *input)
 	nbofdouble = 0;
 	count_quotes(input, &nbofsingle, &nbofdouble);
 	if (is_pair(nbofdouble) == FAILURE || is_pair(nbofsingle) == FAILURE)
-	{
-		error("Error : Quotes are not close!\n");
 		return (FAILURE);
-	}
 	else
 		return (SUCCESS);
 }

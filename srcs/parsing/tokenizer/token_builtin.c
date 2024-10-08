@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:10:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/05 14:10:48 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/03 17:00:55 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static int	echo_ok(t_shell *gear_5, t_token *token, t_env *envp)
 	}
 	return (SUCCESS);
 }
+
 // echo -n -nnnnnnn ARG ARG ARG
 
 static int	check_builtin(t_shell *gear_5, t_token *token, t_env *envp)

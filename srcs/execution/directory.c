@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   directory.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/11 17:07:52 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/23 11:35:07 by jewu             ###   ########.fr       */
+/*   Created: 2024/10/07 15:25:49 by jewu              #+#    #+#             */
+/*   Updated: 2024/10/07 15:45:52 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//print current working directory
-//pwd with no options, arguments ok
-int	pwd(t_shell *gear_5, t_env *envp, t_exec *exec)
+//check if argument is a directory
+//directory alone cannot be executed
+//give ./ for 126
+int	is_dir(char *path, t_shell *gear_5)
 {
-	char	*path;
+	DIR	*dir;
 
-	(void) envp;
-	path = get_current_path();
-	ft_putstr_fd(path, exec->fd_out);
-	ft_putstr_fd("\n", exec->fd_out);
-	free(path);
-	gear_5->exit_status = 0;
-	return (0);
+	if (!path)
+		return (FAILURE);
+	if (ft_strchr(path, '/') == 0)
+		return (FAILURE);
+	dir = opendir(path);
+	if (dir == NULL)
+		return (FAILURE);
+	closedir(dir);
+	error(path);
+	error(" : Is a directory\n");
+	gear_5->exit_status = 126;
+	return (SUCCESS);
 }

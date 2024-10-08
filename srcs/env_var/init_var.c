@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init_var.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 21:33:09 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/20 15:32:01 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:26:13 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//stock each line of env with name and value
 void	init_chained_var(t_env *env, char **envp)
 {
 	t_var	*variable;
@@ -30,6 +31,7 @@ void	init_chained_var(t_env *env, char **envp)
 	}
 }
 
+//create a node in t_var structure with malloc and initialize name and value
 t_var	*init_env_variable(char *name, char *value)
 {
 	t_var	*var;
@@ -44,14 +46,13 @@ t_var	*init_env_variable(char *name, char *value)
 	return (var);
 }
 
+//link each node of t_var to other nodes
 void	add_variable_to_the_list(t_env *env, t_var *var)
 {
 	t_var	*current_var;
 
 	if (!(env->first_variable))
-	{
 		env->first_variable = var;
-	}
 	else
 	{
 		current_var = env->first_variable;
@@ -63,6 +64,7 @@ void	add_variable_to_the_list(t_env *env, t_var *var)
 	var->next = NULL;
 }
 
+//scan line until = and malloc everything before = for NAME
 char	*get_variable_name(char *variable)
 {
 	int		i;
@@ -87,6 +89,7 @@ char	*get_variable_name(char *variable)
 	return (variable_name);
 }
 
+//scan line until = and malloc everything after = for VALUE
 char	*get_variable_value(char *variable)
 {
 	int		i;

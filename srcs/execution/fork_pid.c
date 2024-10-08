@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   fork_pid.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:18:07 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/22 17:18:06 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/08 18:36:55 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern volatile int	g_sig_flag;
 
 //handle multi-pipes and dup2 with previous fd
 static int	do_fork(t_shell *gear_5, t_exec *exec, t_env *envp, int cmd)
@@ -24,6 +26,7 @@ static int	do_fork(t_shell *gear_5, t_exec *exec, t_env *envp, int cmd)
 	current = exec;
 	head = exec;
 	gear_5->j = 0;
+	signal(SIGQUIT, sigquit_handler);
 	while (++i < cmd)
 	{
 		gear_5->pid_tab[i] = fork();
@@ -34,6 +37,8 @@ static int	do_fork(t_shell *gear_5, t_exec *exec, t_env *envp, int cmd)
 		current = current->next;
 		gear_5->j++;
 	}
+	if (g_sig_flag == SIGQUIT)
+		handle_sigquit_in_fork(gear_5, cmd);
 	close_pipe_tab(gear_5, cmd);
 	status_code = get_status_code(gear_5, cmd);
 	return (status_code);
@@ -97,16 +102,18 @@ static int	how_many_process(t_exec *exec)
 int	init_fork(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
 	int		commands;
+	t_exec	*head;
 
 	if (!gear_5 || !envp || !exec)
 		return (FAILURE);
 	commands = how_many_process(exec);
 	exec->nb_cmd = commands;
 	gear_5->number_of_cmds = commands;
+	head = exec;
 	if (is_builtin(exec->cmd_name) == SUCCESS && exec->has_pipe == false)
 	{
-		if (exec_builtin(gear_5, envp, exec) == SUCCESS)
-			return (3);
+		if (exec_builtin(gear_5, envp, exec, head) == SUCCESS)
+			return (42);
 	}
 	init_tab_pid(gear_5, exec, envp, commands);
 	init_tab_pipe(gear_5, exec, envp, commands);

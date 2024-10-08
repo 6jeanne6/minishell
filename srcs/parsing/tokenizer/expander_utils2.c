@@ -1,77 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_utils.c                                     :+:      :+:    :+:   */
+/*   expander_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/09 15:30:16 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/09 20:33:17 by jewu             ###   ########.fr       */
+/*   Created: 2024/10/04 15:28:35 by jewu              #+#    #+#             */
+/*   Updated: 2024/10/04 15:40:44 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	substitute_compute(t_env *envp, char *word)
+/* Check is is a valid character */
+int	is_valid_character(char c, t_expand *xpd)
 {
-	t_var	*current_var;
-	int		length;
-
-	current_var = envp->first_variable;
-	length = 0;
-	while (current_var)
-	{
-		if (ft_strcmp(word, current_var->variable_name) == 0)
-		{
-			length = ft_strlen(current_var->variable_value);
-			break ;
-		}
-		current_var = current_var->next;
-	}
-	free(word);
-	return (length);
+	if ((c == '"' || c == '\'') && !xpd->inside_double_quotes)
+		return (FAILURE);
+	if (ft_isdigit(c))
+		return (FAILURE);
+	return (SUCCESS);
 }
-//compute after substitution
 
-void	variable_compute(char *word, int *i, int *j)
+/* Check if is a space or not*/
+int	ft_isspace(char c)
 {
-	(*i)++;
-	*j = 0;
-	while (word[*i + *j] && word[*i + *j] != ' ' && word[*i + *j] != '$')
-		(*j)++;
+	if (c == ' ' || c == '\t' || c == '\n'
+		|| c == '\v' || c == '\f' || c == '\r')
+		return (1);
+	return (0);
 }
-//compute when we are in a variable
 
-int	how_many_dollar(char *str)
+/* Copy a string */
+char	*ft_strcpy(char *dest, const char *src)
 {
 	int	i;
-	int	dollar;
 
-	i = -1;
-	dollar = 0;
-	if (!str)
-		return (FAILURE);
-	while (str[++i])
+	i = 0;
+	while (src[i] != '\0')
 	{
-		if (str[i] == '$')
-			dollar++;
+		dest[i] = src[i];
+		i++;
 	}
-	return (dollar);
-}
-
-//in total how many $
-char	*ft_strndup(const char *s, size_t n)
-{
-	size_t	len;
-	char	*dup;
-
-	len = 0;
-	while (s[len] && len < n)
-		len++;
-	dup = (char *)malloc(len + 1);
-	if (dup == NULL)
-		return (NULL);
-	ft_memcpy(dup, s, len);
-	dup[len] = '\0';
-	return (dup);
+	dest[i] = '\0';
+	return (dest);
 }

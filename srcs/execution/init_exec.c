@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:00:38 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/19 16:18:29 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/07 12:41:57 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,21 @@ int arg_count)
 }
 
 //how many commands, arguments and redirections for ONE t_exec
-static int	count_arguments_find_redirection(t_token **head)
+// • normal:
+//		→ stop until | or redirection is encountered
+// • echo:
+//		→ counts ARG and BUILTIN until | is encountered
+static int	count_arguments_find_redirection(t_token **head, t_token *tmp)
 {
 	int		arg_count;
-	t_token	*tmp;
 
 	arg_count = 0;
 	tmp = *head;
-	while (tmp && token_is_redirection(tmp) == false)
+	while (tmp && tmp->token_type != TOKEN_PIPE)
 	{
+		if (token_is_redirection(tmp) == false && tmp->token_type != TOKEN_FILE)
+			arg_count++;
 		tmp = tmp->next;
-		arg_count++;
 	}
 	while (*head && (*head)->token_type != TOKEN_PIPE)
 		*head = (*head)->next;
@@ -77,10 +81,12 @@ static t_exec	*process_tokenn(t_shell *gear_5, t_token **head, t_env *envp)
 {
 	int		arg_count;
 	t_token	*start;
+	t_token	*tmp;
 	t_exec	*exec;
 
 	start = *head;
-	arg_count = count_arguments_find_redirection(head);
+	tmp = *head;
+	arg_count = count_arguments_find_redirection(head, tmp);
 	if (start != *head || start->token_type == TOKEN_HEREDOC || arg_count > 0)
 	{
 		exec = set_structure(gear_5, start, envp, arg_count);

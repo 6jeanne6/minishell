@@ -6,12 +6,13 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:04:43 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/12 16:11:43 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/04 14:54:58 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* Free tmp_path and cmd_path */
 static void	free_paths(char *tmp_path, char *cmd_path)
 {
 	if (!tmp_path || !cmd_path)
@@ -27,8 +28,8 @@ static void	free_paths(char *tmp_path, char *cmd_path)
 		cmd_path = NULL;
 	}
 }
-/* Free tmp_path and cmd_path */
 
+/* While loop to join path and word */
 static int	join_paths(t_env *envp, t_token *token, int i)
 {
 	envp->tmp_path = ft_strjoin(envp->path[i], "/");
@@ -47,8 +48,8 @@ static int	join_paths(t_env *envp, t_token *token, int i)
 	free_paths(envp->tmp_path, envp->cmd_path);
 	return (FAILURE);
 }
-/* While loop to join path and word */
 
+/* Is word an executable command? */
 int	check_path(t_env *envp, t_token *token)
 {
 	int	i;
@@ -71,4 +72,3 @@ int	check_path(t_env *envp, t_token *token)
 	envp->cmd_path = NULL;
 	return (FAILURE);
 }
-/* Is word an executable command? */

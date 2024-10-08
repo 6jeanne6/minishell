@@ -3,8 +3,8 @@
 ################################################################################
 
 NAME		= minishell
-CFLAG		= -Wall -Wextra -g3
-CC			= cc
+CFLAG		= 
+CC			= cc -Werror -Wall -Wextra -g
 
 ################################################################################
 #                                 Include                                      #
@@ -29,7 +29,7 @@ LFLAG 		= -L./${LIBFT_PATH} -lft
 SRCDIR 		= srcs
 
 SRC			=	${SRCDIR}/main.c \
-				${SRCDIR}/expand_beta.c \
+				${SRCDIR}/minishell.c \
 				${SRCDIR}/env/init_env.c \
 				${SRCDIR}/env/env_utils.c \
 				${SRCDIR}/env/find_var_name.c \
@@ -54,12 +54,12 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/parsing/tokenizer/token_builtin.c \
 				${SRCDIR}/parsing/tokenizer/token_builtin2.c \
 				${SRCDIR}/parsing/tokenizer/expander.c \
-				${SRCDIR}/parsing/tokenizer/expander_utils1.c \
-				${SRCDIR}/parsing/tokenizer/expander_utils2.c\
-				${SRCDIR}/parsing/tokenizer/expander_utils3.c\
+				${SRCDIR}/parsing/tokenizer/expander_utils.c \
+				${SRCDIR}/parsing/tokenizer/expander_utils2.c \
 				${SRCDIR}/execution/init_exec.c \
 				${SRCDIR}/execution/init_utils.c \
 				${SRCDIR}/execution/file_utils.c \
+				${SRCDIR}/execution/directory.c \
 				${SRCDIR}/execution/heredoc_utils.c \
 				${SRCDIR}/execution/fork_pid.c \
 				${SRCDIR}/execution/child_dup.c \

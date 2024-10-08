@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   file_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:21:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/19 16:58:16 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/08 17:27:37 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern volatile int	g_sig_flag;
 
 //check if fd is STDIN, STDOUT or STDERR or not
 bool	basic_fd(t_exec *exec)
@@ -64,9 +66,9 @@ static int	handle_input(t_shell *gear_5, t_exec *exec, t_token *token)
 }
 
 //check rights for input file in <
-int	file_input(t_shell *gear_5, t_exec *exec, t_token *token)
+int	file_input(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp)
 {
-	if (!gear_5 || !exec || !token)
+	if (!gear_5 || !exec || !token || !envp)
 		return (FAILURE);
 	if (exec->fd_in >= 3)
 		close(exec->fd_in);
@@ -82,7 +84,7 @@ int	file_input(t_shell *gear_5, t_exec *exec, t_token *token)
 	}
 	else if (token->token_type == TOKEN_HEREDOC)
 	{
-		if (create_heredoc(exec, token) == FAILURE)
+		if (create_heredoc(exec, token, gear_5) == FAILURE)
 			return (FAILURE);
 	}
 	return (SUCCESS);
@@ -107,8 +109,6 @@ int	file_outfile(t_shell *gear_5, t_exec *exec, t_token *token)
 	else
 		return (FAILURE);
 	exec->fd_out = open(token->next->word, flags, 0644);
-	if (access(token->next->word, W_OK) == -1)
-		update_exit_status(gear_5, 1, token->next->word);
 	if (access(token->next->word, W_OK) == -1)
 		update_exit_status(gear_5, 1, token->next->word);
 	if (exec->fd_out < 0)

@@ -6,12 +6,16 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 15:41:43 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/21 17:39:13 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:59:13 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+extern volatile int	g_sig_flag;
+
+// → 126 = permission denied
+// → 127 = command not found, or no such file or directory for /bin/ls
 static int	update_exit_status_exec(t_shell *gear_5, int flag, char *name)
 {
 	if (!flag || !name)
@@ -56,7 +60,14 @@ static void	exit_one(t_shell *gear_5, char *name)
 	gear_5->exit_status = 1;
 }
 
-//function to update exit status of the parsing according to flag
+//function to update exit status according to flag
+// → 2 = syntax error
+// → 1 = error
+// → 126 = permission denied
+// → 127 = command not found, or no such file or directory for /bin/ls
+// → 130 = SIGINT ctrl-C
+// → 131 = SIGQUIT ctrl-backslash
+// → 0 = SUCCESS
 int	update_exit_status(t_shell *gear_5, int flag, char *name)
 {
 	if (flag == 2)
@@ -76,26 +87,42 @@ int	update_exit_status(t_shell *gear_5, int flag, char *name)
 	return (gear_5->exit_status);
 }
 
-int	is_dollar_question_mark_input(t_shell *gear_5)
+// Function that display status code
+static void	display_error(int exit_status)
 {
+	if (exit_status == 130)
+		error(": command not found");
+	if (exit_status == 131)
+		error(": command not found");
+	if (exit_status == 127)
+		error(": command not found");
+	if (exit_status == 126)
+		error(": permission denied");
+	if (exit_status == 2)
+		error(": syntax error");
+	if (exit_status == 1)
+		error(": execution failed, command not found or syntax error");
+	if (exit_status == 0)
+		error(": command not found");
+}
+
+//if prompt is $?, display exit status code and error message
+int	is_dollar_question_mark_input(t_shell *gear_5, int *flag)
+{
+	char	*status_code;
+
+	status_code = ft_itoa(gear_5->exit_status);
+	if (!status_code)
+		return (FAILURE);
 	if (ft_strcmp(gear_5->input, "$?") == 0)
 	{
-		printf("%d :", gear_5->exit_status);
-		if (gear_5->exit_status == 130)
-			printf(" command not found\n");
-		if (gear_5->exit_status == 131)
-			printf(" command not found\n");
-		if (gear_5->exit_status == 127)
-			printf(" command not found\n");
-		if (gear_5->exit_status == 126)
-			printf(" permission denied\n");
-		if (gear_5->exit_status == 2)
-			printf(" syntax error\n");
-		if (gear_5->exit_status == 1)
-			printf(" command not found or invalid syntax\n");
-		if (gear_5->exit_status == 0)
-			printf(" command not found\n");
+		error(status_code);
+		display_error(gear_5->exit_status);
+		*flag = 1;
+		free(status_code);
+		printf("\n");
 		return (SUCCESS);
 	}
+	free(status_code);
 	return (FAILURE);
 }

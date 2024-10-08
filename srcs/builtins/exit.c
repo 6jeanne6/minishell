@@ -6,13 +6,14 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:08:26 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/21 17:55:55 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/08 14:34:44 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* Check digit */
+//exit status under 255
 static int	status_generator(char *str)
 {
 	int	status;
@@ -76,11 +77,11 @@ static void	handle_multiple_args(t_shell *gear_5)
 }
 
 /* Main exit function handling different argument counts. */
-void	exit_builtin(t_shell *gear_5, t_env *envp, t_exec *exec)
+void	exit_builtin(t_shell *gear_5, t_env *envp, t_exec *exec, t_exec *head)
 {
 	int	i;
 
-	if (!exec || !gear_5)
+	if (!exec || !gear_5 || !head)
 		return ;
 	i = 0;
 	while (exec->args[i])
@@ -91,10 +92,10 @@ void	exit_builtin(t_shell *gear_5, t_env *envp, t_exec *exec)
 		return ;
 	}
 	else if (i == 1)
-		handle_one_arg(gear_5, envp, exec);
+		handle_one_arg(gear_5, envp, head);
 	else if (i == 2)
 	{
-		quit_if_exit_arg_is_not_numeric(exec->args[1], gear_5, envp, exec);
-		handle_two_arg(gear_5, exec, envp, exec);
+		quit_if_exit_arg_is_not_numeric(exec->args[1], gear_5, envp, head);
+		handle_two_arg(gear_5, exec, envp, head);
 	}
 }

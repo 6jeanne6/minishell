@@ -3,21 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   close_files.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:20 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/16 18:45:44 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/08 18:34:58 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+extern volatile int	g_sig_flag;
+
+//close all heredocs
+void	close_heredoc(t_shell *gear_5)
+{
+	int	i;
+
+	i = 0;
+	if (!gear_5)
+		return ;
+	while (i < gear_5->number_of_hd - 1)
+	{
+		if (gear_5->heredoc_tab[i])
+		{
+			unlink(gear_5->heredoc_tab[i]);
+			free(gear_5->heredoc_tab[i]);
+			gear_5->heredoc_tab[i] = NULL;
+		}
+		i++;
+	}
+	if (gear_5->number_of_hd > 0)
+	{
+		free(gear_5->heredoc_tab);
+		gear_5->heredoc_tab = NULL;
+	}
+}
+
+//in a child, if fd_in or fd_out == -1
+void	invalid_fd_pipe(t_exec *exec, t_shell *gear_5, t_env *envp,
+t_exec *head)
+{
+	if (!exec || !gear_5 || !envp || !head)
+		return ;
+	gear_5->exit_status = 1;
+	close_files(head, gear_5);
+	error_shell_exec(gear_5, envp, exec);
+}
+
 //close all files when input is incorrect
-void	error_close_files(t_exec *exec)
+void	error_close_files(t_exec *exec, t_shell *gear_5)
 {
 	t_exec	*current;
 
-	if (!exec)
+	if (!exec || !gear_5)
 		return ;
 	current = exec;
 	while (current)
@@ -31,20 +69,21 @@ void	error_close_files(t_exec *exec)
 		else if (current->fd_out >= 0)
 			close(current->fd_out);
 		if (current->heredoc_here == true)
+		{
 			unlink(current->heredoc_file);
-		close(STDIN_FILENO);
-		close(STDOUT_FILENO);
-		close(STDERR_FILENO);
+			free(current->heredoc_file);
+		}
 		current = current->next;
 	}
+	close_heredoc(gear_5);
 }
 
 //close all files when input is working
-void	close_files(t_exec *exec)
+void	close_files(t_exec *exec, t_shell *gear_5)
 {
 	t_exec	*current;
 
-	if (!exec)
+	if (!exec || !gear_5)
 		return ;
 	current = exec;
 	while (current)
@@ -56,8 +95,44 @@ void	close_files(t_exec *exec)
 		if (current->heredoc_here == true)
 		{
 			close(current->fd_in);
-			unlink(current->heredoc_file);
+			if (current->heredoc_file)
+			{
+				unlink(current->heredoc_file);
+				free(current->heredoc_file);
+			}
+			current->heredoc_here = false;
 		}
 		current = current->next;
 	}
+	close_heredoc(gear_5);
+}
+
+//free delimiter and heredoc file if CTRL-C detecter or invalid fd_in
+void	clean_heredoc(char *delimiter, char *heredoc_name, t_exec *exec,
+t_shell *gear_5)
+{
+	int	i;
+
+	i = 0;
+	if (!delimiter || !heredoc_name || !exec || !gear_5)
+		return ;
+	if (exec->fd_in >= 3)
+		close(exec->fd_in);
+	free(delimiter);
+	while (i < gear_5->number_of_hd)
+	{
+		if (gear_5->heredoc_tab[i])
+		{
+			unlink(gear_5->heredoc_tab[i]);
+			free(gear_5->heredoc_tab[i]);
+			gear_5->heredoc_tab[i] = NULL;
+		}
+		i++;
+	}
+	if (gear_5->number_of_hd > 0)
+	{
+		free(gear_5->heredoc_tab);
+		gear_5->heredoc_tab = NULL;
+	}	
+	free(heredoc_name);
 }

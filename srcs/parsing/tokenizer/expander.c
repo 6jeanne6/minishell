@@ -5,129 +5,123 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/06 14:38:40 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/05 14:15:34 by jewu             ###   ########.fr       */
+/*   Created: 2024/09/15 19:51:02 by lnjoh-tc          #+#    #+#             */
+/*   Updated: 2024/10/04 15:40:39 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	create_node(t_env *envp, char *word)
+/* Flag to know if we in double or single quotes*/
+//if we are inside a single/double quotes etc
+void	handle_q(t_expand *expand)
 {
-	t_var	*new_var;
-	t_var	*current_var;
-
-	new_var = (t_var *)malloc(sizeof(t_var));
-	if (!new_var)
-		return ;
-	new_var->variable_name = get_variable_name(word);
-	new_var->variable_value = get_variable_value(word);
-	new_var->next = NULL;
-	if (envp->first_variable == NULL)
-	{
-		new_var->prev = NULL;
-		envp->first_variable = new_var;
-	}
-	else
-	{
-		current_var = envp->first_variable;
-		while (current_var->next != NULL)
-			current_var = current_var->next;
-		current_var->next = new_var;
-		new_var->prev = current_var;
-	}
+	if (expand->line[expand->i] == '"')
+		expand->inside_double_quotes = !expand->inside_double_quotes;
+	else if (expand->line[expand->i] == '\'' && !expand->inside_double_quotes)
+		expand->inside_single_quotes = !expand->inside_single_quotes;
+	expand->expanded_line[expand->j++] = expand->line[expand->i++];
 }
-// • variable assignation name=value
-//		→ add variable at the end of variable list
 
-static void	create_or_update(t_token *token, t_env *envp)
+/* Count len part 2*/
+//start after $, then go until the end of line
+//extract this name variable and check if there is an existing variable in env
+//if yes then return the length of this variable value
+int	handle_variable_length(const char *line, int *i, t_env *env)
 {
-	t_var	*current_var;
-	char	*tmp_word;
+	int		start;
+	char	*var_name;
+	char	*var_value;
+	int		var_len;
 
-	current_var = envp->first_variable;
-	tmp_word = get_variable_name(token->word);
-	while (current_var != NULL)
+	var_len = 0;
+	(*i)++;
+	start = *i;
+	while (ft_isalpha(line[*i]) || line[*i] == '_')
+		(*i)++;
+	var_name = extract_variable_name(line, start, *i);
+	if (var_name)
 	{
-		if (ft_strcmp(tmp_word, current_var->variable_name) == 0)
+		var_value = check_in_the_list(var_name, env);
+		if (var_value)
+			var_len += ft_strlen(var_value);
+		free(var_name);
+	}
+	return (var_len);
+}
+
+/* Function to calculate the new length of the expanded line */
+// if no $ then return length of line
+// if $, following character must be alphabetic number or _
+// += in the case of several environment variables in prompt
+int	count_new_len(const char *line, t_env *env)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = 0;
+	if (ft_strchr(line, '$') == 0)
+	{
+		len = ft_strlen(line);
+		return (len);
+	}
+	while (line[i])
+	{
+		if ((line[i] == '$' && ft_isalpha(line[i + 1])) || line[i + 1] == '_')
+			len += handle_variable_length(line, &i, env);
+		else
 		{
-			free(tmp_word);
-			free(current_var->variable_value);
-			current_var->variable_value = get_variable_value(token->word);
-			return ;
+			len++;
+			i++;
 		}
-		current_var = current_var->next;
 	}
-	create_node(envp, token->word);
-	free(tmp_word);
+	return (len + 5);
 }
-// • variable assignation name=value
-//		→ which variables ? a reflechir et voir au fur et a mesure
 
-void	empty_string(t_token *list)
+/* Init expand structure */
+//initialize with env, line and expanded line with
+//length of new expanded line
+static t_expand	init_expand(t_env *env, const char *line, int line_len)
 {
-	free(list->word);
-	list->word = ft_strdup("");
-	if (!list->word)
-		return ;
+	t_expand	expand;
+
+	ft_bzero(&expand, sizeof(expand));
+	expand.env = env;
+	expand.line = line;
+	expand.expanded_line = malloc(line_len + 1);
+	if (!expand.expanded_line)
+		expand.expanded_line = NULL;
+	return (expand);
 }
-//if variable does not exist, display empty string
 
-static void	variable_substitution(t_token *current_token, t_env *envp)
+//count length of expanded line
+//initialize expand structure
+char	*expander_test(t_env *env, const char *line, t_shell *shell)
 {
-	t_var	*current_var;
-	char	*word;
-	int		flag;
+	t_expand	expand;
+	int			line_len;
 
-	flag = 0;
-	current_var = envp->first_variable;
-	word = ft_strtrim(current_token->word, "$");
-	if (!word)
-		return ;
-	while (current_var != NULL)
+	line_len = count_new_len(line, env);
+	expand = init_expand(env, line, line_len);
+	if (expand.expanded_line == NULL)
+		return (NULL);
+	if (ft_strchr(line, '$') == 0)
+		return (ft_strcpy(expand.expanded_line, line));
+	while (expand.line[expand.i] != '\0' && expand.j < line_len)
 	{
-		if (ft_strcmp(word, current_var->variable_name) == 0)
-		{
-			free(current_token->word);
-			current_token->word = ft_strdup(current_var->variable_value);
-			flag = 1;
+		if (expand.line[expand.i] == '"' || expand.line[expand.i] == '\'')
+			handle_q(&expand);
+		else if (expand.line[expand.i] == '$' && !expand.inside_single_quotes)
+			expand_variable(&expand, shell);
+		else if (expand.j < line_len)
+			expand.expanded_line[expand.j++] = expand.line[expand.i++];
+		else
 			break ;
-		}
-		current_var = current_var->next;
 	}
-	if (flag == 0)
-		empty_string(current_token);
-	free(word);
-}
-
-// • variable $
-//		→ exist = substitute with new value
-// 		→ inexistant = display an empty string
-
-void	expander(t_token *list, t_env *envp)
-{
-	t_token	*list_token;
-
-	list_token = list;
-	if (list_token == NULL)
-		return ;
-	while (list_token != NULL)
-	{
-		if (list_token->token_type == TOKEN_VARIABLE)
-			variable_substitution(list_token, envp);
-		if (list_token->token_type == TOKEN_VARIABLEASSIGNATION
-			&& (list_token->previous == NULL
-				|| list_token->previous->token_type
-				== TOKEN_VARIABLEASSIGNATION))
-		{
-			if (ft_strchr(list_token->word, '$')
-				&& list_token->outer_single_quote == 0)
-				expand_content(list_token, envp);
-			create_or_update(list_token, envp);
-		}
-		if (list_token->token_type == TOKEN_ARG
-			&& list_token->outer_single_quote == 0)
-			expand_content(list_token, envp);
-		list_token = list_token->next;
-	}
+	if (expand.j < line_len)
+		expand.expanded_line[expand.j] = '\0';
+	else
+		expand.expanded_line[line_len - 1] = '\0';
+	return (expand.expanded_line);
 }

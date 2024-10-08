@@ -5,12 +5,25 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/26 17:03:09 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/02 16:43:58 by jewu             ###   ########.fr       */
+/*   Created: 2024/10/03 16:41:36 by jewu              #+#    #+#             */
+/*   Updated: 2024/10/04 15:12:16 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//check if token type is redirection
+bool	token_is_a_redirection(t_token *token)
+{
+	if (!token)
+		return (false);
+	if (token->token_type == TOKEN_OUTPUT
+		|| token->token_type == TOKEN_INPUT
+		|| token->token_type == TOKEN_APPEND
+		|| token->token_type == TOKEN_HEREDOC)
+		return (true);
+	return (false);
+}
 
 /* Check syntax of $environment variable */
 int	is_variable(const char *input)
@@ -36,6 +49,7 @@ int	is_variable(const char *input)
 }
 
 /* Check syntax of variable assignant name=value or name= */
+//name should begin with letter
 int	is_variable_declaration(const char *input)
 {
 	int	i;
@@ -59,16 +73,4 @@ int	is_variable_declaration(const char *input)
 	if (input[i] == '=')
 		return (SUCCESS);
 	return (FAILURE);
-}
-
-/* Check if its a file*/
-int	is_file(char *file)
-{
-	int	fd;
-
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-		return (FAILURE);
-	close(fd);
-	return (SUCCESS);
 }

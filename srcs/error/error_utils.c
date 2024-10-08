@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:43:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/20 15:31:26 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/03 13:34:19 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ void	free_exec(t_exec *exec)
 	{
 		tmp = exec->next;
 		free_args_tab(exec->args);
+		if (exec->heredoc_here == true)
+		{
+			free(exec->heredoc_file);
+			exec->heredoc_file = NULL;
+		}
 		free(exec);
 		exec = tmp;
 	}

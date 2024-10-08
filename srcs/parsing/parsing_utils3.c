@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/25 14:37:25 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/05 13:51:21 by jewu             ###   ########.fr       */
+/*   Created: 2024/10/03 16:37:47 by jewu              #+#    #+#             */
+/*   Updated: 2024/10/03 16:37:50 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	handle_special_char(t_parsing *state, int word_length)
 	}
 	add_to_list(state->token_list, state, state->current_word, word_length);
 }
+
 //Copy special char such as > or >> or < or <<
 
 void	process_token(t_parsing *state, int word_length)

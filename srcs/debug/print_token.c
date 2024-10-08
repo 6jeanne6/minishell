@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:16:25 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/12 16:55:12 by jewu             ###   ########.fr       */
+/*   Updated: 2024/09/18 15:46:28 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	print_exec_list(t_exec *exec, t_shell *gear_5)
 		printf("FD Out: %d\n", current->fd_out);
 		printf("Command Name: %s\n", current->cmd_name ? current->cmd_name : "NULL");
 		printf("Binary Path: %s\n", current->bin ? current->bin : "NULL");
+		printf("Has_pipe: %d\n", current->has_pipe);
 		if (current->args)
 		{
 			printf("Arguments: ");

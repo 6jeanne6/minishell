@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 14:43:23 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/12 17:04:11 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/04 15:09:54 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,11 @@ static int	determine_token_type(t_env *envp, t_token *token)
 		return (TOKEN_BUILTIN);
 	else if (is_cmd(envp, token) == SUCCESS)
 		return (TOKEN_CMD);
-	else if (is_file(token->word) == SUCCESS)
-		return (TOKEN_FILE);
 	else
 		return (TOKEN_ARG);
 }
 
+/* classify extracted word into a TOKEN type */
 int	get_token_type(t_env *envp, t_token *token)
 {
 	while (token)
@@ -98,8 +97,15 @@ int	get_token_type(t_env *envp, t_token *token)
 			token->token_type = TOKEN_VARIABLE;
 		else
 			token->token_type = TOKEN_ARG;
+		if (token_is_a_redirection(token) == true)
+		{
+			if (token->next)
+			{
+				token->next->token_type = TOKEN_FILE;
+				token = token->next;
+			}
+		}
 		token = token->next;
 	}
 	return (SUCCESS);
 }
-/* classify extracted word into a TOKEN type */

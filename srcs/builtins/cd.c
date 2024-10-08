@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 23:08:04 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/20 15:46:58 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:40:39 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//change directory with chdir
 static void	go_to_directory(t_shell *gear_5, char *path)
 {
 	if (chdir(path) == -1)
@@ -24,6 +25,7 @@ static void	go_to_directory(t_shell *gear_5, char *path)
 	gear_5->exit_status = 0;
 }
 
+// how many arguments after cd
 static void	execute_cd(t_shell *gear_5, t_exec *exec)
 {
 	int	i;
@@ -44,11 +46,13 @@ static void	execute_cd(t_shell *gear_5, t_exec *exec)
 		return ;
 	}
 	else
-	{
 		go_to_directory(gear_5, exec->args[1]);
-	}
 }
 
+//change directory
+//after execute cd we update pwd with new and last path
+//create an OLDPWD, update its path
+//update PWD with newest path
 int	cd(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
 	char	*new_path;

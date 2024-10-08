@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 16:20:27 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/22 17:02:07 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/04 15:17:47 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static int	heredoc_order(t_token *token, t_shell *gear_5)
 	return (SUCCESS);
 }
 
+/* Change arg to file if we are in an redirection operator */
 static void	convert_to_file(t_token *token)
 {
 	if ((token->token_type == TOKEN_OUTPUT || token->token_type == TOKEN_APPEND
@@ -40,8 +41,8 @@ static void	convert_to_file(t_token *token)
 		}
 	}
 }
-/* Change arg to file if we are in an redirection operator */
 
+/* Change arg to file if we are in an redirection operator */
 static int	input_order(t_token *token, t_shell *gear_5)
 {
 	if (token->token_type == TOKEN_INPUT)
@@ -68,8 +69,8 @@ static int	input_order(t_token *token, t_shell *gear_5)
 	convert_to_file(token);
 	return (SUCCESS);
 }
-/* Change arg to file if we are in an redirection operator */
 
+/* Change arg to file if we are in an redirection operator */
 static int	output_append_order(t_token *token, t_shell *gear_5)
 {
 	if (!token || !gear_5)
@@ -91,8 +92,8 @@ static int	output_append_order(t_token *token, t_shell *gear_5)
 	convert_to_file(token);
 	return (SUCCESS);
 }
-/* Change arg to file if we are in an redirection operator */
 
+/* Check token order */
 int	token_order(t_shell *gear_5, t_token *token)
 {
 	if (!token || !gear_5)
@@ -108,4 +109,3 @@ int	token_order(t_shell *gear_5, t_token *token)
 	}
 	return (SUCCESS);
 }
-/* Check token order */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_tool.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:56:55 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/21 17:54:58 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:07:10 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int	check_var_name(char *str)
 	return (1);
 }
 
+//get the current work directory with getcwd (return a string)
 char	*get_current_path(void)
 {
 	char	*path;

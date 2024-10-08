@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:40:22 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/20 15:34:31 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/04 11:53:23 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static void	init_pwd(t_env *envp)
 }
 
 /* Setup the environment variable */
+//	→ env -i
+//	→ normal env
 void	init_env(t_env *envp, char **env)
 {
 	envp->env = env;

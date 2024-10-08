@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:37:05 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/20 15:31:47 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:19:13 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ char	*malloc_strcpy(char *origin)
 	return (str);
 }
 
-/* Malloc a new variable into environment list */
+/* Malloc a sub-string of x length
+to get a new variable into environment list */
 char	*malloc_substr_and_cpy(const char *original_str, int start, int end)
 {
 	char	*new_str;

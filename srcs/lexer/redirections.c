@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:31:54 by jewu              #+#    #+#             */
-/*   Updated: 2024/07/17 16:27:37 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/04 12:34:38 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ bool	is_input_chevron(char *input)
 }
 //input chevron: <
 
+//checks if it is a redirection sign well done
+// FAILURE = >>> <<< <> ><
 int	check_redirection(char *input)
 {
 	int	i;
@@ -104,4 +106,3 @@ int	check_redirection(char *input)
 	}
 	return (FAILURE);
 }
-//checks if it is a redirection sign well done

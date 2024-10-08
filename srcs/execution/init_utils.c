@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   init_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:12:05 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/19 16:57:52 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/08 15:38:59 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//check ./executable if it can be executed
+int	valid_executable(t_shell *gear_5, char *cmd_name)
+{
+	int	fd;
+
+	if (!gear_5 || !cmd_name)
+		return (FAILURE);
+	fd = 0;
+	if (ft_strlen(cmd_name) > 2)
+	{
+		if (cmd_name[0] == '.' && cmd_name[1] == '/')
+		{
+			fd = open(cmd_name, O_RDONLY);
+			if (fd < 0)
+				return (update_exit_status(gear_5, 127, cmd_name), FAILURE);
+			close(fd);
+			fd = open(cmd_name, O_WRONLY);
+			if (fd < 0)
+				return (update_exit_status(gear_5, 126, cmd_name), FAILURE);
+		}
+		else
+			return (update_exit_status(gear_5, 127, cmd_name), FAILURE);
+	}
+	if (fd > 0)
+		close(fd);
+	return (SUCCESS);
+}
 
 //if function set_fd fails, clean exec
 void	fail_set_fd_clean(t_exec *exec)
@@ -55,11 +83,15 @@ int arg_count)
 	arg_count--;
 	while (arg_count >= 0)
 	{
-		if (j == 0)
-			exec->cmd_name = ft_strdup(tmp->word);
-		exec->args[j] = ft_strdup(tmp->word);
-		arg_count--;
-		j++;
+		if (token_is_redirection(tmp) == false
+			&& tmp->token_type != TOKEN_FILE)
+		{
+			if (j == 0)
+				exec->cmd_name = ft_strdup(tmp->word);
+			exec->args[j] = ft_strdup(tmp->word);
+			arg_count--;
+			j++;
+		}
 		tmp = tmp->next;
 	}
 }
@@ -84,7 +116,7 @@ int	set_fd(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp)
 		else if (head->token_type == TOKEN_INPUT
 			|| head->token_type == TOKEN_HEREDOC)
 		{
-			if (file_input(gear_5, exec, head) == FAILURE)
+			if (file_input(gear_5, exec, head, envp) == FAILURE)
 				return (FAILURE);
 		}
 		head = head->next;

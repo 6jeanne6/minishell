@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pid_pipe_free.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:36:25 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/20 15:31:01 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/07 18:45:19 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@ void	error_shell_exec(t_shell *gear_5, t_env *envp, t_exec *exec)
 	if (!envp || !gear_5 || !exec)
 		return ;
 	clean_env(envp);
+	if (exec->fd_in > 2)
+		close(exec->fd_in);
+	if (exec->fd_out > 2)
+		close(exec->fd_out);
 	clean_exec(exec, gear_5);
 	free_exec(exec);
+	close_heredoc(gear_5);
 	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	close(STDERR_FILENO);
-	exit(EXIT_FAILURE);
+	exit(gear_5->exit_status);
 }
 
 //when execve succeed, clean everything and process can terminate
@@ -32,7 +35,7 @@ void	execve_clean_all(t_exec *exec, t_env *envp, t_shell *gear_5)
 	if (!envp || !gear_5)
 		return ;
 	clean_env(envp);
-	close_files(exec);
+	close_files(exec, gear_5);
 	clean_exec(exec, gear_5);
 	free_exec(exec);
 }

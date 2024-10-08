@@ -6,12 +6,13 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:24:03 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/07 18:23:55 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/04 12:04:28 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//alloc memory for empty env which contains PATH and copy it
 static void	alloc_fetch(t_env *envp, char *line)
 {
 	if (!line || !envp)
@@ -31,8 +32,8 @@ static void	alloc_fetch(t_env *envp, char *line)
 	}
 	free(line);
 }
-//alloc memory for empty env which contains PATH and copy it
 
+//fetch path for empty env in etc/environment
 void	fetch_path(t_env *envp)
 {
 	int		fd;
@@ -48,15 +49,15 @@ void	fetch_path(t_env *envp)
 	line = get_next_line(fd);
 	if (line == NULL)
 	{
-		close (fd);
+		close(fd);
 		return ;
 	}
 	close(fd);
 	alloc_fetch(envp, line);
 	get_next_line(-42);
 }
-//fetch path for empty env in etc/environment
 
+//split the PATH into sub_paths
 char	**split_path(t_env *envp, char *str)
 {
 	char	**ptr;
@@ -67,8 +68,8 @@ char	**split_path(t_env *envp, char *str)
 		return (NULL);
 	return (ptr);
 }
-//split the PATH into sub_paths
 
+//go through each line of env until PATH= and split it
 char	**find_path(t_env *envp, char **path)
 {
 	int	i;
@@ -81,8 +82,11 @@ char	**find_path(t_env *envp, char **path)
 	path = split_path(envp, envp->env[i]);
 	return (path);
 }
-//check the PATH
 
+//env is NULL or not? fetch path
+//	→ env -i = copy PATH from /etc/environment in envp->envp_tmp,
+//		and split to have sub-paths
+//	→ normal env
 char	**copy_path(t_env *envp)
 {
 	char	**search_path;
@@ -97,4 +101,3 @@ char	**copy_path(t_env *envp)
 		search_path = find_path(envp, search_path);
 	return (search_path);
 }
-//env is NULL or not? fetch path

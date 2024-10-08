@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   execve_all.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:39:54 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/22 21:10:04 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/08 15:21:39 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	valid_bin(t_exec *exec)
+{
+	if (!exec)
+		return (FAILURE);
+	if (exec->bin)
+	{
+		if (access(exec->bin, X_OK) == 0)
+			return (SUCCESS);
+	}
+	return (42);
+}
 
 //execute programs like ./minishell
 static void	execve_executable_program(t_shell *gear_5, t_env *envp,
@@ -22,11 +34,10 @@ t_exec *exec)
 	if (execve(exec->cmd_name, exec->args, envp->env) < 0)
 	{
 		update_exit_status(gear_5, 126, exec->cmd_name);
-		error_close_files(exec);
+		error_close_files(exec, gear_5);
 		execve_clean_all(exec, envp, gear_5);
 		exit(126);
 	}
-	printf("LE PROGRAMME MARCGE\n");
 	execve_clean_all(exec, envp, gear_5);
 	exit(SUCCESS);
 }
@@ -34,15 +45,13 @@ t_exec *exec)
 //if bin execute absolute path and bin command
 static void	execve_bin(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
-	if (!gear_5 || !envp || !exec)
-		return ;
 	if (exec->cmd_name[0] == '/')
 	{
 		execve(exec->bin, exec->args, envp->env);
 		if (execve(exec->bin, exec->args, envp->env) <= -1)
 		{
 			update_exit_status(gear_5, 127, exec->cmd_name);
-			error_close_files(exec);
+			error_close_files(exec, gear_5);
 			execve_clean_all(exec, envp, gear_5);
 			exit(127);
 		}
@@ -53,7 +62,7 @@ static void	execve_bin(t_shell *gear_5, t_env *envp, t_exec *exec)
 		if (execve(exec->bin, exec->args, envp->env) < 0)
 		{
 			update_exit_status(gear_5, 126, exec->cmd_name);
-			error_close_files(exec);
+			error_close_files(exec, gear_5);
 			execve_clean_all(exec, envp, gear_5);
 			exit(126);
 		}
@@ -67,19 +76,16 @@ t_exec *head)
 {
 	if (!gear_5 || !envp || !exec)
 		return ;
-	if (exec_builtin(gear_5, envp, exec) == SUCCESS)
+	if (exec_builtin(gear_5, envp, exec, head) == SUCCESS)
 	{
-		close_files(exec);
-		close(STDIN_FILENO);
-		close(STDOUT_FILENO);
-		close(STDERR_FILENO);
+		close_files(exec, gear_5);
 		execve_clean_all(head, envp, gear_5);
 		exit(SUCCESS);
 	}
 	else
 	{
 		update_exit_status(gear_5, 1, exec->cmd_name);
-		error_close_files(exec);
+		error_close_files(exec, gear_5);
 		execve_clean_all(head, envp, gear_5);
 		exit(1);
 	}
@@ -91,7 +97,7 @@ t_exec *head)
 //  → executable program : ./minishell...
 void	execve_all(t_shell *gear_5, t_env *envp, t_exec *exec, t_exec *head)
 {
-	if (!exec || !head)
+	if (!gear_5 || !envp || !exec || !head)
 		return ;
 	if (is_builtin(exec->cmd_name) == SUCCESS)
 		execve_builtin(gear_5, envp, exec, head);
@@ -102,7 +108,7 @@ void	execve_all(t_shell *gear_5, t_env *envp, t_exec *exec, t_exec *head)
 	else
 	{
 		update_exit_status(gear_5, 127, exec->cmd_name);
-		error_close_files(exec);
+		error_close_files(exec, gear_5);
 		execve_clean_all(exec, envp, gear_5);
 		exit(127);
 	}
