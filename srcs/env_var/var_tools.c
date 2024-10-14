@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:37:05 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/04 12:19:13 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/14 16:45:53 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*malloc_strcpy(char *origin)
 	char	*str;
 
 	str = malloc(sizeof(char) * (ft_strlen(origin) + 1));
+	if (!str)
+		return (NULL);
 	i = 0;
 	while (origin[i])
 	{
