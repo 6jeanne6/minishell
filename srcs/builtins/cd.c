@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 23:08:04 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/04 16:40:39 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/09 15:55:49 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	cd(t_shell *gear_5, t_env *envp, t_exec *exec)
 	if (gear_5->exit_status == 0)
 	{
 		new_path = get_current_path();
+		if (!new_path)
+			return (FAILURE);
 		last_path = get_env_var_value_with_name(envp, "PWD");
 		change_env_var_value_with_name(envp, "OLDPWD", last_path);
 		change_env_var_value_with_name(envp, "PWD", new_path);

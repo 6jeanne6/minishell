@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_dup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:38:41 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/08 17:08:48 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/10 19:01:37 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	first_dup(t_exec *exec, t_shell *gear_5, t_env *envp)
 		error_shell_exec(gear_5, envp, exec);
 	if (gear_5->number_of_cmds > 1)
 		dup2(gear_5->pipe_tab[gear_5->j][WRITE_END], STDOUT_FILENO);
-	if (exec->fd_out >= 0)
+	if (exec->fd_out >= 3)
 	{
 		if (dup2(exec->fd_out, STDOUT_FILENO) == -1)
 		{
@@ -61,7 +61,7 @@ static void	first_dup(t_exec *exec, t_shell *gear_5, t_env *envp)
 			return ;
 		}
 	}
-	if (exec->fd_in >= 0)
+	if (exec->fd_in >= 3)
 	{
 		if (dup2(exec->fd_in, STDIN_FILENO) == -1)
 		{
@@ -97,7 +97,7 @@ static void	last_dup(t_exec *exec, t_shell *gear_5)
 			return ;
 		}
 	}
-	if (exec->fd_out >= 0)
+	if (exec->fd_out >= 3)
 	{
 		if (dup2(exec->fd_out, STDOUT_FILENO) == -1)
 		{
@@ -117,7 +117,6 @@ void	child_process(t_exec *exec, t_shell *gear_5, t_env *envp, t_exec *head)
 	i = -1;
 	if (!exec || !head)
 		return ;
-	signal(SIGQUIT, sigquit_handler);
 	if (is_valid_command_file(exec, gear_5, envp, head) == SUCCESS)
 	{
 		if (basic_fd(exec) == false || gear_5->number_of_cmds > 1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/08 18:30:12 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:26:33 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,12 @@ int	main(int argc, char **argv, char **env)
 		error("Error : Too many arguments\n");
 		return (EXIT_FAILURE);
 	}
-	/*
 	if (!isatty(STDOUT_FILENO))
 		exit(FAILURE);
-	*/
 	ft_bzero(&gear_5, sizeof(t_shell));
 	ft_bzero(&envp, sizeof(t_env));
 	init_env(&envp, env);
 	handle_signal();
 	gear_5.exit_status = init_minishell(&gear_5, &envp);
-	close(STDIN_FILENO);
 	return (gear_5.exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 10:02:33 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/23 11:34:19 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/09 15:23:45 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int	export(t_shell *gear_5, t_env *envp, t_exec *exec)
 	i = 1;
 	while (exec->args[i])
 	{
+		handle_path(envp, exec->args[i]);
 		name = get_variable_name(exec->args[i]);
 		if (is_valid_identifier(name, gear_5, 1) == FAILURE)
 			return (FAILURE);

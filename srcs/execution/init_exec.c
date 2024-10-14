@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:00:38 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/07 12:41:57 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/10 13:50:26 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,26 @@ static t_exec	*link_exec_nodes(t_exec *prev_exec, t_exec *exec)
 }
 
 //malloc t_exec structure with data provided
-static t_exec	*set_structure(t_shell *gear_5, t_token *token, t_env *envp,
-int arg_count)
+static t_exec	*set_structure(t_token *token, t_env *envp, int arg_count)
 {
 	t_exec	*exec;
+	t_token	*start;
 
 	if (!token || !envp)
 		return (NULL);
 	exec = ft_calloc(1, sizeof(t_exec));
+	start = token;
 	if (!exec)
 		return (NULL);
 	exec->args = ft_calloc(arg_count + 1, sizeof(char *));
 	if (!exec->args)
+		return (free(exec), NULL);
+	while (start && start->token_type != TOKEN_PIPE)
 	{
-		free(exec);
-		return (NULL);
+		if (start->token_type == TOKEN_CMD && start->cmd_path)
+			exec->bin = ft_strdup(start->cmd_path);
+		start = start->next;
 	}
-	(void)gear_5;
 	set_arg_tab(exec, token, envp, arg_count);
 	exec->fd_in = STDIN_FILENO;
 	exec->fd_out = STDOUT_FILENO;
@@ -89,7 +92,7 @@ static t_exec	*process_tokenn(t_shell *gear_5, t_token **head, t_env *envp)
 	arg_count = count_arguments_find_redirection(head, tmp);
 	if (start != *head || start->token_type == TOKEN_HEREDOC || arg_count > 0)
 	{
-		exec = set_structure(gear_5, start, envp, arg_count);
+		exec = set_structure(start, envp, arg_count);
 		if (!exec)
 			return (NULL);
 	}
@@ -126,8 +129,6 @@ t_exec	*init_exec(t_shell *gear_5, t_token *token, t_env *envp)
 			else
 				exec = link_exec_nodes(prev_exec, exec);
 			prev_exec = exec;
-			if (start->cmd_path)
-				exec->bin = ft_strdup(start->cmd_path);
 		}
 		else
 			return (NULL);

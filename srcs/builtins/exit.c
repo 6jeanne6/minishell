@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:08:26 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/08 14:34:44 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/11 18:11:40 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ static int	status_generator(char *str)
 
 	status = ft_atoi(str);
 	if (status >= 0 && status <= 255)
-	{
 		return (status);
-	}
 	else
 	{
 		status = status % 256;
@@ -32,25 +30,32 @@ static int	status_generator(char *str)
 	}
 }
 
-/* Handles the case where `exit` has exactly two arguments. */
+///* Handles the case where `exit` has exactly two arguments. */
 static void	handle_two_arg(t_shell *gear_5, t_exec *execution,
-			t_env *envp, t_exec *exec)
+		t_env *envp, t_exec *exec)
 {
 	int	status;
 
 	status = status_generator(execution->args[1]);
-	if (status >= 0 && status <= 255)
+	if ((status >= 0 && status <= 255)
+		&& (is_num_overflow(execution->args[1]) == 0))
 	{
-		ft_putstr_fd("exit", 2);
-		ft_putstr_fd("\n", 2);
+		ft_putstr_fd("exit\n", 2);
 		gear_5->exit_status = status;
 		execve_clean_all(exec, envp, gear_5);
 		exit(status);
 	}
 	else
 	{
-		ft_putstr_fd("exit", 2);
-		ft_putstr_fd("\n", 2);
+		ft_putstr_fd("exit\n", 2);
+		if (is_num_overflow(execution->args[1]))
+		{
+			ft_putstr_fd(execution->args[1], 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
+			execve_clean_all(exec, envp, gear_5);
+			close(STDIN_FILENO);
+			exit(2);
+		}
 		execve_clean_all(exec, envp, gear_5);
 		exit(status);
 	}

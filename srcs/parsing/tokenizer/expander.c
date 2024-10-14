@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:51:02 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/04 15:40:39 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/14 15:47:44 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ int	handle_variable_length(const char *line, int *i, t_env *env)
 	var_len = 0;
 	(*i)++;
 	start = *i;
-	while (ft_isalpha(line[*i]) || line[*i] == '_')
+	if (ft_isalpha(line[*i]) || line[*i] == '_')
+		(*i)++;
+	while (ft_isalnum(line[*i]) || line[*i] == '_')
 		(*i)++;
 	var_name = extract_variable_name(line, start, *i);
 	if (var_name)
@@ -106,7 +108,7 @@ char	*expander_test(t_env *env, const char *line, t_shell *shell)
 	expand = init_expand(env, line, line_len);
 	if (expand.expanded_line == NULL)
 		return (NULL);
-	if (ft_strchr(line, '$') == 0)
+	if (ft_strchr(line, '$') == 0 || find_double_angle_brackets(line) == 1)
 		return (ft_strcpy(expand.expanded_line, line));
 	while (expand.line[expand.i] != '\0' && expand.j < line_len)
 	{

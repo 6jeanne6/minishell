@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:34:02 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/08 18:26:50 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:03:44 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,15 @@ static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_exec *exec)
 	if (!gear_5 || !envp || !exec)
 		return (FAILURE);
 	if (is_dir(exec->cmd_name, gear_5) == SUCCESS)
+	{
+		if (exec->fd_in >= 3 && exec->heredoc_here == true)
+		{
+			close(exec->fd_in);
+			unlink(exec->heredoc_file);
+			close_heredoc(gear_5);
+		}
 		return (FAILURE);
+	}
 	flag = init_fork(gear_5, envp, exec);
 	if (flag == FAILURE)
 		return (FAILURE);
@@ -91,6 +99,7 @@ t_exec **exec)
 		get_token_type(envp, list);
 		if (token_order(gear_5, list) == FAILURE)
 			return (wrong_token_order(list, envp, gear_5), FAILURE);
+		expander_two(envp, gear_5, &list);
 		count_n_create_heredoc(gear_5, list);
 		*exec = init_exec(gear_5, list, envp);
 		if (!*exec)
@@ -117,7 +126,7 @@ t_exec **exec, int *flag)
 	list = NULL;
 	while (true)
 	{
-		handle_signal();
+		signal(SIGINT, sigint_handler);
 		cleanup_exec(exec, gear_5);
 		signal(SIGQUIT, SIG_IGN);
 		gear_5->input = readline(WHITE"Super Gear 5 $> "RESET);

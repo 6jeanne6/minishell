@@ -6,11 +6,25 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 15:25:49 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/07 15:45:52 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/10 13:59:26 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//check if token is a directory or not
+bool	token_is_dir(char *path)
+{
+	DIR	*dir;
+
+	if (!path)
+		return (false);
+	dir = opendir(path);
+	if (dir == NULL)
+		return (false);
+	closedir(dir);
+	return (true);
+}
 
 //check if argument is a directory
 //directory alone cannot be executed

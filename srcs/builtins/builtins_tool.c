@@ -6,13 +6,13 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:56:55 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/04 12:07:10 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/09 15:28:24 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_var_name(char *str)
+int	check_var_name(char *str)
 {
 	if (!str || !*str)
 		return (0);

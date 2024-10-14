@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork_pid.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:18:07 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/08 18:36:55 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:54:51 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static int	do_fork(t_shell *gear_5, t_exec *exec, t_env *envp, int cmd)
 		current = current->next;
 		gear_5->j++;
 	}
-	if (g_sig_flag == SIGQUIT)
-		handle_sigquit_in_fork(gear_5, cmd);
+	if (g_sig_flag == SIGQUIT || g_sig_flag == SIGINT)
+		handle_sig_in_fork(gear_5, cmd);
 	close_pipe_tab(gear_5, cmd);
 	status_code = get_status_code(gear_5, cmd);
 	return (status_code);
@@ -117,6 +117,6 @@ int	init_fork(t_shell *gear_5, t_env *envp, t_exec *exec)
 	}
 	init_tab_pid(gear_5, exec, envp, commands);
 	init_tab_pipe(gear_5, exec, envp, commands);
-	gear_5->status_code = do_fork(gear_5, exec, envp, commands);
+	gear_5->status_code = do_fork(gear_5, head, envp, commands);
 	return (SUCCESS);
 }

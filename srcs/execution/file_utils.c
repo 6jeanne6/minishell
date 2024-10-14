@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:21:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/08 17:27:37 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/09 15:29:51 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,6 @@ bool	basic_fd(t_exec *exec)
 		return (false);
 	else
 		return (true);
-}
-
-//handle < : 1st token is command
-static int	infile_cmd_execution(t_shell *gear_5, t_token *token)
-{
-	if (!gear_5 || !token)
-		return (FAILURE);
-	if (token->previous)
-	{
-		if (!token->previous->cmd_path
-			&& token->previous->token_type != TOKEN_FILE)
-		{
-			update_exit_status(gear_5, 127, token->previous->word);
-			return (FAILURE);
-		}
-		else if ((access(token->previous->cmd_path, F_OK) == 0)
-			&& (access(token->previous->cmd_path, X_OK) == 0))
-			return (SUCCESS);
-	}
-	return (FAILURE);
 }
 
 //handle <
@@ -72,12 +52,7 @@ int	file_input(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp)
 		return (FAILURE);
 	if (exec->fd_in >= 3)
 		close(exec->fd_in);
-	if (gear_5->j == 0 && token->token_type == TOKEN_INPUT)
-	{
-		if (infile_cmd_execution(gear_5, token) == FAILURE)
-			return (FAILURE);
-	}
-	else if (token->token_type == TOKEN_INPUT)
+	if (token->token_type == TOKEN_INPUT)
 	{
 		if (handle_input(gear_5, exec, token) == FAILURE)
 			return (FAILURE);

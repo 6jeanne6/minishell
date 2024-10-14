@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 10:14:54 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/09/23 11:36:05 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/09 15:21:36 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int	unset(t_shell *gear_5, t_env *envp, t_exec *exec)
 	i = 1;
 	while (exec->args[i])
 	{
+		if (ft_strcmp(exec->args[i], "PATH") == 0)
+			unset_path(envp);
 		name = get_variable_name(exec->args[i]);
 		if (is_valid_identifier(name, gear_5, 2) == FAILURE)
 			return (FAILURE);

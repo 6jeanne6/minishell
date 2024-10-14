@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/08 18:39:48 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:50:16 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ typedef struct s_var
 {
 	char			*variable_name;
 	char			*variable_value;
+
 	struct s_var	*next;
 	struct s_var	*prev;
 
@@ -158,9 +159,11 @@ typedef struct s_env
 	char	**env_tmp;
 	char	**path;
 	char	*oldpwd;
+
 	char	*pwd;
 	char	*cmd_path;
 	char	*tmp_path;
+
 	t_var	*first_variable;
 }				t_env;
 
@@ -194,8 +197,12 @@ typedef struct s_expand
 	int			j;
 	int			inside_double_quotes;
 	int			inside_single_quotes;
+	int			line_len;
+
 	char		*expanded_line;
+
 	t_env		*env;
+
 	const char	*line;
 }				t_expand;
 
@@ -231,30 +238,38 @@ void	sigint_handler(int sig);
 void	sigquit_handler(int sig);
 void	sigint_here_doc(int sig);
 void	sigint_reset(t_shell *gear_5);
-void	handle_sigquit_in_fork(t_shell *gear_5, int cmd);
+void	handle_sig_in_fork(t_shell *gear_5, int cmd);
 
 /* builtins */
+
+t_var	*find_variable_by_name(t_env *env, char *name);
+t_var	*get_first_env_var(t_env *env);
 
 int		echo(t_shell *gear_5, t_exec *exec);
 int		echo_pipe(t_shell *gear_5, t_exec *exec);
 int		cd(t_shell *gear_5, t_env *envp, t_exec *exec);
 int		pwd(t_shell *gear_5, t_env *envp, t_exec *exec);
-void	env(t_shell *gear_5, t_env *envp, t_exec *exec);
 int		export(t_shell *gear_5, t_env *envp, t_exec *exec);
 int		unset(t_shell *gear_5, t_env *envp, t_exec *exec);
 int		is_builtin(char *word);
-void	exit_builtin(t_shell *gear_5, t_env *envp, t_exec *exec, t_exec *head);
-char	*get_current_path(void);
-t_var	*find_variable_by_name(t_env *env, char *name);
-void	change_env_var_value_with_name(t_env *env, char *name, char *value);
-char	*get_env_var_value_with_name(t_env *env, char *name);
-void	change_env_var_value(t_var *var, char *new_value);
-t_var	*get_first_env_var(t_env *env);
-char	*get_last_path(t_env *env);
 int		is_valid_identifier(char *name, t_shell *gear_5, int code);
 int		exec_builtin(t_shell *gear_5, t_env *envp, t_exec *exec, t_exec *head);
+int		check_var_name(char *str);
+int		is_num_overflow(char *str);
+
+void	env(t_shell *gear_5, t_env *envp, t_exec *exec);
+void	env_pipe(t_shell *gear_5, t_env *envp, t_exec *exec);
+void	exit_builtin(t_shell *gear_5, t_env *envp, t_exec *exec, t_exec *head);
+void	change_env_var_value_with_name(t_env *env, char *name, char *value);
+void	change_env_var_value(t_var *var, char *new_value);
 void	quit_if_exit_arg_is_not_numeric(char *str, t_shell *gear_5,
 			t_env *envp, t_exec *exec);
+void	unset_path(t_env *envp);
+void	handle_path(t_env *envp, char *arg);
+
+char	*get_current_path(void);
+char	*get_env_var_value_with_name(t_env *env, char *name);
+char	*get_last_path(t_env *env);
 
 /* environnement variable */
 
@@ -264,6 +279,7 @@ char	*malloc_substr_and_cpy(const char *original_str, int start, int end);
 char	*get_variable_name(char *variable);
 char	*get_variable_value(char *variable);
 char	*malloc_strcpy(char *origin);
+
 void	init_chained_var(t_env *env, char **envp);
 void	add_variable_to_the_list(t_env *env, t_var *var);
 void	free_var_list(t_env *env);
@@ -289,7 +305,6 @@ int		is_variable(const char *input);
 int		is_variable_declaration(const char *input);
 int		token_order(t_shell *gear_5, t_token *token);
 int		builtin_order(t_shell *gear_5, t_token *token, t_env *envp);
-int		how_many_dollar(char *str);
 int		pwd_ok(t_shell *gear_5, t_token *token, t_env *envp);
 int		env_ok(t_shell *gear_5, t_token *token, t_env *envp);
 int		export_ok(t_shell *gear_5, t_token *token, t_env *envp);
@@ -307,6 +322,7 @@ void	handle_quotes(t_parsing *state);
 void	process_token(t_parsing *state, int word_length);
 
 bool	token_is_a_redirection(t_token *token);
+bool	token_is_dir(char *path);
 
 /* linked list management */
 
@@ -322,6 +338,7 @@ char	*expander_test(t_env *env, const char *line, t_shell *shell);
 
 int		is_valid_character(char c, t_expand *xpd);
 int		ft_isspace(char c);
+int		find_double_angle_brackets(const char *line);
 
 char	*ft_strcpy(char *dest, const char *src);
 char	*extract_variable_name(const char *line, int start, int end);
@@ -331,6 +348,7 @@ void	expand_exit_status(t_expand *expand, t_shell *gear_5);
 void	handle_variable_in_list(t_expand *expand, char *var_name);
 void	expand_variable(t_expand *xpd, t_shell *shell);
 void	handle_q(t_expand *expand);
+void	expander_two(t_env *env, t_shell *gear_5, t_token **list);
 
 int		handle_variable_length(const char *line, int *i, t_env *env);
 int		count_new_len(const char *line, t_env *env);
@@ -384,8 +402,8 @@ void	clean_heredoc(char *delimiter, char *heredoc_name,
 
 /* debug */
 
-void	print_token_list(t_token *list);
-void	print_token(t_token *token, int index);
-void	print_exec_list(t_exec *exec, t_shell *gear_5);	
+// void	print_token_list(t_token *list);
+// void	print_token(t_token *token, int index);
+// void	print_exec_list(t_exec *exec, t_shell *gear_5);	
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_all.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:39:54 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/08 15:21:39 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/11 11:54:47 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_exec *head)
 	else
 	{
 		update_exit_status(gear_5, 1, exec->cmd_name);
-		error_close_files(exec, gear_5);
+		error_close_files(head, gear_5);
 		execve_clean_all(head, envp, gear_5);
 		exit(1);
 	}

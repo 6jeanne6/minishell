@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:36:25 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/07 18:45:19 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/09 17:08:24 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	error_shell_exec(t_shell *gear_5, t_env *envp, t_exec *exec)
 //when execve succeed, clean everything and process can terminate
 void	execve_clean_all(t_exec *exec, t_env *envp, t_shell *gear_5)
 {
-	if (!envp || !gear_5)
+	if (!envp || !envp->env[0] || !gear_5)
 		return ;
 	clean_env(envp);
 	close_files(exec, gear_5);

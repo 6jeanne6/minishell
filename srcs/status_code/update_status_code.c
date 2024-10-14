@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_status_code.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 15:41:43 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/08 15:59:13 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:16:59 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,17 +92,19 @@ static void	display_error(int exit_status)
 {
 	if (exit_status == 130)
 		error(": command not found");
-	if (exit_status == 131)
+	else if (exit_status == 131)
 		error(": command not found");
-	if (exit_status == 127)
+	else if (exit_status == 127)
 		error(": command not found");
-	if (exit_status == 126)
+	else if (exit_status == 126)
 		error(": permission denied");
-	if (exit_status == 2)
+	else if (exit_status == 2)
 		error(": syntax error");
-	if (exit_status == 1)
+	else if (exit_status == 1)
 		error(": execution failed, command not found or syntax error");
-	if (exit_status == 0)
+	else if (exit_status == 0)
+		error(": command not found");
+	else if (exit_status)
 		error(": command not found");
 }
 

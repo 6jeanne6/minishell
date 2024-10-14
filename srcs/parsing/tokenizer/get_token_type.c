@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 14:43:23 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/04 15:09:54 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/10 13:58:54 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static int	is_redirection(char *word)
 /* Check if it's a binary or an executable */
 static int	is_cmd(t_env *envp, t_token *token)
 {
+	if (token_is_dir(token->word) == true)
+		return (FAILURE);
 	if (token->word[0] == '/')
 	{
 		token->cmd_path = ft_strdup(token->word);

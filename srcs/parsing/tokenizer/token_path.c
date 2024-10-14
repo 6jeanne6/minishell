@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:04:43 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/04 14:54:58 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/09 15:20:28 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ int	check_path(t_env *envp, t_token *token)
 {
 	int	i;
 
-	i = 1;
+	i = 0;
 	if (!envp->path || !token)
 	{
 		clean_env(envp);
 		return (FAILURE);
 	}
-	while (envp->path[++i])
+	while (envp->path[i] != NULL)
 	{
 		if (join_paths(envp, token, i) == SUCCESS)
 		{
@@ -68,6 +68,7 @@ int	check_path(t_env *envp, t_token *token)
 			envp->cmd_path = NULL;
 			return (SUCCESS);
 		}
+		i++;
 	}
 	envp->cmd_path = NULL;
 	return (FAILURE);
