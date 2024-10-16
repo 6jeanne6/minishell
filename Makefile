@@ -5,6 +5,7 @@
 NAME		= minishell
 CC			= cc
 CFLAG		= -Werror -Wall -Wextra -g3
+#-fsanitize=address,leak,undefined
 
 ################################################################################
 #                                 Include                                      #
@@ -71,6 +72,7 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/error/free_utils.c \
 				${SRCDIR}/error/pid_pipe_free.c \
 				${SRCDIR}/error/close_files.c \
+				${SRCDIR}/error/cleaning.c \
 				${SRCDIR}/builtins/exec_builtin.c \
 				${SRCDIR}/builtins/builtins_tool.c \
 				${SRCDIR}/builtins/builtins_tool2.c \

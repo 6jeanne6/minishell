@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 14:43:23 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/10 13:58:54 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/15 13:50:30 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	get_token_type(t_env *envp, t_token *token)
 			token->token_type = TOKEN_ARG;
 		if (token_is_a_redirection(token) == true)
 		{
-			if (token->next)
+			if (token->next && ft_strcmp(token->next->word, "|") != 0)
 			{
 				token->next->token_type = TOKEN_FILE;
 				token = token->next;

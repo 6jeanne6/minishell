@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:40:22 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/09 13:59:32 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/14 19:14:40 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,13 @@ static void	init_pwd(t_env *envp)
 {
 	t_var	*variable;
 	char	*current_path;
+	char	*name;
 
 	current_path = get_current_path();
-	variable = init_env_variable("pwd", current_path);
+	name = ft_strdup("pwd");
+	if (!name)
+		return ;
+	variable = init_env_variable(name, current_path);
 	add_variable_to_the_list(envp, variable);
 }
 

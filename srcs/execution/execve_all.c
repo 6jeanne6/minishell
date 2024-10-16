@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:39:54 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/11 11:54:47 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/16 19:08:33 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	valid_bin(t_exec *exec)
 
 //execute programs like ./minishell
 static void	execve_executable_program(t_shell *gear_5, t_env *envp,
-t_exec *exec)
+t_exec *exec, t_exec *head)
 {
 	if (!gear_5 || !envp || !exec)
 		return ;
@@ -34,16 +34,16 @@ t_exec *exec)
 	if (execve(exec->cmd_name, exec->args, envp->env) < 0)
 	{
 		update_exit_status(gear_5, 126, exec->cmd_name);
-		error_close_files(exec, gear_5);
-		execve_clean_all(exec, envp, gear_5);
+		error_close_files(head, gear_5);
+		execve_clean_all(head, envp, gear_5);
 		exit(126);
 	}
-	execve_clean_all(exec, envp, gear_5);
+	execve_clean_all(head, envp, gear_5);
 	exit(SUCCESS);
 }
 
 //if bin execute absolute path and bin command
-static void	execve_bin(t_shell *gear_5, t_env *envp, t_exec *exec)
+static void	execve_bin(t_shell *gear_5, t_env *envp, t_exec *exec, t_exec *head)
 {
 	if (exec->cmd_name[0] == '/')
 	{
@@ -51,8 +51,8 @@ static void	execve_bin(t_shell *gear_5, t_env *envp, t_exec *exec)
 		if (execve(exec->bin, exec->args, envp->env) <= -1)
 		{
 			update_exit_status(gear_5, 127, exec->cmd_name);
-			error_close_files(exec, gear_5);
-			execve_clean_all(exec, envp, gear_5);
+			error_close_files(head, gear_5);
+			execve_clean_all(head, envp, gear_5);
 			exit(127);
 		}
 	}
@@ -62,12 +62,12 @@ static void	execve_bin(t_shell *gear_5, t_env *envp, t_exec *exec)
 		if (execve(exec->bin, exec->args, envp->env) < 0)
 		{
 			update_exit_status(gear_5, 126, exec->cmd_name);
-			error_close_files(exec, gear_5);
-			execve_clean_all(exec, envp, gear_5);
+			error_close_files(head, gear_5);
+			execve_clean_all(head, envp, gear_5);
 			exit(126);
 		}
 	}
-	execve_clean_all(exec, envp, gear_5);
+	execve_clean_all(head, envp, gear_5);
 }
 
 //if builtin execute this
@@ -102,14 +102,14 @@ void	execve_all(t_shell *gear_5, t_env *envp, t_exec *exec, t_exec *head)
 	if (is_builtin(exec->cmd_name) == SUCCESS)
 		execve_builtin(gear_5, envp, exec, head);
 	if (exec->bin)
-		execve_bin(gear_5, envp, exec);
+		execve_bin(gear_5, envp, exec, head);
 	if (access(exec->cmd_name, X_OK) == 0)
-		execve_executable_program(gear_5, envp, exec);
+		execve_executable_program(gear_5, envp, exec, head);
 	else
 	{
 		update_exit_status(gear_5, 127, exec->cmd_name);
-		error_close_files(exec, gear_5);
-		execve_clean_all(exec, envp, gear_5);
+		error_close_files(head, gear_5);
+		execve_clean_all(head, envp, gear_5);
 		exit(127);
 	}
 }

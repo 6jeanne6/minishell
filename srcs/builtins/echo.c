@@ -6,23 +6,41 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:20:28 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/04 16:31:42 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/14 19:51:37 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//ignore n
+static int	is_a_noption(char *args)
+{
+	int	i;
+
+	i = 0;
+	if (args[i] == '-')
+	{
+		i++;
+		if (args[i++] == 'n')
+		{
+			while (args[i] && args[i] == 'n')
+				i++;
+			if (args[i] == '\0')
+				return (true);
+		}
+	}
+	return (false);
+}
+
+//init echo
 static void	init_echo(t_exec *exec, int *i, int *new_line)
 {
-	if (exec->args[1] && ft_strcmp(exec->args[1], "-n") == 0)
+	*new_line = 1;
+	*i = 1;
+	while (exec->args[*i] && is_a_noption(exec->args[*i]))
 	{
 		*new_line = 0;
-		*i = 2;
-	}
-	else
-	{
-		*new_line = 1;
-		*i = 1;
+		*i += 1;
 	}
 }
 
@@ -35,16 +53,7 @@ int	echo_pipe(t_shell *gear_5, t_exec *exec)
 	init_echo(exec, &i, &new_line);
 	while (exec->args[i])
 	{
-		if (ft_strcmp(exec->args[i], "-n") == 0)
-		{
-			i++;
-			continue ;
-		}
-		if (ft_strcmp(exec->args[i], "$?") == 0
-			&& exec->outer_single_quote != 1)
-			ft_putnbr_fd(gear_5->exit_status, STDOUT_FILENO);
-		else
-			ft_putstr_fd(exec->args[i], STDOUT_FILENO);
+		ft_putstr_fd(exec->args[i], STDOUT_FILENO);
 		if (exec->args[i + 1] != NULL)
 			ft_putstr_fd(" ", STDOUT_FILENO);
 		i++;
@@ -55,7 +64,7 @@ int	echo_pipe(t_shell *gear_5, t_exec *exec)
 	return (0);
 }
 
-//print the message
+//print message
 int	echo(t_shell *gear_5, t_exec *exec)
 {
 	int	i;
@@ -64,16 +73,7 @@ int	echo(t_shell *gear_5, t_exec *exec)
 	init_echo(exec, &i, &new_line);
 	while (exec->args[i])
 	{
-		if (ft_strcmp(exec->args[i], "-n") == 0)
-		{
-			i++;
-			continue ;
-		}
-		if (ft_strcmp(exec->args[i], "$?") == 0
-			&& exec->outer_single_quote != 1)
-			ft_putnbr_fd(gear_5->exit_status, exec->fd_out);
-		else
-			ft_putstr_fd(exec->args[i], exec->fd_out);
+		ft_putstr_fd(exec->args[i], exec->fd_out);
 		if (exec->args[i + 1] != NULL)
 			ft_putstr_fd(" ", exec->fd_out);
 		i++;

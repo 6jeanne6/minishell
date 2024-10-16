@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 17:21:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/09 15:29:51 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/16 17:34:29 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,11 @@ static int	handle_input(t_shell *gear_5, t_exec *exec, t_token *token)
 			filename_error(token->next->word,
 				"no such file or directory", gear_5, 1);
 			if (exec->has_pipe == false)
+			{
+				if (exec->fd_out >= 3)
+					close(exec->fd_out);
 				return (FAILURE);
+			}
 		}
 		exec->fd_in = open(token->next->word, O_RDONLY);
 		if (exec->fd_in < 0)
@@ -59,6 +63,8 @@ int	file_input(t_shell *gear_5, t_exec *exec, t_token *token, t_env *envp)
 	}
 	else if (token->token_type == TOKEN_HEREDOC)
 	{
+		if (gear_5->interrupted == true)
+			return (FAILURE);
 		if (create_heredoc(exec, token, gear_5) == FAILURE)
 			return (FAILURE);
 	}

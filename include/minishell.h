@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/14 15:50:16 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/16 19:16:37 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_exec
 	int				outer_single_quote;
 	int				fd_in;
 	int				fd_out;
+	int				heredoc_state;
 
 	char			*cmd_name;
 	char			*bin;
@@ -170,6 +171,8 @@ typedef struct s_env
 //shell with readline input and exit status
 typedef struct s_shell
 {
+	bool	interrupted;
+
 	char	*input;
 	char	*delimiter;
 	char	*last_input;
@@ -217,6 +220,8 @@ int		processing_minishell(t_shell *gear_5, t_env *envp,
 			t_exec **exec, int *flag);
 int		init_minishell(t_shell *gear_5, t_env *envp);
 
+void	reinit_everything(t_shell *gear_5, t_exec **exec);
+
 /* environment */
 
 void	init_env(t_env *envp, char **env);
@@ -239,6 +244,7 @@ void	sigquit_handler(int sig);
 void	sigint_here_doc(int sig);
 void	sigint_reset(t_shell *gear_5);
 void	handle_sig_in_fork(t_shell *gear_5, int cmd);
+void	exit_ctrl_d(t_shell *gear_5, t_exec *exec, t_env *envp);
 
 /* builtins */
 
@@ -399,11 +405,15 @@ void	invalid_fd_pipe(t_exec *exec, t_shell *gear_5, t_env *envp,
 void	close_heredoc(t_shell *gear_5);
 void	clean_heredoc(char *delimiter, char *heredoc_name,
 			t_exec *exec, t_shell *gear_5);
+void	close_redir_fd(t_exec *exec);
+void	set_fd_has_failed(t_exec *exec, t_shell *gear_5);
+void	init_exec_clean(t_exec *exec);
+void	cleanup_exec(t_exec **exec, t_shell *gear_5);
 
 /* debug */
 
 // void	print_token_list(t_token *list);
 // void	print_token(t_token *token, int index);
-// void	print_exec_list(t_exec *exec, t_shell *gear_5);	
+//void	print_exec_list(t_exec *exec, t_shell *gear_5);	
 
 #endif

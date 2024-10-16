@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:38:41 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/10 19:01:37 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/16 19:01:19 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,4 +134,5 @@ void	child_process(t_exec *exec, t_shell *gear_5, t_env *envp, t_exec *head)
 	}
 	else
 		error_shell_exec(gear_5, envp, head);
+	exit(0);
 }

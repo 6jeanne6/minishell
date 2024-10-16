@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:12:05 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/09 15:09:31 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/16 19:04:57 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	valid_executable(t_shell *gear_5, char *cmd_name)
 		else
 			return (update_exit_status(gear_5, 127, cmd_name), FAILURE);
 	}
+	else
+		return (FAILURE);
 	if (fd > 0)
 		close(fd);
 	return (SUCCESS);
@@ -47,7 +49,10 @@ void	fail_set_fd_clean(t_exec *exec)
 		return ;
 	free_args_tab(exec->args);
 	free(exec->cmd_name);
+	if (exec->bin)
+		free(exec->bin);
 	free(exec);
+	exec = NULL;
 }
 
 //check if token is a redirection > >> < << or |

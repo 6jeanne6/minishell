@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:20 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/14 16:01:16 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/16 17:52:16 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,13 +113,10 @@ t_shell *gear_5)
 {
 	int	i;
 
-	i = 0;
-	if (!delimiter || !heredoc_name || !exec || !gear_5)
-		return ;
-	if (exec->fd_in >= 3)
-		close(exec->fd_in);
+	i = -1;
+	close_redir_fd(exec);
 	free(delimiter);
-	while (i < gear_5->number_of_hd)
+	while (++i < gear_5->number_of_hd)
 	{
 		if (gear_5->heredoc_tab[i])
 		{
@@ -127,7 +124,6 @@ t_shell *gear_5)
 			free(gear_5->heredoc_tab[i]);
 			gear_5->heredoc_tab[i] = NULL;
 		}
-		i++;
 	}
 	if (gear_5->number_of_hd > 0)
 	{
@@ -135,4 +131,9 @@ t_shell *gear_5)
 		gear_5->heredoc_tab = NULL;
 	}	
 	free(heredoc_name);
+	if (exec->bin)
+	{
+		free(exec->bin);
+		exec->bin = NULL;
+	}
 }

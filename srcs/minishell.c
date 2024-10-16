@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:34:02 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/14 16:03:44 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/16 19:19:54 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern volatile int	g_sig_flag;
 
-static void	cleanup_exec(t_exec **exec, t_shell *gear_5)
+void	cleanup_exec(t_exec **exec, t_shell *gear_5)
 {
 	clean_exec(*exec, gear_5);
 	free_exec(*exec);
@@ -126,15 +126,13 @@ t_exec **exec, int *flag)
 	list = NULL;
 	while (true)
 	{
-		signal(SIGINT, sigint_handler);
-		cleanup_exec(exec, gear_5);
-		signal(SIGQUIT, SIG_IGN);
+		reinit_everything(gear_5, exec);
 		gear_5->input = readline(WHITE"Super Gear 5 $> "RESET);
 		if (g_sig_flag == SIGINT)
 			sigint_reset(gear_5);
 		add_history(gear_5->input);
 		if (gear_5->input == NULL)
-			break ;
+			exit_ctrl_d(gear_5, *exec, envp);
 		is_dollar_question_mark_input(gear_5, flag);
 		if (*flag == 0)
 		{
