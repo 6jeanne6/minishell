@@ -6,19 +6,11 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:37:29 by jewu              #+#    #+#             */
-/*   Updated: 2024/08/07 18:29:04 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/17 16:45:43 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// static bool	i_am_quote(char c)
-// {
-// 	if (c == '\'' || c == '"')
-// 		return (true);
-// 	return (false);
-// }
-//check if it's a quote ' or "
 
 static bool	pipe_character(char c)
 {

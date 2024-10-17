@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:39:54 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/16 19:08:33 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/17 15:53:56 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ t_exec *head)
 		return ;
 	if (exec_builtin(gear_5, envp, exec, head) == SUCCESS)
 	{
-		close_files(exec, gear_5);
 		execve_clean_all(head, envp, gear_5);
 		exit(SUCCESS);
 	}

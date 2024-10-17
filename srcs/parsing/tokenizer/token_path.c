@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:04:43 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/09 15:20:28 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/17 16:33:31 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static void	free_paths(char *tmp_path, char *cmd_path)
 /* While loop to join path and word */
 static int	join_paths(t_env *envp, t_token *token, int i)
 {
+	if (*token->word == '\0')
+		return (FAILURE);
 	envp->tmp_path = ft_strjoin(envp->path[i], "/");
 	if (!envp->tmp_path)
 		return (FAILURE);
