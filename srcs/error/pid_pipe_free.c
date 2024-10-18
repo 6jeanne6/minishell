@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:36:25 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/16 19:17:38 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/18 13:08:39 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,25 @@
 //close all pipes
 void	error_shell_exec(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
+	t_exec	*head;
+	t_exec	*tmp;
+
 	if (!envp || !gear_5 || !exec)
 		return ;
 	clean_env(envp);
-	if (exec->fd_in > 2)
-		close(exec->fd_in);
-	if (exec->fd_out > 2)
-		close(exec->fd_out);
-	clean_exec(exec, gear_5);
-	free_exec(exec);
+	head = exec;
+	while (exec)
+	{
+		tmp = exec->next;
+		if (exec->fd_in > 2)
+			close(exec->fd_in);
+		if (exec->fd_out > 2)
+			close(exec->fd_out);
+		exec = tmp;
+	}
+	clean_exec(head, gear_5);
+	free_exec(head);
 	close_heredoc(gear_5);
-	close(STDIN_FILENO);
 	exit(gear_5->exit_status);
 }
 
@@ -41,7 +49,7 @@ void	execve_clean_all(t_exec *exec, t_env *envp, t_shell *gear_5)
 }
 
 //close both end of pipe and free it
-static void	close_and_free_pipe_tab(t_shell *gear_5)
+void	close_and_free_pipe_tab(t_shell *gear_5)
 {
 	int	i;
 
@@ -59,7 +67,7 @@ static void	close_and_free_pipe_tab(t_shell *gear_5)
 }
 
 //free pid tab
-static void	free_pid_tab(t_shell *gear_5)
+void	free_pid_tab(t_shell *gear_5)
 {
 	if (!gear_5)
 		return ;

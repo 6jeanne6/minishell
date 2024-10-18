@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/16 19:16:37 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/18 13:05:06 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -409,6 +409,8 @@ void	close_redir_fd(t_exec *exec);
 void	set_fd_has_failed(t_exec *exec, t_shell *gear_5);
 void	init_exec_clean(t_exec *exec);
 void	cleanup_exec(t_exec **exec, t_shell *gear_5);
+void	close_and_free_pipe_tab(t_shell *gear_5);
+void	free_pid_tab(t_shell *gear_5);
 
 /* debug */
 
