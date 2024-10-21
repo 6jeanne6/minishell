@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:39:54 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/17 15:53:56 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/21 16:23:16 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	execve_all(t_shell *gear_5, t_env *envp, t_exec *exec, t_exec *head)
 		execve_builtin(gear_5, envp, exec, head);
 	if (exec->bin)
 		execve_bin(gear_5, envp, exec, head);
-	if (access(exec->cmd_name, X_OK) == 0)
+	if (exec->cmd_name && access(exec->cmd_name, X_OK) == 0)
 		execve_executable_program(gear_5, envp, exec, head);
 	else
 	{

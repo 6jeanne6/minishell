@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:46:18 by jewu              #+#    #+#             */
-/*   Updated: 2024/09/02 15:38:42 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/20 14:49:20 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,3 @@ const char *word, int word_length)
 	ft_strncpy(new_node->word, word, word_length);
 	appendright(head, new_node);
 }
-//copy word into char *word of new node and add it to linked list

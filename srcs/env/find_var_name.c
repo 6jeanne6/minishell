@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_var_name.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 10:40:27 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/04 16:49:41 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/20 12:59:24 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*get_env_var_value_with_name(t_env *env, char *name)
 		return (NULL);
 	while (var)
 	{
-		if (ft_strcmp(var->variable_name, name))
+		if (ft_strcmp(var->variable_name, name) == 0)
 			return (var->variable_value);
 		var = var->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:33:10 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/04 12:43:53 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/20 14:51:17 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	is_pair(int number)
 }
 
 //check amount of single quotes when not inside double quotes
-static void	handle_single_quote(t_quotes *quotes)
+void	handle_single_quote(t_quotes *quotes)
 {
 	if (quotes->inside_double_quotes == 0)
 	{
@@ -34,7 +34,7 @@ static void	handle_single_quote(t_quotes *quotes)
 }
 
 //check amount of double quotes when not inside single quotes
-static void	handle_double_quote(t_quotes *quotes)
+void	handle_double_quote(t_quotes *quotes)
 {
 	if (quotes->inside_single_quotes == 0)
 	{

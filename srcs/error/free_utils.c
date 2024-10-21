@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 22:35:16 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/15 16:50:01 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/21 16:55:01 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,5 @@ void	wrong_token_order(t_token *token, t_env *envp, t_shell *gear_5)
 	(void)gear_5;
 	if (!token || !envp)
 		return ;
-	update_exit_status(gear_5, 2, NULL);
 	super_free_token_list(token);
 }

@@ -3,16 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:08:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/10 14:06:26 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/20 14:47:59 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//env in a pipe
+void	print_env_variables(t_var *var, t_env *envp, int fd_out)
+{
+	while (var)
+	{
+		if (envp->env_i_flag && ft_strcmp(var->variable_name, "PATH") == 0)
+		{
+			var = var->next;
+			continue ;
+		}
+		ft_putstr_fd(var->variable_name, fd_out);
+		ft_putstr_fd("=", fd_out);
+		ft_putstr_fd(var->variable_value, fd_out);
+		ft_putstr_fd("\n", fd_out);
+		var = var->next;
+	}
+}
+
 void	env_pipe(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
 	t_var	*var;
@@ -28,18 +44,10 @@ void	env_pipe(t_shell *gear_5, t_env *envp, t_exec *exec)
 	var = envp->first_variable;
 	if (!var)
 		return ;
-	while (var)
-	{
-		ft_putstr_fd(var->variable_name, STDOUT_FILENO);
-		ft_putstr_fd("=", STDOUT_FILENO);
-		ft_putstr_fd(var->variable_value, STDOUT_FILENO);
-		ft_putstr_fd("\n", STDOUT_FILENO);
-		var = var->next;
-	}
+	print_env_variables(var, envp, STDOUT_FILENO);
 	gear_5->exit_status = 0;
 }
 
-//env with no options or arguments
 void	env(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
 	t_var	*var;
@@ -55,13 +63,6 @@ void	env(t_shell *gear_5, t_env *envp, t_exec *exec)
 	var = envp->first_variable;
 	if (!var)
 		return ;
-	while (var)
-	{
-		ft_putstr_fd(var->variable_name, exec->fd_out);
-		ft_putstr_fd("=", exec->fd_out);
-		ft_putstr_fd(var->variable_value, exec->fd_out);
-		ft_putstr_fd("\n", exec->fd_out);
-		var = var->next;
-	}
+	print_env_variables(var, envp, exec->fd_out);
 	gear_5->exit_status = 0;
 }

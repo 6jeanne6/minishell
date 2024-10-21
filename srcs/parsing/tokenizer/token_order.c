@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 16:20:27 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/15 13:38:07 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/21 16:54:08 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ static int	heredoc_order(t_token *token, t_shell *gear_5)
 		if (!token->next)
 		{
 			filename_error(token->word, "Error: missing delimiter", gear_5, 2);
+			return (FAILURE);
+		}
+		if (token->next && token->next->token_type == TOKEN_PIPE)
+		{
+			update_exit_status(gear_5, 2, NULL);
 			return (FAILURE);
 		}
 	}

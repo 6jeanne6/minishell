@@ -4,8 +4,7 @@
 
 NAME		= minishell
 CC			= cc
-CFLAG		= -Werror -Wall -Wextra -g3
-#-fsanitize=address,leak,undefined
+CFLAG		= -Werror -Wall -Wextra -g3 #-fsanitize=address,leak,undefined
 
 ################################################################################
 #                                 Include                                      #
@@ -35,6 +34,7 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/env/env_utils.c \
 				${SRCDIR}/env/find_var_name.c \
 				${SRCDIR}/env/get_env_value.c \
+				${SRCDIR}/env/env_i_tools.c \
 				${SRCDIR}/env_var/init_var.c \
 				${SRCDIR}/env_var/var_tools.c \
 				${SRCDIR}/lexer/delimitor.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 10:02:33 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/09 15:23:45 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/20 11:35:26 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	print_all_env_var(t_env *env, int fd_out)
 
 	var = env->first_variable;
 	while (var)
-	{
+	{	
 		ft_putstr_fd("export ", fd_out);
 		ft_putstr_fd(var->variable_name, fd_out);
 		ft_putstr_fd("=", fd_out);

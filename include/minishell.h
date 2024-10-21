@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/18 13:05:06 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/20 14:52:44 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ typedef struct s_quotes
 //set environment or create env
 typedef struct s_env
 {
+	int		env_i_flag;
 	char	**env;
 	char	**env_tmp;
 	char	**path;
@@ -275,7 +276,6 @@ void	handle_path(t_env *envp, char *arg);
 
 char	*get_current_path(void);
 char	*get_env_var_value_with_name(t_env *env, char *name);
-char	*get_last_path(t_env *env);
 
 /* environnement variable */
 
@@ -289,6 +289,8 @@ char	*malloc_strcpy(char *origin);
 void	init_chained_var(t_env *env, char **envp);
 void	add_variable_to_the_list(t_env *env, t_var *var);
 void	free_var_list(t_env *env);
+char	*double_array_to_one_array(char **path);
+char	*trim_path(char const *s1, char const *set);
 
 /* lexing */
 
@@ -317,7 +319,7 @@ int		export_ok(t_shell *gear_5, t_token *token, t_env *envp);
 int		unset_ok(t_shell *gear_5, t_token *token, t_env *envp);
 int		exit_ok(t_shell *gear_5, t_token *token, t_env *envp);
 int		pipe_order(t_token *token, t_shell *gear_5);
-
+void	handle_single_quote(t_quotes *quotes);
 void	extract_words(const char *line, t_token **head,
 			t_env *envp, t_shell *gear_5);
 void	handle_characters(t_parsing *state, int word_length);
@@ -326,9 +328,10 @@ void	handle_special_char(t_parsing *state, int word_length);
 void	handle_space(t_parsing *state, int word_length);
 void	handle_quotes(t_parsing *state);
 void	process_token(t_parsing *state, int word_length);
-
+void	handle_double_quote(t_quotes *quotes);
 bool	token_is_a_redirection(t_token *token);
 bool	token_is_dir(char *path);
+void	handle_double_quote(t_quotes *quotes);
 
 /* linked list management */
 
@@ -409,8 +412,6 @@ void	close_redir_fd(t_exec *exec);
 void	set_fd_has_failed(t_exec *exec, t_shell *gear_5);
 void	init_exec_clean(t_exec *exec);
 void	cleanup_exec(t_exec **exec, t_shell *gear_5);
-void	close_and_free_pipe_tab(t_shell *gear_5);
-void	free_pid_tab(t_shell *gear_5);
 
 /* debug */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:31:54 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/04 12:34:38 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/20 15:58:12 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ bool	is_heredoc(char *input)
 		if (input[i] == '<' && input[i + 1] == '<' && input[i + 2] == '<')
 			return (false);
 		else if (input[i] == '<' && input[i + 1] == '<' && input[i + 2] == '>')
+			return (false);
+		else if (input[i] == '<' && input[i + 1] == '<' && input[i + 2] == '|')
 			return (false);
 		else if (input[i] == '<' && input[i + 1] == '<')
 			return (true);

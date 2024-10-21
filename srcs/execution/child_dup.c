@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:38:41 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/18 13:19:29 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/21 17:03:59 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ t_exec *head)
 		update_exit_status(gear_5, 0, NULL);
 	else
 		update_exit_status(gear_5, 127, exec->cmd_name);
-	error_shell_exec(gear_5, envp, head);
-	exit(gear_5->exit_status);
+	return (SUCCESS);
 }
 
 //first command:

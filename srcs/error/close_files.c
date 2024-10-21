@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:20 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/18 12:56:56 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/21 16:29:01 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,7 @@ void	error_close_files(t_exec *exec, t_shell *gear_5)
 	{
 		if (current->fd_in >= 3)
 			close(current->fd_in);
-		else if (current->fd_in >= 0)
-			close(current->fd_in);
 		if (current->fd_out >= 3)
-			close(current->fd_out);
-		else if (current->fd_out >= 0)
 			close(current->fd_out);
 		if (current->heredoc_here == true)
 		{

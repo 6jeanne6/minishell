@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_tool.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:56:55 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/09 15:28:24 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/20 12:57:13 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,6 @@ char	*get_current_path(void)
 	path = getcwd(NULL, 0);
 	if (path == NULL)
 		ft_putstr_fd("getcwd() Error\n", STDERR_FILENO);
-	return (path);
-}
-
-char	*get_last_path(t_env *env)
-{
-	char	*last_path;
-	char	*path;
-
-	last_path = get_env_var_value_with_name(env, "PWD");
-	path = malloc_strcpy(last_path);
 	return (path);
 }
 

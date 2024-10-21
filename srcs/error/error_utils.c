@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:43:14 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/09 16:48:57 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/20 12:06:40 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,11 @@ void	clean_env(t_env *envp)
 	int	i;
 
 	i = 0;
-	if (!envp->env[0])
+	if (!envp->env[0] && envp->env_tmp != NULL)
 	{
 		free(envp->env_tmp[i]);
 		free(envp->env_tmp);
+		envp->env_tmp = NULL;
 	}
 	i = 0;
 	if (envp->path)

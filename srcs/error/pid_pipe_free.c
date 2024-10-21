@@ -6,33 +6,53 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:36:25 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/18 13:08:39 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/21 15:50:15 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//close both end of pipe and free it
+static void	close_and_free_pipe_tab(t_shell *gear_5)
+{
+	int	i;
+
+	if (!gear_5)
+		return ;
+	i = -1;
+	if (gear_5->pipe_tab)
+	{
+		while (++i < gear_5->number_of_cmds - 1)
+		{
+			close(gear_5->pipe_tab[i][READ_END]);
+			close(gear_5->pipe_tab[i][WRITE_END]);
+			free(gear_5->pipe_tab[i]);
+		}
+		free(gear_5->pipe_tab);
+		gear_5->pipe_tab = NULL;
+	}
+}
+
 //close all pipes
 void	error_shell_exec(t_shell *gear_5, t_env *envp, t_exec *exec)
 {
-	t_exec	*head;
-	t_exec	*tmp;
+	t_exec	*current;
 
 	if (!envp || !gear_5 || !exec)
 		return ;
+	current = exec;
 	clean_env(envp);
-	head = exec;
-	while (exec)
+	close_and_free_pipe_tab(gear_5);
+	while (current)
 	{
-		tmp = exec->next;
-		if (exec->fd_in > 2)
-			close(exec->fd_in);
-		if (exec->fd_out > 2)
-			close(exec->fd_out);
-		exec = tmp;
+		if (current->fd_in > 2)
+			close(current->fd_in);
+		if (current->fd_out > 2)
+			close(current->fd_out);
+		current = exec->next;
 	}
-	clean_exec(head, gear_5);
-	free_exec(head);
+	clean_exec(exec, gear_5);
+	free_exec(exec);
 	close_heredoc(gear_5);
 	exit(gear_5->exit_status);
 }
@@ -48,26 +68,8 @@ void	execve_clean_all(t_exec *exec, t_env *envp, t_shell *gear_5)
 	free_exec(exec);
 }
 
-//close both end of pipe and free it
-void	close_and_free_pipe_tab(t_shell *gear_5)
-{
-	int	i;
-
-	if (!gear_5)
-		return ;
-	i = -1;
-	while (++i < gear_5->number_of_cmds - 1)
-	{
-		close(gear_5->pipe_tab[i][READ_END]);
-		close(gear_5->pipe_tab[i][WRITE_END]);
-		free(gear_5->pipe_tab[i]);
-	}
-	free(gear_5->pipe_tab);
-	gear_5->pipe_tab = NULL;
-}
-
 //free pid tab
-void	free_pid_tab(t_shell *gear_5)
+static void	free_pid_tab(t_shell *gear_5)
 {
 	if (!gear_5)
 		return ;
@@ -86,8 +88,8 @@ void	clean_exec(t_exec *exec, t_shell *gear_5)
 	if (!exec || !gear_5)
 		return ;
 	current = exec;
-	free_pid_tab(gear_5);
 	close_and_free_pipe_tab(gear_5);
+	free_pid_tab(gear_5);
 	while (current)
 	{
 		if (current->cmd_name)

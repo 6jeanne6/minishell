@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:52:41 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/17 16:50:16 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/20 14:49:44 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	handle_double_quotes(t_parsing *state)
 	if (state->in_double_quote)
 	{
 		if (state->j == 0)
-			state->current_word[state->j++] = '\0';
+			add_to_list(state->token_list, state, "", 0);
 		state->in_double_quote = 0;
 		state->outer_double_quote = 0;
 	}
@@ -39,7 +39,7 @@ static void	handle_single_quotes(t_parsing *state)
 	if (state->in_single_quote)
 	{
 		if (state->j == 0)
-			state->current_word[state->j++] = '\0';
+			add_to_list(state->token_list, state, "", 0);
 		state->in_single_quote = 0;
 		state->outer_single_quote = 0;
 	}
