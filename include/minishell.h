@@ -6,7 +6,7 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/20 14:52:44 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:06:01 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -413,10 +413,5 @@ void	set_fd_has_failed(t_exec *exec, t_shell *gear_5);
 void	init_exec_clean(t_exec *exec);
 void	cleanup_exec(t_exec **exec, t_shell *gear_5);
 
-/* debug */
-
-// void	print_token_list(t_token *list);
-// void	print_token(t_token *token, int index);
-//void	print_exec_list(t_exec *exec, t_shell *gear_5);	
 
 #endif

@@ -83,7 +83,6 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/builtins/unset.c \
 				${SRCDIR}/builtins/echo.c \
 				${SRCDIR}/builtins/export.c \
-				${SRCDIR}/debug/print_token.c \
 				${SRCDIR}/status_code/update_status_code.c
 
 ################################################################################

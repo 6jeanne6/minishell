@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:38:41 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/21 17:03:59 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/22 13:19:59 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_exec *head)
 
 	executable_valid = 0;
 	if (exec->fd_in < 0 || exec->fd_out < 0)
-		return (invalid_fd_pipe(exec, gear_5, envp, head), 1);
+		return (invalid_fd_pipe(exec, gear_5, envp, head), FAILURE);
 	if (valid_bin(exec) == SUCCESS)
 		return (SUCCESS);
 	if (exec->cmd_name)
@@ -32,7 +32,7 @@ t_exec *head)
 		if (executable_valid == SUCCESS)
 			return (SUCCESS);
 		else
-			return (FAILURE);
+			return (SUCCESS);
 	}
 	if (exec->heredoc_here == true)
 		update_exit_status(gear_5, 0, NULL);

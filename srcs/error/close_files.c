@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:20 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/21 16:29:01 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/22 13:17:12 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ t_exec *head)
 		return ;
 	gear_5->exit_status = 1;
 	close_files(head, gear_5);
-	error_shell_exec(gear_5, envp, exec);
 }
 
 //close all files when input is incorrect

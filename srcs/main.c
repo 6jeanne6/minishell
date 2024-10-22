@@ -6,7 +6,7 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/20 14:05:56 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:04:33 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,8 @@ int	main(int argc, char **argv, char **env)
 		error("Error : Too many arguments\n");
 		return (EXIT_FAILURE);
 	}
-	/*
 	if (!isatty(STDOUT_FILENO))
 		exit(FAILURE);
-	*/
 	ft_bzero(&gear_5, sizeof(t_shell));
 	ft_bzero(&envp, sizeof(t_env));
 	init_env(&envp, env);
