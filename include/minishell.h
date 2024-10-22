@@ -6,7 +6,7 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/22 14:06:01 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/22 15:50:33 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,6 +246,7 @@ void	sigint_here_doc(int sig);
 void	sigint_reset(t_shell *gear_5);
 void	handle_sig_in_fork(t_shell *gear_5, int cmd);
 void	exit_ctrl_d(t_shell *gear_5, t_exec *exec, t_env *envp);
+void	sigint_fork(int sig);
 
 /* builtins */
 
@@ -412,6 +413,5 @@ void	close_redir_fd(t_exec *exec);
 void	set_fd_has_failed(t_exec *exec, t_shell *gear_5);
 void	init_exec_clean(t_exec *exec);
 void	cleanup_exec(t_exec **exec, t_shell *gear_5);
-
 
 #endif
