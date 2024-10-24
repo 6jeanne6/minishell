@@ -6,7 +6,7 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:08:15 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/20 14:47:59 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:28:59 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@ void	print_env_variables(t_var *var, t_env *envp, int fd_out)
 			var = var->next;
 			continue ;
 		}
-		ft_putstr_fd(var->variable_name, fd_out);
-		ft_putstr_fd("=", fd_out);
-		ft_putstr_fd(var->variable_value, fd_out);
-		ft_putstr_fd("\n", fd_out);
+		if (var->flag == EQUAL_SIGN_DETECTED)
+		{
+			ft_putstr_fd(var->variable_name, fd_out);
+			ft_putstr_fd("=", fd_out);
+			ft_putstr_fd(var->variable_value, fd_out);
+			ft_putstr_fd("\n", fd_out);
+		}
 		var = var->next;
 	}
 }

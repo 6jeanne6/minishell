@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pid_pipe_free.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lothin <lothin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:36:25 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/22 13:16:05 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/23 14:24:41 by lothin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ void	execve_clean_all(t_exec *exec, t_env *envp, t_shell *gear_5)
 	close_files(exec, gear_5);
 	clean_exec(exec, gear_5);
 	free_exec(exec);
+	if (gear_5->input)
+		free(gear_5->input);
+	rl_clear_history();
 }
 
 //free pid tab

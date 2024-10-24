@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/22 15:50:33 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:53:25 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 
 # define FAILURE 	-1
 # define SUCCESS 	0
+# define EQUAL_SIGN_DETECTED 1
 
 //pipe[0] and pipe[1]
 # define READ_END	0
@@ -142,6 +143,8 @@ typedef struct s_var
 	struct s_var	*next;
 	struct s_var	*prev;
 
+	int				flag;
+
 }				t_var;
 
 //quotes ' or "
@@ -180,6 +183,7 @@ typedef struct s_shell
 
 	char	**heredoc_tab;
 
+	int		last_exit_status;
 	int		exit_status;
 	int		status_code;
 	int		j;
@@ -234,7 +238,6 @@ char	**find_path(t_env *envp, char **str);
 
 /* exit status */
 
-int		is_dollar_question_mark_input(t_shell *gear_5, int *flag);
 int		update_exit_status(t_shell *gear_5, int flag, char *name);
 
 /* signals */
@@ -246,7 +249,6 @@ void	sigint_here_doc(int sig);
 void	sigint_reset(t_shell *gear_5);
 void	handle_sig_in_fork(t_shell *gear_5, int cmd);
 void	exit_ctrl_d(t_shell *gear_5, t_exec *exec, t_env *envp);
-void	sigint_fork(int sig);
 
 /* builtins */
 
@@ -277,6 +279,9 @@ void	handle_path(t_env *envp, char *arg);
 
 char	*get_current_path(void);
 char	*get_env_var_value_with_name(t_env *env, char *name);
+int		check_if_arg_is_a_numeric(char *str);
+void	print_all_env_var(t_env *env, int fd_out);
+void	free_env_vars(t_var *head);
 
 /* environnement variable */
 
@@ -288,7 +293,7 @@ char	*get_variable_value(char *variable);
 char	*malloc_strcpy(char *origin);
 
 void	init_chained_var(t_env *env, char **envp);
-void	add_variable_to_the_list(t_env *env, t_var *var);
+void	add_variable_to_the_list(t_env *env, t_var *var, int flag);
 void	free_var_list(t_env *env);
 char	*double_array_to_one_array(char **path);
 char	*trim_path(char const *s1, char const *set);

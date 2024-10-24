@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:34:02 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/22 15:51:44 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:28:58 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,7 @@ static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_exec *exec)
 		}
 		return (FAILURE);
 	}
-	signal(SIGINT, sigint_fork);
 	flag = init_fork(gear_5, envp, exec);
-	signal(SIGINT, sigint_handler);
 	if (flag == FAILURE)
 		return (FAILURE);
 	if (flag != 42)
@@ -135,7 +133,6 @@ t_exec **exec, int *flag)
 		add_history(gear_5->input);
 		if (gear_5->input == NULL)
 			exit_ctrl_d(gear_5, *exec, envp);
-		is_dollar_question_mark_input(gear_5, flag);
 		if (*flag == 0)
 		{
 			if (parse_gear_5(gear_5, envp, list, exec) == FAILURE)

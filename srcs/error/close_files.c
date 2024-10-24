@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   close_files.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:20 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/22 13:17:12 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/23 14:40:39 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ t_shell *gear_5)
 	{
 		free(gear_5->heredoc_tab);
 		gear_5->heredoc_tab = NULL;
-	}	
+	}
 	free(heredoc_name);
 	if (exec->bin)
 	{

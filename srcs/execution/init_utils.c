@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:12:05 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/22 13:28:58 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:48:54 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ int	valid_executable(t_shell *gear_5, char *cmd_name)
 		{
 			fd = open(cmd_name, O_RDONLY);
 			if (fd < 0)
-				return (update_exit_status(gear_5, 127, cmd_name), FAILURE);
+				return (FAILURE);
 			close(fd);
 			fd = open(cmd_name, O_WRONLY);
 			if (fd < 0)
-				return (update_exit_status(gear_5, 126, cmd_name), FAILURE);
+				return (FAILURE);
 		}
 		else
 			return (FAILURE);

@@ -6,7 +6,7 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:40:22 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/20 14:52:17 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:27:35 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	init_pwd(t_env *envp)
 	if (!name)
 		return ;
 	variable = init_env_variable(name, current_path);
-	add_variable_to_the_list(envp, variable);
+	add_variable_to_the_list(envp, variable, EQUAL_SIGN_DETECTED);
 }
 
 /* Initialize PATH environment variable and add at variable env list. */
@@ -53,7 +53,7 @@ static void	init_path(t_env *envp)
 	}
 	free(tmp_value);
 	variable = init_env_variable(name, value);
-	add_variable_to_the_list(envp, variable);
+	add_variable_to_the_list(envp, variable, EQUAL_SIGN_DETECTED);
 }
 
 /* Setup the environment variable */

@@ -6,7 +6,7 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/22 14:04:33 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:40:05 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,13 @@ void	exit_ctrl_d(t_shell *gear_5, t_exec *exec, t_env *envp)
 //reinit all variables to default at each loop
 void	reinit_everything(t_shell *gear_5, t_exec **exec)
 {
+	gear_5->last_exit_status = gear_5->exit_status;
 	signal(SIGINT, sigint_handler);
 	gear_5->interrupted = false;
 	cleanup_exec(exec, gear_5);
 	signal(SIGQUIT, SIG_IGN);
+	if (gear_5->input)
+		free(gear_5->input);
 }
 
 int	init_minishell(t_shell *gear_5, t_env *envp)

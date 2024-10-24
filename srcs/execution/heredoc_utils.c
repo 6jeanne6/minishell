@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:24:09 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/17 15:48:19 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/24 16:29:06 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ static void	readline_here_doc(t_exec *exec, char *delimiter, t_shell *gear_5)
 			break ;
 		ft_putstr_fd(line, exec->fd_in);
 		ft_putstr_fd("\n", exec->fd_in);
+		if (line)
+			free(line);
 		line = readline("Heredoc>");
 	}
 	free(line);

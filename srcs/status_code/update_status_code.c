@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_status_code.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 15:41:43 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/22 13:29:03 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:53:51 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,46 +85,4 @@ int	update_exit_status(t_shell *gear_5, int flag, char *name)
 	else if (flag == 0)
 		gear_5->exit_status = 0;
 	return (gear_5->exit_status);
-}
-
-// Function that display status code
-static void	display_error(int exit_status)
-{
-	if (exit_status == 130)
-		error(": command not found");
-	else if (exit_status == 131)
-		error(": command not found");
-	else if (exit_status == 127)
-		error(": command not found");
-	else if (exit_status == 126)
-		error(": permission denied");
-	else if (exit_status == 2)
-		error(": syntax error");
-	else if (exit_status == 1)
-		error(": execution failed, command not found or syntax error");
-	else if (exit_status == 0)
-		error(": command not found");
-	else if (exit_status)
-		error(": command not found");
-}
-
-//if prompt is $?, display exit status code and error message
-int	is_dollar_question_mark_input(t_shell *gear_5, int *flag)
-{
-	char	*status_code;
-
-	status_code = ft_itoa(gear_5->exit_status);
-	if (!status_code)
-		return (FAILURE);
-	if (ft_strcmp(gear_5->input, "$?") == 0)
-	{
-		error(status_code);
-		display_error(gear_5->exit_status);
-		*flag = 1;
-		free(status_code);
-		printf("\n");
-		return (SUCCESS);
-	}
-	free(status_code);
-	return (FAILURE);
 }

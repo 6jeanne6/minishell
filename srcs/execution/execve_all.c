@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:39:54 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/21 16:23:16 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/23 16:42:11 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,26 @@ t_exec *exec, t_exec *head)
 {
 	if (!gear_5 || !envp || !exec)
 		return ;
-	execve(exec->cmd_name, exec->args, envp->env);
-	if (execve(exec->cmd_name, exec->args, envp->env) < 0)
+	if (access(exec->cmd_name, X_OK) == 0)
 	{
-		update_exit_status(gear_5, 126, exec->cmd_name);
+		execve(exec->cmd_name, exec->args, envp->env);
+		if (execve(exec->cmd_name, exec->args, envp->env) < 0)
+		{
+			update_exit_status(gear_5, 126, exec->cmd_name);
+			error_close_files(head, gear_5);
+			execve_clean_all(head, envp, gear_5);
+			exit(126);
+		}
+	}
+	else
+	{
+		if (access(exec->cmd_name, F_OK) == 0)
+			update_exit_status(gear_5, 126, exec->cmd_name);
+		else
+			update_exit_status(gear_5, 127, exec->cmd_name);
 		error_close_files(head, gear_5);
 		execve_clean_all(head, envp, gear_5);
-		exit(126);
+		exit(gear_5->exit_status);
 	}
 	execve_clean_all(head, envp, gear_5);
 	exit(SUCCESS);
@@ -102,7 +115,7 @@ void	execve_all(t_shell *gear_5, t_env *envp, t_exec *exec, t_exec *head)
 		execve_builtin(gear_5, envp, exec, head);
 	if (exec->bin)
 		execve_bin(gear_5, envp, exec, head);
-	if (exec->cmd_name && access(exec->cmd_name, X_OK) == 0)
+	if (exec->cmd_name)
 		execve_executable_program(gear_5, envp, exec, head);
 	else
 	{

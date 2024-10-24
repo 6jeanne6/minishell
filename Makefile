@@ -68,7 +68,6 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/execution/execve_all.c \
 				${SRCDIR}/execution/status_code.c \
 				${SRCDIR}/signals/signals.c \
-				${SRCDIR}/signals/signal_fork.c \
 				${SRCDIR}/error/error_utils.c \
 				${SRCDIR}/error/free_utils.c \
 				${SRCDIR}/error/pid_pipe_free.c \
@@ -77,6 +76,7 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/builtins/exec_builtin.c \
 				${SRCDIR}/builtins/builtins_tool.c \
 				${SRCDIR}/builtins/builtins_tool2.c \
+				${SRCDIR}/builtins/builtins_tool3.c \
 				${SRCDIR}/builtins/cd.c \
 				${SRCDIR}/builtins/env.c \
 				${SRCDIR}/builtins/exit.c \
@@ -84,6 +84,8 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/builtins/unset.c \
 				${SRCDIR}/builtins/echo.c \
 				${SRCDIR}/builtins/export.c \
+				${SRCDIR}/builtins/print_export.c \
+				${SRCDIR}/debug/print_token.c \
 				${SRCDIR}/status_code/update_status_code.c
 
 ################################################################################

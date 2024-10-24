@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:08:26 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/11 18:11:40 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/23 08:53:06 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,29 @@ static void	handle_one_arg(t_shell *gear_5, t_env *envp, t_exec *exec)
 	ft_putstr_fd("exit", 2);
 	ft_putstr_fd("\n", 2);
 	execve_clean_all(exec, envp, gear_5);
-	exit(0);
+	exit(gear_5->last_exit_status);
 }
 
 /* Handles the case where `exit` has more than two arguments. */
-static void	handle_multiple_args(t_shell *gear_5)
+static void	handle_multiple_args(t_shell *gear_5, t_exec *exec, t_env *envp)
 {
-	gear_5->exit_status = 1;
-	ft_putstr_fd("exit", 2);
-	ft_putstr_fd("\n", 2);
-	ft_putstr_fd("exit: too many arguments", 2);
-	ft_putstr_fd("\n", 2);
+	if (check_if_arg_is_a_numeric(exec->args[1]) == SUCCESS)
+	{
+		gear_5->exit_status = 1;
+		ft_putstr_fd("exit", 2);
+		ft_putstr_fd("\n", 2);
+		ft_putstr_fd("exit: too many arguments", 2);
+		ft_putstr_fd("\n", 2);
+	}
+	else
+	{
+		ft_putstr_fd("exit\n", 2);
+		ft_putstr_fd(exec->args[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
+		execve_clean_all(exec, envp, gear_5);
+		close(STDIN_FILENO);
+		exit(2);
+	}
 }
 
 /* Main exit function handling different argument counts. */
@@ -93,7 +105,7 @@ void	exit_builtin(t_shell *gear_5, t_env *envp, t_exec *exec, t_exec *head)
 		i++;
 	if (i > 2)
 	{
-		handle_multiple_args(gear_5);
+		handle_multiple_args(gear_5, exec, envp);
 		return ;
 	}
 	else if (i == 1)

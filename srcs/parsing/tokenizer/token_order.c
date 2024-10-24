@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_order.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 16:20:27 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/21 16:54:08 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/23 14:40:56 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	token_order(t_shell *gear_5, t_token *token)
 		{
 			if (token->token_type == TOKEN_CMD
 				&& token->previous->token_type == TOKEN_CMD)
-					token->token_type = TOKEN_ARG;
+				token->token_type = TOKEN_ARG;
 		}
 		token = token->next;
 	}

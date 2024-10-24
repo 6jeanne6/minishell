@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_var.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 21:33:09 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/14 18:58:12 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/24 15:46:10 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	init_chained_var(t_env *env, char **envp)
 		variable_name = get_variable_name(envp[index]);
 		variable_value = get_variable_value(envp[index]);
 		variable = init_env_variable(variable_name, variable_value);
-		add_variable_to_the_list(env, variable);
+		add_variable_to_the_list(env, variable, EQUAL_SIGN_DETECTED);
 		index++;
 	}
 }
@@ -47,10 +47,11 @@ t_var	*init_env_variable(char *name, char *value)
 }
 
 //link each node of t_var to other nodes
-void	add_variable_to_the_list(t_env *env, t_var *var)
+void	add_variable_to_the_list(t_env *env, t_var *var, int flag)
 {
 	t_var	*current_var;
 
+	var->flag = flag;
 	if (!(env->first_variable))
 		env->first_variable = var;
 	else

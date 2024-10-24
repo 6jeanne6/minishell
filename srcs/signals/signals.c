@@ -6,7 +6,7 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:45 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/22 15:57:51 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:53:51 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ extern volatile int	g_sig_flag;
 void	sigint_reset(t_shell *gear_5)
 {
 	gear_5->exit_status = 130;
+	gear_5->last_exit_status = gear_5->exit_status;
 	g_sig_flag = 0;
 }
 

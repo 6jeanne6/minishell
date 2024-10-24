@@ -3,70 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 23:08:04 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/20 14:47:16 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:02:08 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*Handle cd ~ (tilde)*/
-static void	handle_tilde(t_shell *gear_5, t_env *env)
-{
-	char	*tmp_path;
-
-	tmp_path = get_env_var_value_with_name(env, "HOME");
-	if (tmp_path == NULL)
-	{
-		error("cd: HOME not set\n");
-		gear_5->exit_status = 1;
-		return ;
-	}
-	if (chdir(tmp_path) == -1)
-	{
-		error(tmp_path);
-		error(" : No such file or directory\n");
-		gear_5->exit_status = 1;
-		return ;
-	}
-	gear_5->exit_status = 0;
-}
-
-/*Handle cd - (dash)*/
-static void	handle_dash(t_shell *gear_5, t_env *env)
-{
-	char	*tmp_path;
-
-	tmp_path = get_env_var_value_with_name(env, "OLDPWD");
-	if (tmp_path == NULL)
-	{
-		error("cd: OLDPWD not set\n");
-		gear_5->exit_status = 1;
-		return ;
-	}
-	if (chdir(tmp_path) == -1)
-	{
-		error(tmp_path);
-		error(" : No such file or directory\n");
-		gear_5->exit_status = 1;
-		return ;
-	}
-	gear_5->exit_status = 0;
-}
-
 //change directory with chdir
 static void	go_to_directory(t_shell *gear_5, char *path, t_env *env)
 {
-	if (ft_strcmp(path, "-") == 0)
+	(void)env;
+	if (ft_strcmp(path, "-") == 0 || ft_strcmp(path, "~") == 0)
 	{
-		handle_dash(gear_5, env);
-		return ;
-	}
-	if (ft_strcmp(path, "~") == 0)
-	{
-		handle_tilde(gear_5, env);
+		error(path);
+		error(" : is not a relative or absolute path\n");
+		gear_5->exit_status = 1;
 		return ;
 	}
 	if (chdir(path) == -1)
@@ -95,7 +49,7 @@ static void	execute_cd(t_shell *gear_5, t_exec *exec, t_env *env)
 	}
 	if (i == 1)
 	{
-		error("cd: missing arguments\n");
+		error("cd: missing relative or absolute path\n");
 		gear_5->exit_status = 1;
 		return ;
 	}
