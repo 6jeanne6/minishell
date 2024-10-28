@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 22:35:16 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/21 16:55:01 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/25 11:48:33 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,7 @@ void	wrong_token_order(t_token *token, t_env *envp, t_shell *gear_5)
 	(void)gear_5;
 	if (!token || !envp)
 		return ;
+	error("Error : syntax error \n");
+	gear_5->exit_status = 2;
 	super_free_token_list(token);
 }

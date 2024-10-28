@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_order.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 16:20:27 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/23 14:40:56 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/28 16:48:48 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static int	input_order(t_token *token, t_shell *gear_5)
 {
 	if (token->token_type == TOKEN_INPUT)
 	{
-		if (!token->next)
+		if ((!token->next) && (token->outer_double_quote == 0
+			&& token->outer_single_quote == 0))
 		{
 			filename_error(token->word, "Error: insert a file", gear_5, 2);
 			return (FAILURE);
@@ -78,7 +79,8 @@ static int	output_append_order(t_token *token, t_shell *gear_5)
 	if ((token->token_type == TOKEN_OUTPUT
 			|| token->token_type == TOKEN_APPEND))
 	{
-		if (!token->next)
+		if ((!token->next) && (token->outer_double_quote == 0
+			|| token->outer_single_quote == 0))
 			return (FAILURE);
 		if (token->next)
 		{

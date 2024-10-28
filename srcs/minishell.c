@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:34:02 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/24 17:28:58 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/28 17:10:05 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ static int	execute_gear_5(t_shell *gear_5, t_env *envp, t_exec *exec)
 		}
 		return (FAILURE);
 	}
+	signal(SIGINT, sigint_fork);
 	flag = init_fork(gear_5, envp, exec);
+	signal(SIGINT, sigint_handler);
 	if (flag == FAILURE)
 		return (FAILURE);
 	if (flag != 42)
@@ -95,7 +97,7 @@ t_exec **exec)
 		list = NULL;
 		extract_words(gear_5->input, &list, envp, gear_5);
 		if (!list)
-			return (update_exit_status(gear_5, 0, ""), FAILURE);
+			return (gear_5->exit_status = 127, FAILURE);
 		get_token_type(envp, list);
 		if (token_order(gear_5, list) == FAILURE)
 			return (wrong_token_order(list, envp, gear_5), FAILURE);
@@ -127,7 +129,7 @@ t_exec **exec, int *flag)
 	while (true)
 	{
 		reinit_everything(gear_5, exec);
-		gear_5->input = readline(WHITE"Super Gear 5 $> "RESET);
+		gear_5->input = readline("Super Gear 5 $> ");
 		if (g_sig_flag == SIGINT)
 			sigint_reset(gear_5);
 		add_history(gear_5->input);

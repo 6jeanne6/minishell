@@ -6,7 +6,7 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 10:14:54 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/20 10:05:08 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/25 17:12:47 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,15 @@ static void	free_env_var(t_var *var)
 	if (var)
 	{
 		if (var->variable_name)
+		{
 			free(var->variable_name);
+			var->variable_name = NULL;
+		}
 		if (var->variable_value)
+		{
 			free(var->variable_value);
+			var->variable_value = NULL;
+		}
 		free(var);
 	}
 }

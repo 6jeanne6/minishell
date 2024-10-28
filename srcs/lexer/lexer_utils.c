@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:35:21 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/04 12:44:20 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/25 11:59:10 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ char	is_special_char(char c)
 		return ('>');
 	else if (c == '<')
 		return ('<');
-	else if (c == '&')
-		return ('&');
 	else if (c == '|')
 		return ('|');
 	else

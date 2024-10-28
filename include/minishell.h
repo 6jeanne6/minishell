@@ -6,7 +6,7 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:16:46 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/24 17:53:25 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/28 17:10:17 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,6 +247,7 @@ void	sigint_handler(int sig);
 void	sigquit_handler(int sig);
 void	sigint_here_doc(int sig);
 void	sigint_reset(t_shell *gear_5);
+void	sigint_fork(int sig);
 void	handle_sig_in_fork(t_shell *gear_5, int cmd);
 void	exit_ctrl_d(t_shell *gear_5, t_exec *exec, t_env *envp);
 

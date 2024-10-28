@@ -68,6 +68,7 @@ SRC			=	${SRCDIR}/main.c \
 				${SRCDIR}/execution/execve_all.c \
 				${SRCDIR}/execution/status_code.c \
 				${SRCDIR}/signals/signals.c \
+				${SRCDIR}/signals/signal_fork.c \
 				${SRCDIR}/error/error_utils.c \
 				${SRCDIR}/error/free_utils.c \
 				${SRCDIR}/error/pid_pipe_free.c \

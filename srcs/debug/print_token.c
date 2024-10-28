@@ -6,64 +6,64 @@
 /*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:16:25 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/22 13:18:52 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/28 16:53:13 by jewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	print_token(t_token *token, int index)
-// {
-// 	if (token == NULL)
-// 	{
-// 		printf("Token %d: NULL\n", index);
-// 		return ;
-// 	}
-// 	printf("Token %d:\n", index);
-// 	printf("  Word: %s\n", token->word);
-// 	printf("  Token Type: ");
-// 	if (token->token_type == TOKEN_CMD)
-// 		printf("COMMAND\n");
-// 	else if (token->token_type == TOKEN_ARG)
-// 		printf("ARGUMENT\n");
-// 	else if (token->token_type == TOKEN_PIPE)
-// 		printf("PIPE\n");
-// 	else if (token->token_type == TOKEN_INPUT)
-// 		printf("INPUT REDIRECTION\n");
-// 	else if (token->token_type == TOKEN_OUTPUT)
-// 		printf("OUTPUT REDIRECTION\n");
-// 	else if (token->token_type == TOKEN_APPEND)
-// 		printf("OUTPUT APPEND\n");
-// 	else if (token->token_type == TOKEN_HEREDOC)
-// 		printf("HEREDOC\n");
-// 	else if (token->token_type == TOKEN_VARIABLE)
-// 		printf("VARIABLE\n");
-// 	else if (token->token_type == TOKEN_FILE)
-// 		printf("FILE\n");
-// 	else if (token->token_type == TOKEN_BUILTIN)
-// 		printf("BUILTIN\n");
-// 	else if (token->token_type == TOKEN_VARIABLEASSIGNATION)
-// 		printf("VARIABLE ASSIGNATION\n");
-// 	else
-// 		printf("UNKNOWN\n");
-// 	printf("  Outer Double Quote: %d\n", token->outer_double_quote);
-// 	printf("  Outer Single Quote: %d\n", token->outer_single_quote);
-// }
+void	print_token(t_token *token, int index)
+{
+	if (token == NULL)
+	{
+		printf("Token %d: NULL\n", index);
+		return ;
+	}
+	printf("Token %d:\n", index);
+	printf("  Word: %s\n", token->word);
+	printf("  Token Type: ");
+	if (token->token_type == TOKEN_CMD)
+		printf("COMMAND\n");
+	else if (token->token_type == TOKEN_ARG)
+		printf("ARGUMENT\n");
+	else if (token->token_type == TOKEN_PIPE)
+		printf("PIPE\n");
+	else if (token->token_type == TOKEN_INPUT)
+		printf("INPUT REDIRECTION\n");
+	else if (token->token_type == TOKEN_OUTPUT)
+		printf("OUTPUT REDIRECTION\n");
+	else if (token->token_type == TOKEN_APPEND)
+		printf("OUTPUT APPEND\n");
+	else if (token->token_type == TOKEN_HEREDOC)
+		printf("HEREDOC\n");
+	else if (token->token_type == TOKEN_VARIABLE)
+		printf("VARIABLE\n");
+	else if (token->token_type == TOKEN_FILE)
+		printf("FILE\n");
+	else if (token->token_type == TOKEN_BUILTIN)
+		printf("BUILTIN\n");
+	else if (token->token_type == TOKEN_VARIABLEASSIGNATION)
+		printf("VARIABLE ASSIGNATION\n");
+	else
+		printf("UNKNOWN\n");
+	printf("  Outer Double Quote: %d\n", token->outer_double_quote);
+	printf("  Outer Single Quote: %d\n", token->outer_single_quote);
+}
 
-// void	print_token_list(t_token *list)
-// {
-// 	int		index;
-// 	t_token	*current;
+void	print_token_list(t_token *list)
+{
+	int		index;
+	t_token	*current;
 
-// 	index = 0;
-// 	current = list;
-// 	while (current != NULL)
-// 	{
-// 		print_token(current, index);
-// 		current = current->next;
-// 		index++;
-// 	}
-// }
+	index = 0;
+	current = list;
+	while (current != NULL)
+	{
+		print_token(current, index);
+		current = current->next;
+		index++;
+	}
+}
 
 // void	print_exec_list(t_exec *exec, t_shell *gear_5)
 // {

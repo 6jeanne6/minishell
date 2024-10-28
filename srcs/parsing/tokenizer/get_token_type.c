@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token_type.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewu <jewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 14:43:23 by lnjoh-tc          #+#    #+#             */
-/*   Updated: 2024/10/15 13:50:30 by jewu             ###   ########.fr       */
+/*   Updated: 2024/10/25 17:24:46 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ int	get_token_type(t_env *envp, t_token *token)
 			token->token_type = TOKEN_ARG;
 		if (token_is_a_redirection(token) == true)
 		{
-			if (token->next && ft_strcmp(token->next->word, "|") != 0)
+			if (token->next && ft_strcmp(token->next->word, "|") != 0
+				&& is_redirection(token->next->word) == FAILURE)
 			{
 				token->next->token_type = TOKEN_FILE;
 				token = token->next;

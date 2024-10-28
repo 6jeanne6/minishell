@@ -6,7 +6,7 @@
 /*   By: lnjoh-tc <lnjoh-tc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:11:17 by jewu              #+#    #+#             */
-/*   Updated: 2024/10/23 14:40:05 by lnjoh-tc         ###   ########.fr       */
+/*   Updated: 2024/10/26 18:54:26 by lnjoh-tc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ volatile int	g_sig_flag = 0;
 void	exit_ctrl_d(t_shell *gear_5, t_exec *exec, t_env *envp)
 {
 	execve_clean_all(exec, envp, gear_5);
-	exit(0);
+	ft_putstr_fd("exit \n", STDOUT_FILENO);
+	exit(gear_5->last_exit_status);
 }
 
 //reinit all variables to default at each loop
